@@ -7,13 +7,14 @@ Usage:
 import argparse
 import time
 
-import truststore
-
-truststore.inject_into_ssl()  # trust OS cert store (needed behind corporate TLS interception)
-
 import numpy as np
 import pandas as pd
 import torch
+import truststore
+
+# Trust the OS cert store (needed behind corporate TLS interception); must run
+# before any HuggingFace Hub client is created.
+truststore.inject_into_ssl()
 
 
 def main() -> None:
@@ -52,7 +53,8 @@ def main() -> None:
         quantile_levels=[0.1, 0.5, 0.9],
     )
     q = quantiles[0]
-    print(f"tensor API forecast in {time.perf_counter() - t0:.2f}s | quantiles shape: {tuple(q.shape)}")
+    dt = time.perf_counter() - t0
+    print(f"tensor API forecast in {dt:.2f}s | quantiles shape: {tuple(q.shape)}")
     assert torch.isfinite(q).all(), "non-finite forecast values"
 
     # DataFrame API (the interface the eval harness will use)
