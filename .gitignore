@@ -28,8 +28,13 @@ checkpoints/
 *.pt
 *.pth
 
-# Results: raw outputs are regenerable; tables/figures are tracked
-results/raw/
+# Results: raw outputs are regenerable, EXCEPT canonical per-task summaries and run
+# metadata, which are tracked as paper-critical provenance (predictions parquets stay
+# untracked: large and regenerable from configs + git SHA)
+results/raw/**
+!results/raw/*/
+!results/raw/*/summaries.csv
+!results/raw/*/run_metadata.yaml
 
 # HuggingFace / experiment caches
 .cache/

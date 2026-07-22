@@ -2,6 +2,14 @@
 
 Dated log of experiments, decisions, and findings. Newest entries first.
 
+## 2026-07-22 — Full 27-task baselines locked; P1 profiler run; ready for P2
+
+- **Seasonal Naive full run: 27/27 tasks, exact parity with published reference** (max rel. diff 0.00% on MASE and WQL for every task, incl. ETTh/ETTm and the large datasets m4/m5/dominick).
+- **Chronos-2 fp32 full run: 27/27 tasks, 0 failures.** WQL: 88.0% win rate [CI 80.6–94.4], 0.425 skill [0.346–0.509]; MASE: 86.4% win, 0.241 skill — above chronos_bolt_base (67.6%/0.376 WQL) with non-overlapping win-rate CIs. Caveat logged: WQL skill ≈4 pts below the Chronos-2 paper's value; suspect context-length protocol difference (we use pipeline default; consider a context_length=8192 sensitivity check). Retention analyses use our fp32 as reference, so quantization results are unaffected.
+- **P1 efficiency profile (fp32 reference rows of paper Table 4):** GPU (RTX 2000 Ada, ctx 2048/h 64): batch-1 30 ms median / 51 ms p90, 112.6 series/s @32, 109.6 @256, peak 493 MB/660 MB/2317 MB @ batch 1/32/256. CPU: batch-1 155 ms, 6.5→13.3 series/s @1→256. CPU INT8 is the highest-leverage efficiency target (community ONNX artifact claims 3–8×).
+- Canonical run artifacts (summaries.csv + run_metadata.yaml) now tracked in git; predictions parquets remain untracked (large, regenerable).
+- **Next: P2 — first quantized variant (torchao W8A16 RTN) through the `model_transform` hook.**
+
 ## 2026-07-22 — Track-everything harness, paper draft, P1 profiler; full-run infrastructure debugging
 
 - **Harness now captures ~90 columns/task**: full fev metric suite (WQL/SQL/MQL/MASE/MAE/RMSE/RMSSE/WAPE/SMAPE/MAPE) with per-quantile breakdowns, calibration diagnostics, peak GPU memory, wall/inference/load times, and a full model card (params, bytes, effective bits/param, module inventory) replicated into summary columns. Raw per-series predictions + ground truth persisted per task as parquet → any future metric computable offline. Tracking contract: paper/draft.md Appendix D.
