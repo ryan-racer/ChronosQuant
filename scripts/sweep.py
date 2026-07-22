@@ -43,6 +43,12 @@ def main() -> None:
     parser.add_argument("--only", nargs="+", help="Run only these variant names")
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--skip-report", action="store_true", help="Skip the retention report")
+    parser.add_argument(
+        "--device",
+        choices=["cuda", "cpu"],
+        help="Override base_predictor.device_map (e.g. run accuracy sweeps on CPU "
+        "while the GPU is busy; efficiency numbers come from profiles, not sweeps)",
+    )
     args = parser.parse_args()
 
     with open(args.sweep_config) as f:
@@ -72,6 +78,8 @@ def main() -> None:
         predictor_config = dict(sweep["base_predictor"])
         predictor_config["name"] = name
         predictor_config["quantization"] = variant["quantization"]
+        if args.device:
+            predictor_config["device_map"] = args.device
         config = RunConfig(
             name=run_name,
             benchmark=sweep["benchmark"],

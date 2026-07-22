@@ -2,6 +2,25 @@
 
 Dated log of experiments, decisions, and findings. Newest entries first.
 
+## 2026-07-22 — Leading-methods dev sweep (GPTQ, AWQ-fold); TurboQuant excluded
+
+- **TurboQuant (arXiv:2504.19874, ICLR 2026) assessed and excluded**: online *vector* quantization for KV caches/retrieval — Chronos-2 has no KV cache; as a weight method it reduces to rotation + scalar quant (subset of QuaRot-class). Cited in related work instead.
+- Implemented hand-rolled **GPTQ** (one-shot fp-activation Hessians, act-order, group grids) and **AWQ-style exact scale folding** (+ shared RTN grid), both calibrated on 128 synthetic series (leakage-clean; source/size/seed are P4 ablation axes).
+- **Dev results (8 tasks, CPU eval):**
+  | variant | WQL_rel | MASE_rel |
+  |---|---|---|
+  | w4-gptq-g64 | **0.963** [0.94–0.98] | 0.994 |
+  | w3-gptq | **0.965** [0.89–1.04] | 0.976 |
+  | w4-gptq (g128) | 0.980 | 1.001 |
+  | w8-gptq | 1.000 | 1.008 |
+  | w4-awq-rtn | 2.065 | 1.458 |
+  | w3-awq-rtn | 1.768 | 1.452 |
+- **Findings (pending full-27 confirmation):**
+  1. **GPTQ >> HQQ (1.10) >> NF4 (1.16) >> AWQ-fold ≈ plain RTN (~2.1) at W4** — Hessian error compensation is what preserves quality on this model; activation-aware scaling alone does almost nothing at per-channel granularity.
+  2. **GPTQ-W4/W3 measure *better* than fp32 on the dev subset** (CI excludes 1.0 at W4-g64). Treat skeptically: 8 tasks, possible regularization artifact; full tier must confirm before any claim.
+  3. GPTQ's dev ranking at W3 (0.965) vs HQQ-W3 (1.257): the accuracy cliff moves at least one bit lower with error compensation.
+- Full-tier leading sweep queued behind the standard full sweep (GPU-bound; big datasets infeasible on CPU).
+
 ## 2026-07-22 — Standard PTQ sweep (12 variants), dev tier
 
 - New backends verified on Windows CUDA: torchao int8dyn (W8A8), HQQ 2–8 bit, bnb LLM.int8() (fp16-cast wrapper), bnb NF4. torchao int4wo unusable on Windows (`mslk` kernel dep) → real W4 via HQQ/NF4.

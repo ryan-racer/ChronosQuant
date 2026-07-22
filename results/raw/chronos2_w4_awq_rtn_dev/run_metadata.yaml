@@ -1,15 +1,24 @@
 config:
-  name: chronos2_w8a16_torchao_full
+  name: chronos2_w4_awq_rtn_dev
   benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
   predictor:
     type: chronos2
     model_id: amazon/chronos-2
-    device_map: cuda
+    device_map: cpu
     batch_size: 128
-    name: chronos2-w8a16-torchao
+    name: chronos2-w4-awq-rtn
     quantization:
-      method: torchao_int8wo
-  task_names: null
+      method: awq_rtn
+      bits: 4
+  task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
   output_root: results/raw
   extra_metrics:
   - SQL
@@ -25,9 +34,9 @@ config:
   save_predictions: true
   trained_on_this_dataset: false
   overwrite: false
-  notes: sweep=standard_ptq tier=full
+  notes: sweep=leading_ptq tier=dev
 environment:
-  git_sha: 14456e9240e969769c53683e0ca73e5789a417da+dirty
+  git_sha: cb21a8550d7e18fe833778afd6c7a699317ecc1b+dirty
   platform: Windows-11-10.0.26200-SP0
   python_version: 3.12.4
   version_chronosquant: 0.1.0
@@ -47,45 +56,26 @@ environment:
   gpu_compute_capability: '8.9'
   nvidia_driver_version: '596.58'
 benchmark_sha256: 05f9cbfd53bf45391a552d90d9669e36cdb5be5987eb0a5638ebebf087c77c1e
-num_tasks: 27
+num_tasks: 8
 task_names:
-- monash_traffic
-- monash_australian_electricity
-- ercot
-- ETTm
-- ETTh
-- exchange_rate
-- nn5
-- monash_nn5_weekly
-- monash_weather
-- monash_covid_deaths
-- monash_fred_md
-- m4_quarterly
-- m4_yearly
-- dominick
-- m5
-- monash_tourism_monthly
-- monash_tourism_quarterly
-- monash_tourism_yearly
-- monash_car_parts
-- monash_hospital
 - monash_cif_2016
-- monash_m1_yearly
 - monash_m1_quarterly
-- monash_m1_monthly
-- monash_m3_monthly
-- monash_m3_yearly
-- monash_m3_quarterly
-started_at: '2026-07-22T19:57:42.275186+00:00'
+- monash_tourism_quarterly
+- monash_covid_deaths
+- exchange_rate
+- ercot
+- monash_hospital
+- monash_nn5_weekly
+started_at: '2026-07-22T20:06:43.659803+00:00'
 model_card:
   predictor_type: Chronos2Predictor
-  name: chronos2-w8a16-torchao
+  name: chronos2-w4-awq-rtn
   model_id: amazon/chronos-2
-  device_map: cuda
+  device_map: cpu
   batch_size: 128
   context_length: null
   has_model_transform: false
-  model_load_time_s: 1.799
+  model_load_time_s: 21.586
   num_params: 119477664
   num_buffers: 789
   param_bytes: 477910656
@@ -104,15 +94,23 @@ model_card:
     InstanceNorm: 1
     Chronos2RotaryEmbedding: 12
     Chronos2LayerNorm: 37
-  quant_method: torchao_int8wo
-  quant_weight_bits: 8
+  quant_method: awq_rtn
+  quant_weight_bits: 4
   quant_activation_bits: null
   quant_granularity: per_channel
-  quant_simulated: false
+  quant_simulated: true
   quant_n_modules_quantized: 126
   quant_n_modules_skipped: 0
   quant_quantized_weight_numel: 119439360
   quant_effective_bits_per_weight: null
-finished_at: '2026-07-22T20:08:06.251144+00:00'
-num_completed: 27
+  quant_n_fold_units: 72
+  quant_alpha_mean: 0.1611
+  quant_alpha_min: 0.0
+  quant_alpha_max: 0.6
+  quant_calib_n_series: 128
+  quant_calib_context_length: 1024
+  quant_calib_seed: 123
+  quant_calib_source: synthetic
+finished_at: '2026-07-22T20:07:31.894385+00:00'
+num_completed: 8
 num_failed: 0

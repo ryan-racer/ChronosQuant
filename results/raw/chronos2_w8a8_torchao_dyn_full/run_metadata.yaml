@@ -1,14 +1,14 @@
 config:
-  name: chronos2_w8a16_torchao_full
+  name: chronos2_w8a8_torchao_dyn_full
   benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
   predictor:
     type: chronos2
     model_id: amazon/chronos-2
     device_map: cuda
     batch_size: 128
-    name: chronos2-w8a16-torchao
+    name: chronos2-w8a8-torchao-dyn
     quantization:
-      method: torchao_int8wo
+      method: torchao_int8dyn
   task_names: null
   output_root: results/raw
   extra_metrics:
@@ -27,7 +27,7 @@ config:
   overwrite: false
   notes: sweep=standard_ptq tier=full
 environment:
-  git_sha: 14456e9240e969769c53683e0ca73e5789a417da+dirty
+  git_sha: cb21a8550d7e18fe833778afd6c7a699317ecc1b+dirty
   platform: Windows-11-10.0.26200-SP0
   python_version: 3.12.4
   version_chronosquant: 0.1.0
@@ -76,43 +76,4 @@ task_names:
 - monash_m3_monthly
 - monash_m3_yearly
 - monash_m3_quarterly
-started_at: '2026-07-22T19:57:42.275186+00:00'
-model_card:
-  predictor_type: Chronos2Predictor
-  name: chronos2-w8a16-torchao
-  model_id: amazon/chronos-2
-  device_map: cuda
-  batch_size: 128
-  context_length: null
-  has_model_transform: false
-  model_load_time_s: 1.799
-  num_params: 119477664
-  num_buffers: 789
-  param_bytes: 477910656
-  buffer_bytes: 3156
-  total_bytes: 477913812
-  bits_per_param: 32.0002
-  bits_per_element: 32.0
-  param_dtypes:
-    float32: 119477664
-  module_types:
-    Embedding: 1
-    Dropout: 51
-    Linear: 126
-    ReLU: 14
-    Patch: 1
-    InstanceNorm: 1
-    Chronos2RotaryEmbedding: 12
-    Chronos2LayerNorm: 37
-  quant_method: torchao_int8wo
-  quant_weight_bits: 8
-  quant_activation_bits: null
-  quant_granularity: per_channel
-  quant_simulated: false
-  quant_n_modules_quantized: 126
-  quant_n_modules_skipped: 0
-  quant_quantized_weight_numel: 119439360
-  quant_effective_bits_per_weight: null
-finished_at: '2026-07-22T20:08:06.251144+00:00'
-num_completed: 27
-num_failed: 0
+started_at: '2026-07-22T20:08:06.427007+00:00'
