@@ -202,7 +202,9 @@ class Chronos2Predictor(Predictor):
             if self.quantization is not None:
                 from chronosquant.quantization.transforms import apply_quantization
 
-                _, self._quant_info = apply_quantization(pipeline.model, self.quantization)
+                _, self._quant_info = apply_quantization(
+                    pipeline.model, self.quantization, pipeline=pipeline
+                )
             if self.model_transform is not None:
                 pipeline = self.model_transform(pipeline)
             self._load_time_s = round(time.perf_counter() - start, 3)

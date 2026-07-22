@@ -2,6 +2,31 @@
 
 Dated log of experiments, decisions, and findings. Newest entries first.
 
+## 2026-07-22 — Standard PTQ sweep (12 variants), dev tier
+
+- New backends verified on Windows CUDA: torchao int8dyn (W8A8), HQQ 2–8 bit, bnb LLM.int8() (fp16-cast wrapper), bnb NF4. torchao int4wo unusable on Windows (`mslk` kernel dep) → real W4 via HQQ/NF4.
+- **Dev retention (WQL ratio vs fp32, 8 tasks):**
+  | variant | WQL_rel | note |
+  |---|---|---|
+  | w8a16-rtn (per-channel) | 0.9994* | best (*full-tier number) |
+  | w8-hqq (g64) | 1.005 | |
+  | w8a16-torchao | 1.009 | |
+  | w8a16-rtn-pt (per-tensor) | 1.013 | granularity matters |
+  | w8-bnb-int8 | 1.016 | fp16 activations cost |
+  | w8a8-torchao-dyn | 1.023 | activation quant ≈ 2% |
+  | w4-hqq | 1.101 | best W4 |
+  | w4-bnb-nf4 | 1.156 | see divergence below |
+  | w3-hqq | 1.257 | |
+  | w4-rtn-sim | 2.130 | plain RTN collapses at W4 |
+  | w2-rtn-sim | 5.824 | full collapse |
+- **Findings:**
+  1. **W4 is method-dominated**: HQQ 1.10 vs plain per-channel RTN 2.13 — optimized rounding/grouping is worth ~2× WQL at 4 bits (LLM literature confirmed on a TSFM).
+  2. **NF4 probabilistic/point divergence**: WQL +15.6% while MASE only +0.6% — quantile-head damage that point metrics completely miss. Strengthens the paper's "evaluate probabilistically" thesis.
+  3. **Calibration cliff precedes accuracy cliff**: coverage[0.8] 0.744 (fp32) → 0.65 (w4-hqq, −9 pts) while WQL only +10%; QCR rises monotonically with fewer bits (0.02 → 0.61 at w3).
+  4. HQQ's g64 fp32 scale+zero overhead is heavy at high bits: w8-hqq = **9.0 BPW** (8 + 2×32/64); w4-hqq = 5.0 BPW. Larger groups or quantized metadata would trim this.
+  5. Storage-accounting caveat: torchao/bnb-int8 tensors are partially invisible to `model_summary` (tensor subclasses / plain attrs) — `quant_effective_bits_per_weight` from the transform is authoritative; torchao BPW ≈ RTN's 8.03.
+- Full 27-task sweep launched (12 variants, ~3.5 h).
+
 ## 2026-07-22 — P2: W8A16 RTN full-benchmark results (first quantized Chronos-2 numbers)
 
 - **Full Benchmark II (27/27 tasks): W8A16 RTN is accuracy-neutral.** WQL retention 0.9994 [CI 0.997–1.002], MASE 1.0008 [0.999–1.004]; WQL skill 0.4252 vs fp32's 0.4248; win rate vs fp32 ≈ coin toss (0.41/0.37).

@@ -69,6 +69,16 @@ Closest existing artifacts & adjacent work:
 4. **Small-model effect:** quantization damage grows as params shrink ([arXiv:2409.11055](https://arxiv.org/abs/2409.11055), [arXiv:2405.03146](https://arxiv.org/abs/2405.03146), flips [arXiv:2407.09141](https://arxiv.org/abs/2407.09141)); at 120M expect W4 to bite harder than 70B-LLM headlines suggest; W8 should be safe.
 5. **fp16 overflow** is a known T5 pathology → use bf16/fp32 baselines, never fp16.
 
+### Leading methods, mid-2026 (assessed 2026-07-22)
+
+- **TurboQuant** ([arXiv:2504.19874](https://arxiv.org/abs/2504.19874), ICLR 2026, Google) — **assessed and excluded.** It is *online vector quantization* (random rotation + per-coordinate Lloyd-Max, optional QJL residual) whose flagship applications are KV-cache compression and ANN retrieval. Chronos-2 has **no KV cache** (encoder-only, non-autoregressive); repurposed for weights, TurboQuant reduces to rotation + scalar quantization — a strict subset of the QuaRot class without Hessian-aware compensation. Cited in related work as rotation-family/data-oblivious quantization (with DRIVE/EDEN provenance caveats noted in the vLLM integration).
+- **GPTAQ** ([arXiv:2504.02692](https://arxiv.org/abs/2504.02692), ICML 2025) — asymmetric-calibration GPTQ upgrade (~20 LOC over GPTQ), validated on an encoder ViT → portable to Chronos-2; planned upgrade to our hand-rolled GPTQ arm.
+- **SignRound/AutoRound** ([arXiv:2309.05516](https://arxiv.org/abs/2309.05516); V2 [arXiv:2512.04746](https://arxiv.org/abs/2512.04746)) — learned rounding via signSGD; best expected W4/W3 weight-only quality; Intel tooling is LLM-shaped → reimplementation path (~200 lines) if the W4 bar needs raising.
+- **Rotation family** (QuaRot [arXiv:2404.00456](https://arxiv.org/abs/2404.00456), SpinQuant [arXiv:2405.16406](https://arxiv.org/abs/2405.16406), successors FlatQuant/OSTQuant/SliderQuant) — **applicability to Chronos-2 confirmed by source inspection**: `Chronos2LayerNorm` is T5-style RMSNorm and all encoder linears are bias-free, so computational-invariance rotations fold cleanly (RoPE unaffected on the residual stream). Offline-rotation + RTN/GPTQ is a feasible arm; mandatory only if A4 activations are pursued.
+- **Extreme-compression VQ** (QTIP/VPTQ/AQLM) — excluded: Linux/CUDA-build LLM harnesses and a payoff (fitting 70B in 24 GB) irrelevant at 120M/478 MB.
+- **LeanQuant** ([arXiv:2407.10032](https://arxiv.org/abs/2407.10032)) — loss-error-aware grids; cheap drop-in upgrade inside our GPTQ loop, noted as future work.
+- Confirmed again (mid-2026 sweep): **no published PTQ study of any Chronos/TimesFM-class TSFM exists** — the gap this project fills.
+
 ### What rigorous quantization papers report (evaluation checklist)
 From GPTQ, AWQ, SmoothQuant, LLM.int8(), QuaRot, the ACL-2024 comprehensive evaluation ([arXiv:2402.16775](https://arxiv.org/abs/2402.16775)), calibration study ([arXiv:2311.09755](https://arxiv.org/abs/2311.09755)), and *Accuracy is Not All You Need* ([arXiv:2407.09141](https://arxiv.org/abs/2407.09141)):
 1. Bit-width × method sweep with **accuracy-retention %** vs the fp32/bf16 baseline;

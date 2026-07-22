@@ -389,6 +389,18 @@ def bnb_nf4_quantize_model(
     }
 
 
+def _lazy_gptq(model: nn.Module, **kwargs) -> TransformResult:
+    from chronosquant.quantization.gptq import gptq_quantize_model
+
+    return gptq_quantize_model(model, **kwargs)
+
+
+def _lazy_awq_rtn(model: nn.Module, **kwargs) -> TransformResult:
+    from chronosquant.quantization.awq import awq_rtn_quantize_model
+
+    return awq_rtn_quantize_model(model, **kwargs)
+
+
 #: method name -> (callable(model, **params) -> (model, info))
 QUANTIZATION_METHODS: dict[str, Callable[..., TransformResult]] = {
     "rtn": rtn_quantize_model,
@@ -397,15 +409,28 @@ QUANTIZATION_METHODS: dict[str, Callable[..., TransformResult]] = {
     "hqq": hqq_quantize_model,
     "bnb_int8": bnb_int8_quantize_model,
     "bnb_nf4": bnb_nf4_quantize_model,
+    "gptq": _lazy_gptq,
+    "awq_rtn": _lazy_awq_rtn,
 }
 
+#: methods that run calibration forwards and therefore need the pipeline object
+CALIBRATED_METHODS = {"gptq", "awq_rtn"}
 
-def apply_quantization(model: nn.Module, config: dict[str, Any]) -> TransformResult:
-    """Apply the quantization described by a config dict: ``{"method": ..., **params}``."""
+
+def apply_quantization(
+    model: nn.Module, config: dict[str, Any], pipeline=None
+) -> TransformResult:
+    """Apply the quantization described by a config dict: ``{"method": ..., **params}``.
+
+    Calibrated methods (`CALIBRATED_METHODS`) additionally receive the `pipeline` so
+    calibration forwards run through the real preprocessing.
+    """
     config = dict(config)
     method = config.pop("method", None)
     if method not in QUANTIZATION_METHODS:
         raise ValueError(
             f"Unknown quantization method {method!r}. Available: {sorted(QUANTIZATION_METHODS)}"
         )
+    if method in CALIBRATED_METHODS:
+        config["pipeline"] = pipeline
     return QUANTIZATION_METHODS[method](model, **config)

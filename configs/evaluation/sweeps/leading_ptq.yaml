@@ -1,0 +1,41 @@
+# Leading-method PTQ sweep (Phase B): calibrated methods from the 2025-2026 frontier.
+#
+# GPTQ (arXiv:2210.17323): Hessian-aware error compensation, hand-rolled (one-shot
+#   fp-activation Hessians), synthetic calibration series.
+# AWQ-style (arXiv:2306.00978): activation-aware scale folding (exact folds in
+#   Chronos-2: RMSNorm weights, v->o, ReLU-homogeneous wi->wo) + shared RTN grid, so
+#   awq_rtn vs rtn isolates the folding effect.
+#
+# TurboQuant (arXiv:2504.19874) assessed and excluded: it is online *vector* (KV-cache/
+# retrieval) quantization; Chronos-2 has no KV cache, and as a weight quantizer it
+# reduces to rotation + scalar quant (strict subset of QuaRot-class). See RELATED_WORK.
+name: leading_ptq
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+reference_model: chronos2-fp32
+dev_task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+base_predictor:
+  type: chronos2
+  model_id: amazon/chronos-2
+  device_map: cuda
+  batch_size: 128
+variants:
+  - name: chronos2-w8-gptq
+    quantization: { method: gptq, bits: 8, group_size: 128 }
+  - name: chronos2-w4-gptq
+    quantization: { method: gptq, bits: 4, group_size: 128 }
+  - name: chronos2-w4-gptq-g64
+    quantization: { method: gptq, bits: 4, group_size: 64 }
+  - name: chronos2-w3-gptq
+    quantization: { method: gptq, bits: 3, group_size: 64 }
+  - name: chronos2-w4-awq-rtn
+    quantization: { method: awq_rtn, bits: 4 }
+  - name: chronos2-w3-awq-rtn
+    quantization: { method: awq_rtn, bits: 3 }

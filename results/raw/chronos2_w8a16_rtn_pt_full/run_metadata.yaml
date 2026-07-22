@@ -1,0 +1,120 @@
+config:
+  name: chronos2_w8a16_rtn_pt_full
+  benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+  predictor:
+    type: chronos2
+    model_id: amazon/chronos-2
+    device_map: cuda
+    batch_size: 128
+    name: chronos2-w8a16-rtn-pt
+    quantization:
+      method: rtn
+      bits: 8
+      granularity: per_tensor
+  task_names: null
+  output_root: results/raw
+  extra_metrics:
+  - SQL
+  - MQL
+  - MAE
+  - RMSE
+  - RMSSE
+  - WAPE
+  - SMAPE
+  - MAPE
+  per_quantile_scores: true
+  quantile_diagnostics: true
+  save_predictions: true
+  trained_on_this_dataset: false
+  overwrite: false
+  notes: sweep=standard_ptq tier=full
+environment:
+  git_sha: 14456e9240e969769c53683e0ca73e5789a417da
+  platform: Windows-11-10.0.26200-SP0
+  python_version: 3.12.4
+  version_chronosquant: 0.1.0
+  version_chronos_forecasting: 2.3.1
+  version_fev: 0.9.0
+  version_torch: 2.11.0+cu128
+  version_datasets: 3.6.0
+  version_numpy: 2.5.1
+  cpu: Intel64 Family 6 Model 183 Stepping 1, GenuineIntel
+  ram_total_gb: 68.3
+  cpu_count_physical: 24
+  cpu_count_logical: 32
+  cuda_available: true
+  gpu_name: NVIDIA RTX 2000 Ada Generation Laptop GPU
+  cuda_version: '12.8'
+  gpu_memory_gb: 8.6
+  gpu_compute_capability: '8.9'
+  nvidia_driver_version: '596.58'
+benchmark_sha256: 05f9cbfd53bf45391a552d90d9669e36cdb5be5987eb0a5638ebebf087c77c1e
+num_tasks: 27
+task_names:
+- monash_traffic
+- monash_australian_electricity
+- ercot
+- ETTm
+- ETTh
+- exchange_rate
+- nn5
+- monash_nn5_weekly
+- monash_weather
+- monash_covid_deaths
+- monash_fred_md
+- m4_quarterly
+- m4_yearly
+- dominick
+- m5
+- monash_tourism_monthly
+- monash_tourism_quarterly
+- monash_tourism_yearly
+- monash_car_parts
+- monash_hospital
+- monash_cif_2016
+- monash_m1_yearly
+- monash_m1_quarterly
+- monash_m1_monthly
+- monash_m3_monthly
+- monash_m3_yearly
+- monash_m3_quarterly
+started_at: '2026-07-22T19:41:51.585685+00:00'
+model_card:
+  predictor_type: Chronos2Predictor
+  name: chronos2-w8a16-rtn-pt
+  model_id: amazon/chronos-2
+  device_map: cuda
+  batch_size: 128
+  context_length: null
+  has_model_transform: false
+  model_load_time_s: 1.929
+  num_params: 38304
+  num_buffers: 119440275
+  param_bytes: 153216
+  buffer_bytes: 119443020
+  total_bytes: 119596236
+  bits_per_param: 24978.3283
+  bits_per_element: 8.0079
+  param_dtypes:
+    float32: 38304
+  module_types:
+    Embedding: 1
+    Dropout: 51
+    RTNQuantizedLinear: 126
+    ReLU: 14
+    Patch: 1
+    InstanceNorm: 1
+    Chronos2RotaryEmbedding: 12
+    Chronos2LayerNorm: 37
+  quant_method: rtn
+  quant_weight_bits: 8
+  quant_activation_bits: null
+  quant_granularity: per_tensor
+  quant_simulated: false
+  quant_n_modules_quantized: 126
+  quant_n_modules_skipped: 0
+  quant_quantized_weight_numel: 119439360
+  quant_effective_bits_per_weight: 8.0
+finished_at: '2026-07-22T19:57:41.898598+00:00'
+num_completed: 27
+num_failed: 0
