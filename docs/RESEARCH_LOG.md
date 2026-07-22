@@ -2,6 +2,17 @@
 
 Dated log of experiments, decisions, and findings. Newest entries first.
 
+## 2026-07-22 — Track-everything harness, paper draft, P1 profiler; full-run infrastructure debugging
+
+- **Harness now captures ~90 columns/task**: full fev metric suite (WQL/SQL/MQL/MASE/MAE/RMSE/RMSSE/WAPE/SMAPE/MAPE) with per-quantile breakdowns, calibration diagnostics, peak GPU memory, wall/inference/load times, and a full model card (params, bytes, effective bits/param, module inventory) replicated into summary columns. Raw per-series predictions + ground truth persisted per task as parquet → any future metric computable offline. Tracking contract: paper/draft.md Appendix D.
+- **Paper draft v0.1** (paper/draft.md): structure follows multi-technique quantization studies (arXiv:2402.16775, arXiv:2511.08093, GPTQ/AWQ conventions); 7 tables + 5 figures fully specified with data provenance.
+- **P1 profiler** (scripts/profile.py): ctx 2048 / h 64 protocol, batch {1, 32, 256}, warm latency percentiles, throughput, peak memory, deterministic seeded inputs.
+- **Infrastructure failures found & fixed during full-run bring-up:**
+  1. `datasets` 4.x removed script-dataset support → ETTh/ETTm (chronos_datasets_extra) unloadable. Pinned `datasets>=3.6,<4` + `HF_DATASETS_TRUST_REMOTE_CODE=1`.
+  2. The prepared-dataset cache is **not compatible across datasets major versions** (4.x writes `List` feature types 3.x can't parse) → moved to a project-local cache (`data/hf_datasets_cache`, set in `ensure_truststore`) to prevent silent cross-version poisoning.
+  3. `failures.jsonl` (append-mode) leaked across overwritten runs → `overwrite` now rmtree's the run dir.
+  4. Transient `transformers` lazy-import failure (`AutoModelForCausalLM`) when heavy processes ran concurrently with an eval run → eager `import chronos` in scripts/evaluate.py (fail-fast) + operational rule: keep the machine quiet during timed runs.
+
 ## 2026-07-22 — Evaluation framework built & validated (P0 complete)
 
 - Built `src/chronosquant/evaluation/` on `fev` 0.9 (the harness the Chronos-2 authors use): config-driven runner with provenance (git SHA, env, hardware), incremental persistence, per-task failure isolation; predictors for Seasonal Naive and Chronos-2 (with a `model_transform` hook where quantization will plug in); `analysis/` aggregation reusing fev's exact skill-score/win-rate/bootstrap code, plus `retention_table` and `validate_against_reference`.

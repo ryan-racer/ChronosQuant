@@ -9,6 +9,11 @@ Usage:
 import argparse
 import logging
 
+# Eager import: transformers' lazy import machinery has failed under mid-run process
+# contention when first triggered deep inside a run; importing up front fails fast
+# instead of failing 27 tasks.
+import chronos  # noqa: F401
+
 from chronosquant.evaluation import RunConfig, load_benchmark_tasks, run_evaluation
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")

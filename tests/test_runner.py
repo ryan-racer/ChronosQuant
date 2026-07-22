@@ -79,20 +79,53 @@ class TestRunEvaluation:
         summaries = pd.read_csv(output_dir / "summaries.csv")
         assert len(summaries) == 2
         expected_columns = {
+            # fev-standard summary
             "model_name", "task_name", "test_error", "MASE", "WQL",
+            "inference_time_s", "num_forecasts", "dataset_fingerprint", "fev_version",
+            # full supplementary metric suite
+            "SQL", "MQL", "MAE", "RMSE", "RMSSE", "WAPE", "SMAPE", "MAPE",
+            # per-quantile breakdowns
+            "WQL[0.1]", "WQL[0.9]", "SQL[0.1]", "SQL[0.9]",
+            # calibration diagnostics
             "MACE", "QCR", "coverage[0.8]", "coverage[0.2]",
-            "WQL[0.1]", "WQL[0.9]",  # per-quantile breakdown
-            "inference_time_s", "num_forecasts", "dataset_fingerprint",
-            "fev_version", "run_name", "git_sha",
+            # provenance & systems
+            "run_name", "git_sha", "peak_gpu_memory_mb", "task_wall_time_s",
+            "model_predictor_type",
         }  # fmt: skip
         assert expected_columns <= set(summaries.columns)
         assert (summaries["model_name"] == "seasonal_naive").all()
         # deterministic forecaster with identical quantiles: no crossings by construction
         assert (summaries["QCR"] == 0.0).all()
-        assert (output_dir / "run_metadata.yaml").exists()
+        assert (summaries["task_wall_time_s"] > 0).all()
         metadata = yaml.safe_load((output_dir / "run_metadata.yaml").read_text())
         assert metadata["num_completed"] == 2
         assert metadata["num_failed"] == 0
+        assert metadata["model_card"]["predictor_type"] == "SeasonalNaivePredictor"
+        assert len(metadata["benchmark_sha256"]) == 64
+        assert metadata["task_names"] == ["trend", "noisy"]
+
+    def test_persists_predictions_with_ground_truth(self, benchmark_yaml, tmp_path):
+        """Raw predictions + y_true are stored so any per-series metric is recomputable."""
+        output_dir = run_evaluation(make_config(benchmark_yaml, tmp_path, name="preds"))
+
+        parquet_path = output_dir / "predictions" / "trend.parquet"
+        assert parquet_path.exists()
+        frame = pd.read_parquet(parquet_path)
+        # 3 series x horizon 12 x 1 window
+        assert len(frame) == 36
+        expected_columns = {"window_idx", "item_id", "timestamp", "step", "y_true", "point"}
+        expected_columns |= {str(q) for q in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
+        assert expected_columns <= set(frame.columns)
+        # ground truth for the trend dataset is exactly known: y[t] = t + 1000*i
+        series_0 = frame[frame["item_id"] == "series_0"].sort_values("step")
+        np.testing.assert_allclose(series_0["y_true"], np.arange(84, 96, dtype=float))
+        # seasonal naive forecast: one season back
+        np.testing.assert_allclose(series_0["point"], np.arange(60, 72, dtype=float))
+
+    def test_save_predictions_can_be_disabled(self, benchmark_yaml, tmp_path):
+        config = make_config(benchmark_yaml, tmp_path, name="nopreds", save_predictions=False)
+        output_dir = run_evaluation(config)
+        assert not (output_dir / "predictions" / "trend.parquet").exists()
 
     def test_deterministic_across_runs(self, benchmark_yaml, tmp_path):
         config_1 = make_config(benchmark_yaml, tmp_path, name="run1")
@@ -109,6 +142,24 @@ class TestRunEvaluation:
             run_evaluation(config)
         # but succeeds with overwrite=True
         run_evaluation(make_config(benchmark_yaml, tmp_path, overwrite=True))
+
+    def test_overwrite_removes_stale_artifacts(self, benchmark_yaml, tmp_path):
+        """A rerun must not inherit failure logs (failures.jsonl is append-mode)."""
+
+        class FailsOnNoisy(SeasonalNaivePredictor):
+            def predict_window(self, window, task):
+                if task.task_name == "noisy":
+                    raise RuntimeError("injected failure")
+                return super().predict_window(window, task)
+
+        config = make_config(benchmark_yaml, tmp_path, name="rerun")
+        output_dir = run_evaluation(config, predictor=FailsOnNoisy())
+        assert (output_dir / "failures.jsonl").exists()
+
+        config = make_config(benchmark_yaml, tmp_path, name="rerun", overwrite=True)
+        output_dir = run_evaluation(config)  # healthy predictor
+        assert not (output_dir / "failures.jsonl").exists()
+        assert len(pd.read_csv(output_dir / "summaries.csv")) == 2
 
     def test_failure_isolation(self, benchmark_yaml, tmp_path):
         class FailsOnNoisy(SeasonalNaivePredictor):

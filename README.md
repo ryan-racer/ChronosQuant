@@ -64,7 +64,16 @@ uv run python scripts/aggregate.py retention results/raw/* --reference chronos2-
 # Reproduction gate: verify our harness matches published per-task numbers
 uv run python scripts/aggregate.py validate results/raw/seasonal_naive_dev \
     --reference-csv results/reference/chronos_zeroshot/seasonal_naive.csv
+
+# Efficiency profile (latency / throughput / memory; paper Table 4)
+uv run python scripts/profile.py --name chronos2-fp32 --devices cuda cpu
 ```
+
+Each run persists ~90 columns per task (all fev metrics + per-quantile breakdowns +
+calibration diagnostics + systems numbers + model card) plus raw per-series
+predictions with ground truth (`predictions/*.parquet`), so any additional metric can
+be computed offline without re-running models. The tracking contract is
+[paper/draft.md](paper/draft.md) Appendix D.
 
 Tests: `uv run pytest` (offline, synthetic data) and `uv run pytest -m network`
 (reference-parity gate against published results; downloads small HF datasets).

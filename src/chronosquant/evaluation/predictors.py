@@ -37,6 +37,13 @@ class Predictor(ABC):
     def predict_window(self, window: EvaluationWindow, task: Task) -> WindowPredictions:
         """Produce predictions for a single evaluation window."""
 
+    def describe(self) -> dict[str, Any]:
+        """Model card for run provenance: everything a paper table needs about this
+        model variant. Called by the runner *after* evaluation (so lazily-loaded
+        models are materialized and can be inspected).
+        """
+        return {"predictor_type": type(self).__name__, "name": self.name}
+
     def predict_task(self, task: Task) -> tuple[list[WindowPredictions], float]:
         """Produce predictions for all windows in the task.
 
@@ -172,6 +179,7 @@ class Chronos2Predictor(Predictor):
         self.context_length = context_length
         self.model_transform = model_transform
         self._pipeline = None
+        self._load_time_s: float | None = None
 
     @property
     def pipeline(self):
@@ -181,11 +189,31 @@ class Chronos2Predictor(Predictor):
             from chronosquant.utils import ensure_truststore
 
             ensure_truststore()
+            start = time.perf_counter()
             pipeline = Chronos2Pipeline.from_pretrained(self.model_id, device_map=self.device_map)
             if self.model_transform is not None:
                 pipeline = self.model_transform(pipeline)
+            self._load_time_s = round(time.perf_counter() - start, 3)
             self._pipeline = pipeline
         return self._pipeline
+
+    def describe(self) -> dict[str, Any]:
+        info = super().describe()
+        info.update(
+            {
+                "model_id": self.model_id,
+                "device_map": self.device_map,
+                "batch_size": self.batch_size,
+                "context_length": self.context_length,
+                "has_model_transform": self.model_transform is not None,
+                "model_load_time_s": self._load_time_s,
+            }
+        )
+        if self._pipeline is not None:
+            from chronosquant.models.inspect import model_summary
+
+            info.update(model_summary(self._pipeline.model))
+        return info
 
     def predict_window(self, window: EvaluationWindow, task: Task) -> WindowPredictions:
         import torch
