@@ -70,10 +70,19 @@ def main() -> None:
         name = variant["name"]
         run_name = run_name_for(name, args.tier)
         output_dir = REPO_ROOT / "results" / "raw" / run_name
-        if (output_dir / "summaries.csv").exists() and not args.overwrite:
-            logger.info("[%d/%d] %s already complete, skipping", i, len(variants), name)
-            completed_dirs.append(output_dir)
-            continue
+        # Complete = metadata records a finish (a crashed run leaves summaries.csv
+        # without num_completed; it must be rerun, not skipped)
+        metadata_path = output_dir / "run_metadata.yaml"
+        if metadata_path.exists() and not args.overwrite:
+            metadata = yaml.safe_load(metadata_path.read_text()) or {}
+            if metadata.get("num_completed"):
+                logger.info("[%d/%d] %s already complete, skipping", i, len(variants), name)
+                completed_dirs.append(output_dir)
+                continue
+            logger.warning("[%d/%d] %s has a partial run; rerunning", i, len(variants), name)
+            args_overwrite_this = True
+        else:
+            args_overwrite_this = args.overwrite
 
         predictor_config = dict(sweep["base_predictor"])
         predictor_config["name"] = name
@@ -85,7 +94,7 @@ def main() -> None:
             benchmark=sweep["benchmark"],
             predictor=predictor_config,
             task_names=task_names,
-            overwrite=args.overwrite,
+            overwrite=args_overwrite_this,
             notes=f"sweep={sweep['name']} tier={args.tier}",
         )
         logger.info("[%d/%d] running %s (%s)", i, len(variants), name, variant["quantization"])
