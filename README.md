@@ -66,7 +66,7 @@ uv run python scripts/aggregate.py validate results/raw/seasonal_naive_dev \
     --reference-csv results/reference/chronos_zeroshot/seasonal_naive.csv
 
 # Efficiency profile (latency / throughput / memory; paper Table 4)
-uv run python scripts/profile.py --name chronos2-fp32 --devices cuda cpu
+uv run python scripts/profile_model.py --name chronos2-fp32 --devices cuda cpu
 ```
 
 Each run persists ~90 columns per task (all fev metrics + per-quantile breakdowns +

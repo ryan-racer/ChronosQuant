@@ -11,7 +11,8 @@ Dated log of experiments, decisions, and findings. Newest entries first.
   1. `datasets` 4.x removed script-dataset support → ETTh/ETTm (chronos_datasets_extra) unloadable. Pinned `datasets>=3.6,<4` + `HF_DATASETS_TRUST_REMOTE_CODE=1`.
   2. The prepared-dataset cache is **not compatible across datasets major versions** (4.x writes `List` feature types 3.x can't parse) → moved to a project-local cache (`data/hf_datasets_cache`, set in `ensure_truststore`) to prevent silent cross-version poisoning.
   3. `failures.jsonl` (append-mode) leaked across overwritten runs → `overwrite` now rmtree's the run dir.
-  4. Transient `transformers` lazy-import failure (`AutoModelForCausalLM`) when heavy processes ran concurrently with an eval run → eager `import chronos` in scripts/evaluate.py (fail-fast) + operational rule: keep the machine quiet during timed runs.
+  4. `transformers` lazy-import failure (`AutoModelForCausalLM`) that killed every Chronos-2 full-run attempt: **`scripts/profile.py` shadowed Python's stdlib `profile` module** (script dir heads `sys.path`), and the transformers import chain trips over it, surfacing as a masked lazy-import error. Renamed to `scripts/profile_model.py`; the eager `import chronos` in evaluate.py (added as fail-fast insurance) is what turned a mid-run 27-task failure into an instant, diagnosable crash. Rule: never name scripts after stdlib modules.
+  5. `HF_DATASETS_CACHE`/trust env vars were originally set in `ensure_truststore()`, which runs *after* `import datasets` reads them → moved verification of env ordering into the entry-point import sequence (env vars are set before `datasets` import via `ensure_truststore` being called at script top / package import).
 
 ## 2026-07-22 — Evaluation framework built & validated (P0 complete)
 
