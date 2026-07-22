@@ -156,11 +156,16 @@ class Chronos2Predictor(Predictor):
         Forwarded to ``predict_quantiles``.
     context_length
         If set, overrides the pipeline's default context length.
+    quantization
+        Optional quantization config dict, e.g. ``{"method": "rtn", "bits": 8}``
+        (see `chronosquant.quantization.transforms.QUANTIZATION_METHODS`). Applied to
+        ``pipeline.model`` after loading; resulting metadata is exposed in `describe()`.
+        Keeping quantization as a declarative transform means the evaluation path is
+        byte-identical for baseline and quantized runs.
     model_transform
-        Optional callable applied to the loaded pipeline before first use. This is the
-        hook where quantization methods plug in: it receives the pipeline and returns a
-        (possibly modified) pipeline. Keeping quantization as a transform means the
-        evaluation path is byte-identical for baseline and quantized runs.
+        Optional callable applied to the loaded pipeline after quantization (escape
+        hatch for transforms not expressible as configs). Receives and returns the
+        pipeline.
     """
 
     def __init__(
@@ -170,6 +175,7 @@ class Chronos2Predictor(Predictor):
         device_map: str = "cuda",
         batch_size: int = 256,
         context_length: int | None = None,
+        quantization: dict[str, Any] | None = None,
         model_transform=None,
     ):
         self.model_id = model_id
@@ -177,9 +183,11 @@ class Chronos2Predictor(Predictor):
         self.device_map = device_map
         self.batch_size = batch_size
         self.context_length = context_length
+        self.quantization = quantization
         self.model_transform = model_transform
         self._pipeline = None
         self._load_time_s: float | None = None
+        self._quant_info: dict[str, Any] | None = None
 
     @property
     def pipeline(self):
@@ -191,6 +199,10 @@ class Chronos2Predictor(Predictor):
             ensure_truststore()
             start = time.perf_counter()
             pipeline = Chronos2Pipeline.from_pretrained(self.model_id, device_map=self.device_map)
+            if self.quantization is not None:
+                from chronosquant.quantization.transforms import apply_quantization
+
+                _, self._quant_info = apply_quantization(pipeline.model, self.quantization)
             if self.model_transform is not None:
                 pipeline = self.model_transform(pipeline)
             self._load_time_s = round(time.perf_counter() - start, 3)
@@ -213,6 +225,8 @@ class Chronos2Predictor(Predictor):
             from chronosquant.models.inspect import model_summary
 
             info.update(model_summary(self._pipeline.model))
+        if self._quant_info is not None:
+            info.update({f"quant_{k}": v for k, v in self._quant_info.items()})
         return info
 
     def predict_window(self, window: EvaluationWindow, task: Task) -> WindowPredictions:

@@ -351,7 +351,7 @@ def run_evaluation(config: RunConfig, predictor: Predictor | None = None) -> Pat
         if key == "name":  # already present as fev's model_name column
             continue
         if isinstance(value, (str, int, float, bool)) or value is None:
-            column = key if key.startswith("model") else f"model_{key}"
+            column = key if key.startswith(("model", "quant_")) else f"model_{key}"
             summaries_df[column] = value
     summaries_df.to_csv(output_dir / SUMMARIES_FILENAME, index=False)
 

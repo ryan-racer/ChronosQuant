@@ -2,6 +2,21 @@
 
 Dated log of experiments, decisions, and findings. Newest entries first.
 
+## 2026-07-22 — P2: W8A16 RTN full-benchmark results (first quantized Chronos-2 numbers)
+
+- **Full Benchmark II (27/27 tasks): W8A16 RTN is accuracy-neutral.** WQL retention 0.9994 [CI 0.997–1.002], MASE 1.0008 [0.999–1.004]; WQL skill 0.4252 vs fp32's 0.4248; win rate vs fp32 ≈ coin toss (0.41/0.37).
+- **QCR finding confirmed at scale: crossings quadruple (mean 0.039 → 0.149), increasing on 25/27 tasks** (max Δ +0.53 on car_parts) — while MACE (0.0594 → 0.0599) and coverage[0.8] (0.750 → 0.749) are unchanged. Refined claim: W8 preserves both accuracy and interval calibration but systematically breaks quantile monotonicity; crossings must be small in magnitude (else WQL/MACE would move). TODO: quantify crossing magnitude from persisted predictions; add post-hoc quantile-sorting repair arm.
+- **Efficiency (reference dequant-at-forward implementation, honest numbers):** storage 478 → 120 MB (3.98×, 8.034 BPW); peak GPU memory (batch 1) 493 → 154 MB; but batch-1 GPU latency 30 → 77 ms (dequant overhead) and throughput ≈ parity (109.6 → 115.7 series/s @ batch 256). Weight-only RTN buys footprint, not speed — as the LLM literature predicts for unfused dequant paths; optimized-kernel methods (torchao int8wo, ONNX-RT INT8) are the speed comparison arms.
+
+## 2026-07-22 — P2: first quantized variant (W8A16 RTN) — dev results
+
+- Implemented `chronosquant.quantization`: reference **RTN** (symmetric weight-only int8, per-channel/per-tensor, glob-based module skipping, simulate mode for sub-8-bit accuracy studies) + **torchao int8wo** adapter (verified working on Windows CUDA, torchao 0.17). Quantization is declarative predictor config; metadata (bits, modules, effective BPW incl. scales) flows into the model card and summary columns.
+- **Dev subset (8 tasks), chronos2-w8a16-rtn vs fp32:**
+  - Storage: 478 MB → **120 MB** (3.98×), effective **8.034 bits/weight**.
+  - Accuracy: **WQL ratio 1.0007** [CI 0.994–1.006], MASE 0.9982 → **accuracy-neutral**, consistent with the int8-is-free hypothesis.
+  - **⚠ Finding: quantile crossing rate (QCR) increases on 6/8 tasks** despite neutral accuracy — covid_deaths 0.178 → **0.511**, m1_quarterly 0 → 0.088, ercot 0 → 0.078; MACE up slightly (covid 0.020 → 0.079). Weight quantization perturbs quantile *ordering* even when quantile *loss* is unchanged — invisible to WQL/MASE-only evaluations. Candidate paper contribution; suggests a with/without post-hoc quantile-sorting repair arm.
+- 73 tests passing (20 new for quantization: reconstruction bounds ≤ scale/2, BPW accounting exact, determinism, skip patterns, simulate mode monotone error growth).
+
 ## 2026-07-22 — Full 27-task baselines locked; P1 profiler run; ready for P2
 
 - **Seasonal Naive full run: 27/27 tasks, exact parity with published reference** (max rel. diff 0.00% on MASE and WQL for every task, incl. ETTh/ETTm and the large datasets m4/m5/dominick).

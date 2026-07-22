@@ -148,10 +148,21 @@ reference for every retention number; bf16 is the deployment baseline. fp16 is e
 
 ## 6. Results
 
+> **Preliminary results (v0.1, 2026-07-22).** First variant evaluated — W8A16 RTN
+> (per-channel symmetric, reference implementation) on Benchmark II (27 tasks):
+> - Accuracy-neutral: WQL retention **0.9994** [0.997–1.002], MASE **1.0008**
+>   [0.999–1.004]; WQL skill 0.4252 vs fp32 0.4248.
+> - **Quantile crossing rate quadruples** (0.039 → 0.149; ↑ on 25/27 tasks) while MACE
+>   and coverage are unchanged — accuracy-invisible structural degradation of the
+>   quantile head; motivates a post-hoc monotonicity-repair experimental arm.
+> - Storage 478 → 120 MB (3.98×; 8.034 effective BPW); peak batch-1 GPU memory
+>   493 → 154 MB; batch-1 latency 30 → 77 ms (dequant-at-forward overhead; throughput
+>   parity at batch 256). Weight-only RTN buys footprint, not speed.
+
 **Table 2 — Main accuracy matrix (Benchmark II, 27 tasks).**
 Rows: variant (method × bit-width). Columns: WQL skill, MASE skill (vs Seasonal Naive, with
 95% CI); WQL retention & MASE retention vs fp32 (GM ratio, CI); win rate vs fp32.
-`[TBD after P2/P3]`
+`[first row (w8a16-rtn) available in results/raw/chronos2_w8a16_rtn_full; rest TBD]`
 
 **Table 3 — Calibration under quantization.**
 Rows: variant. Columns: MACE; coverage[0.8] / [0.6] / [0.4] / [0.2] (nominal vs empirical);

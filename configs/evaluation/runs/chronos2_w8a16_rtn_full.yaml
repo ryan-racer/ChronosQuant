@@ -1,0 +1,13 @@
+# Chronos-2 W8A16 RTN (per-channel symmetric int8 weights) on the full Benchmark II.
+name: chronos2_w8a16_rtn_full
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+predictor:
+  type: chronos2
+  model_id: amazon/chronos-2
+  name: chronos2-w8a16-rtn
+  device_map: cuda
+  batch_size: 128
+  quantization:
+    method: rtn
+    bits: 8
+    granularity: per_channel
