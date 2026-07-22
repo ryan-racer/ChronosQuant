@@ -1,0 +1,9 @@
+# Quick development evaluation — small subset for fast iteration while building the harness.
+# NOT for reporting results; use the full benchmark configs for publishable numbers.
+name: quick_dev
+benchmark: dev_subset
+prediction_length: 24
+quantile_levels: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+metrics: [wql, mase]
+batch_size: 32
+seed: 42

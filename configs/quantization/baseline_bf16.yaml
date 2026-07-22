@@ -1,0 +1,8 @@
+# Baseline (no quantization) — reference precision for all accuracy-retention numbers.
+name: baseline_bf16
+model_id: amazon/chronos-2
+method: none
+dtype: bfloat16
+device: cuda
+notes: >
+  All quantized variants are compared against this configuration.

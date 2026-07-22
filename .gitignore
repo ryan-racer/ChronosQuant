@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.python-version.local
+
+# uv
+# (uv.lock IS tracked for reproducibility)
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Data & model artifacts (never commit datasets or checkpoints)
+data/
+models/
+checkpoints/
+*.ckpt
+*.safetensors
+*.onnx
+*.pt
+*.pth
+
+# Results: raw outputs are regenerable; tables/figures are tracked
+results/raw/
+
+# HuggingFace / experiment caches
+.cache/
+wandb/
+mlruns/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
+
+# LaTeX build artifacts
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.synctex.gz
+paper/*.fdb_latexmk
+paper/*.fls

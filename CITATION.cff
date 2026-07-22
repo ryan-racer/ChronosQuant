@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software or results, please cite it as below."
+title: "ChronosQuant: Quantization of the Chronos-2 Time Series Foundation Model"
+type: software
+authors:
+  - family-names: Quinlivan
+    given-names: Ryan
+    email: mr.ryanquinlivan@gmail.com
+version: 0.1.0
+date-released: 2026-07-22
+license: Apache-2.0
+keywords:
+  - time series forecasting
+  - foundation models
+  - quantization
+  - model compression
+  - Chronos
