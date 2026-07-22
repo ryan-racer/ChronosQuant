@@ -161,6 +161,56 @@ class TestQuantizedChronos2SmokeViaSyntheticTask:
         assert info["quant_weight_bits"] == 8
 
 
+needs_cuda = pytest.mark.skipif(not torch.cuda.is_available(), reason="requires CUDA")
+
+
+@needs_cuda
+class TestLibraryBackends:
+    """Functional checks for library-backed methods (small model, CUDA)."""
+
+    def _forward_close(self, model, quantized, rel_tol):
+        x = torch.randn(8, 32, device="cuda")
+        y_ref = model(x)
+        y_q = quantized(x)
+        rel_err = (y_q - y_ref).norm() / y_ref.norm()
+        assert torch.isfinite(y_q).all()
+        assert rel_err < rel_tol, f"rel_err={rel_err:.4f}"
+
+    @pytest.mark.parametrize(
+        "config,rel_tol",
+        [
+            ({"method": "torchao_int8wo"}, 0.02),
+            ({"method": "torchao_int8dyn"}, 0.05),
+            ({"method": "hqq", "bits": 8, "group_size": 64}, 0.02),
+            ({"method": "hqq", "bits": 4, "group_size": 64}, 0.10),
+            ({"method": "bnb_int8"}, 0.05),
+            ({"method": "bnb_nf4"}, 0.10),
+        ],
+        ids=["torchao_int8wo", "torchao_int8dyn", "hqq8", "hqq4", "bnb_int8", "bnb_nf4"],
+    )
+    def test_forward_close_to_original(self, config, rel_tol):
+        reference = small_model(seed=11).cuda()
+        target = small_model(seed=11).cuda()  # identical weights
+        quantized, info = apply_quantization(target, dict(config))
+        assert info["n_modules_quantized"] == 2
+        assert info["simulated"] is False
+        self._forward_close(reference, quantized, rel_tol)
+
+    def test_hqq_effective_bpw_between_bits_and_double(self):
+        model = small_model().cuda()
+        _, info = apply_quantization(model, {"method": "hqq", "bits": 4, "group_size": 64})
+        # 4-bit codes + group scale/zero overhead: > 4, well under 8
+        assert 4.0 < info["effective_bits_per_weight"] < 6.0
+
+    def test_skip_modules_respected_by_library_backends(self):
+        model = small_model().cuda()
+        _, info = apply_quantization(
+            model, {"method": "hqq", "bits": 4, "skip_modules": ["2"]}
+        )
+        assert info["n_modules_quantized"] == 1
+        assert info["n_modules_skipped"] == 1
+
+
 def test_rtn_quantized_model_output_error_scales_with_bits():
     """Sanity on the simulate path: fewer bits -> strictly larger weight error."""
     errors = []

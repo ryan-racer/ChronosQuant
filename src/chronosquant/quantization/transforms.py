@@ -186,10 +186,217 @@ def torchao_int8wo_quantize_model(
     return model, info
 
 
+def torchao_int8dyn_quantize_model(
+    model: nn.Module,
+    skip_modules: list[str] | None = None,
+) -> TransformResult:
+    """torchao Int8DynamicActivationInt8Weight: W8A8 with per-token dynamic activation
+    quantization — the integer-GEMM throughput candidate (compute-bound encoder)."""
+    from torchao.quantization import Int8DynamicActivationInt8WeightConfig, quantize_
+
+    skip_modules = skip_modules or []
+    linear_names = [name for _, _, name, _ in _iter_linear_parents(model)]
+    to_quantize = [n for n in linear_names if not _matches_any(n, skip_modules)]
+
+    def filter_fn(module: nn.Module, name: str) -> bool:
+        return isinstance(module, nn.Linear) and not _matches_any(name, skip_modules)
+
+    quantize_(model, Int8DynamicActivationInt8WeightConfig(), filter_fn=filter_fn)
+    return model, {
+        "method": "torchao_int8dyn",
+        "weight_bits": 8,
+        "activation_bits": 8,  # dynamic per-token
+        "granularity": "per_channel",
+        "simulated": False,
+        "n_modules_quantized": len(to_quantize),
+        "n_modules_skipped": len(linear_names) - len(to_quantize),
+        "quantized_weight_numel": None,
+        "effective_bits_per_weight": None,
+    }
+
+
+def hqq_quantize_model(
+    model: nn.Module,
+    bits: int = 4,
+    group_size: int = 64,
+    skip_modules: list[str] | None = None,
+) -> TransformResult:
+    """HQQ (Half-Quadratic Quantization): calibration-free weight-only, 2-8 bits.
+
+    Uses HQQ's pure-PyTorch path (works on Windows); compute dtype fp32 to match the
+    fp32 pipeline. Effective BPW computed empirically from the packed tensors + group
+    scale/zero metadata (HQQ stores these as plain attributes, invisible to
+    `model_summary` — the numbers reported here are the authoritative ones).
+    """
+    from hqq.core.quantize import BaseQuantizeConfig, HQQLinear
+
+    skip_modules = skip_modules or []
+    quant_config = BaseQuantizeConfig(nbits=bits, group_size=group_size)
+
+    quantized, skipped = [], []
+    orig_weight_numel = 0
+    stored_bytes = 0
+    for parent, child_name, full_name, child in list(_iter_linear_parents(model)):
+        if _matches_any(full_name, skip_modules):
+            skipped.append(full_name)
+            continue
+        device = child.weight.device
+        orig_weight_numel += child.weight.numel()
+        qlinear = HQQLinear(
+            child,
+            quant_config=quant_config,
+            compute_dtype=torch.float32,
+            device=str(device),
+            del_orig=True,
+        )
+        assert qlinear.W_q is not None and qlinear.meta is not None
+        stored_bytes += qlinear.W_q.numel() * qlinear.W_q.element_size()
+        for key in ("scale", "zero"):
+            tensor = qlinear.meta.get(key)
+            if isinstance(tensor, torch.Tensor):
+                stored_bytes += tensor.numel() * tensor.element_size()
+        setattr(parent, child_name, qlinear)
+        quantized.append(full_name)
+
+    if not quantized:
+        raise ValueError("No Linear modules were quantized (check skip_modules patterns)")
+    return model, {
+        "method": "hqq",
+        "weight_bits": bits,
+        "activation_bits": None,
+        "granularity": f"group_{group_size}",
+        "simulated": False,
+        "n_modules_quantized": len(quantized),
+        "n_modules_skipped": len(skipped),
+        "quantized_weight_numel": orig_weight_numel,
+        "effective_bits_per_weight": round(stored_bytes * 8 / orig_weight_numel, 4),
+    }
+
+
+class _CastInput(nn.Module):
+    """Cast activations to a compute dtype around a wrapped module (bnb int8 needs fp16)."""
+
+    def __init__(self, module: nn.Module, compute_dtype: torch.dtype):
+        super().__init__()
+        self.module = module
+        self.compute_dtype = compute_dtype
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.module(x.to(self.compute_dtype)).to(x.dtype)
+
+
+def bnb_int8_quantize_model(
+    model: nn.Module,
+    threshold: float = 6.0,
+    skip_modules: list[str] | None = None,
+) -> TransformResult:
+    """bitsandbytes LLM.int8(): vector-wise int8 with fp16 outlier decomposition.
+
+    Activations are cast to fp16 around each quantized Linear (the method's native
+    compute dtype; outlier columns above `threshold` stay fp16). Note the T5-lineage
+    fp16-overflow caveat — degradation here is itself a reportable result.
+    """
+    import bitsandbytes as bnb
+
+    skip_modules = skip_modules or []
+    quantized, skipped = [], []
+    orig_weight_numel = 0
+    for parent, child_name, full_name, child in list(_iter_linear_parents(model)):
+        if _matches_any(full_name, skip_modules):
+            skipped.append(full_name)
+            continue
+        device = child.weight.device
+        orig_weight_numel += child.weight.numel()
+        l8 = bnb.nn.Linear8bitLt(
+            child.in_features,
+            child.out_features,
+            bias=child.bias is not None,
+            has_fp16_weights=False,
+            threshold=threshold,
+        )
+        l8.weight = bnb.nn.Int8Params(
+            child.weight.data.clone().cpu(), requires_grad=False, has_fp16_weights=False
+        )
+        if child.bias is not None:
+            l8.bias = nn.Parameter(child.bias.data.clone().to(torch.float16))
+        l8 = l8.to(device)  # triggers int8 quantization
+        setattr(parent, child_name, _CastInput(l8, torch.float16))
+        quantized.append(full_name)
+
+    if not quantized:
+        raise ValueError("No Linear modules were quantized (check skip_modules patterns)")
+    return model, {
+        "method": "bnb_int8",
+        "weight_bits": 8,
+        "activation_bits": 16,  # fp16 compute with int8 weights + fp16 outlier path
+        "granularity": "vector_wise",
+        "simulated": False,
+        "n_modules_quantized": len(quantized),
+        "n_modules_skipped": len(skipped),
+        "quantized_weight_numel": orig_weight_numel,
+        "effective_bits_per_weight": None,  # int8 + per-row scales; outlier split dynamic
+    }
+
+
+def bnb_nf4_quantize_model(
+    model: nn.Module,
+    skip_modules: list[str] | None = None,
+) -> TransformResult:
+    """bitsandbytes NF4 (4-bit NormalFloat, double-quantized absmax, block 64).
+
+    Compute dtype fp32 (dequant-then-GEMM), matching the fp32 pipeline.
+    """
+    import bitsandbytes as bnb
+
+    skip_modules = skip_modules or []
+    quantized, skipped = [], []
+    orig_weight_numel = 0
+    for parent, child_name, full_name, child in list(_iter_linear_parents(model)):
+        if _matches_any(full_name, skip_modules):
+            skipped.append(full_name)
+            continue
+        device = child.weight.device
+        orig_weight_numel += child.weight.numel()
+        l4 = bnb.nn.Linear4bit(
+            child.in_features,
+            child.out_features,
+            bias=child.bias is not None,
+            quant_type="nf4",
+            compute_dtype=torch.float32,
+        )
+        l4.weight = bnb.nn.Params4bit(
+            child.weight.data.clone().cpu(), requires_grad=False, quant_type="nf4"
+        )
+        if child.bias is not None:
+            l4.bias = nn.Parameter(child.bias.data.clone())
+        l4 = l4.to(device)  # triggers 4-bit quantization
+        setattr(parent, child_name, l4)
+        quantized.append(full_name)
+
+    if not quantized:
+        raise ValueError("No Linear modules were quantized (check skip_modules patterns)")
+    return model, {
+        "method": "bnb_nf4",
+        "weight_bits": 4,
+        "activation_bits": None,
+        "granularity": "block_64_nf4_dq",
+        "simulated": False,
+        "n_modules_quantized": len(quantized),
+        "n_modules_skipped": len(skipped),
+        "quantized_weight_numel": orig_weight_numel,
+        # 4-bit codes + double-quantized absmax per 64-block ~= 4.127 bits/weight
+        "effective_bits_per_weight": 4.127,
+    }
+
+
 #: method name -> (callable(model, **params) -> (model, info))
 QUANTIZATION_METHODS: dict[str, Callable[..., TransformResult]] = {
     "rtn": rtn_quantize_model,
     "torchao_int8wo": torchao_int8wo_quantize_model,
+    "torchao_int8dyn": torchao_int8dyn_quantize_model,
+    "hqq": hqq_quantize_model,
+    "bnb_int8": bnb_int8_quantize_model,
+    "bnb_nf4": bnb_nf4_quantize_model,
 }
 
 

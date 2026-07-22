@@ -1,0 +1,50 @@
+# Standard PTQ method sweep over Chronos-2 (paper Tables 2-4, Figure 2 bit-width curve).
+#
+# Storage-real variants cover W8/W4/W3 across method families (RTN, torchao, HQQ, bnb);
+# simulate variants (rtn, fp32 container) trace the accuracy-vs-bits cliff cheaply.
+# fp32 reference runs: chronos2_fp32_dev / chronos2_fp32_full (already locked).
+name: standard_ptq
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+reference_model: chronos2-fp32
+dev_task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+base_predictor:
+  type: chronos2
+  model_id: amazon/chronos-2
+  device_map: cuda
+  batch_size: 128
+variants:
+  # --- W8 family: granularity + kernel-path comparison ---
+  - name: chronos2-w8a16-rtn-pt
+    quantization: { method: rtn, bits: 8, granularity: per_tensor }
+  - name: chronos2-w8a16-torchao
+    quantization: { method: torchao_int8wo }
+  - name: chronos2-w8a8-torchao-dyn
+    quantization: { method: torchao_int8dyn }
+  - name: chronos2-w8-bnb-int8
+    quantization: { method: bnb_int8 }
+  - name: chronos2-w8-hqq
+    quantization: { method: hqq, bits: 8, group_size: 64 }
+  # --- W4/W3: the interesting regime ---
+  - name: chronos2-w4-hqq
+    quantization: { method: hqq, bits: 4, group_size: 64 }
+  - name: chronos2-w4-bnb-nf4
+    quantization: { method: bnb_nf4 }
+  - name: chronos2-w3-hqq
+    quantization: { method: hqq, bits: 3, group_size: 64 }
+  # --- Simulated bit-width curve (accuracy only; storage unchanged) ---
+  - name: chronos2-w6-rtn-sim
+    quantization: { method: rtn, bits: 6, simulate: true }
+  - name: chronos2-w4-rtn-sim
+    quantization: { method: rtn, bits: 4, simulate: true }
+  - name: chronos2-w3-rtn-sim
+    quantization: { method: rtn, bits: 3, simulate: true }
+  - name: chronos2-w2-rtn-sim
+    quantization: { method: rtn, bits: 2, simulate: true }
