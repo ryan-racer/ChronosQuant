@@ -1,0 +1,6 @@
+# Normalize line endings: LF in repo, LF on checkout (cross-platform reproducibility)
+* text=auto eol=lf
+*.png binary
+*.pdf binary
+*.parquet binary
+*.safetensors binary
