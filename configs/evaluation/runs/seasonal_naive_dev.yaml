@@ -1,0 +1,16 @@
+# Seasonal Naive on the dev subset of Chronos Benchmark II.
+# Purpose: harness validation — per-task MASE/WQL must match the published
+# results in results/reference/chronos_zeroshot/seasonal_naive.csv.
+name: seasonal_naive_dev
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+predictor:
+  type: seasonal_naive

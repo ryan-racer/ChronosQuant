@@ -81,6 +81,7 @@ Fixed seeds for window selection & calibration sampling; calibration reruns acro
 ## 7. Implementation phases
 
 - **P0 — Harness bring-up (first):** integrate `fev` + Benchmark II configs; `src/chronosquant/evaluation/` runner: config → pipeline → per-task CSV → aggregation (skill/win-rate/bootstrap, mirroring fev-bench's definitions). **Gate:** fp32 Chronos-2 reproduces published Benchmark II ballpark.
+  **✅ Done (2026-07-22).** Gate results: our Seasonal Naive reproduces the published per-task MASE/WQL **exactly** (< 1e-6 rel. diff on all 8 dev tasks, enforced continuously by `tests/test_reference_parity.py`); Chronos-2 fp32 ranks first vs published anchors on the dev subset (83% win rate / 0.383 WQL skill vs chronos_bolt_base 58%/0.329). Notable baseline measurement: fp32 Chronos-2 already exhibits nonzero quantile crossing on covid_deaths (QCR 0.178) — quantized QCR/coverage deltas must be reported relative to the fp32 baseline, which `retention_table` does by construction.
 - **P1 — Efficiency profiler:** `scripts/profile.py` (latency/throughput/memory protocol above).
 - **P2 — Weight-only PTQ sweep:** torchao RTN {W8, W4 g32/64/128}, HQQ {8/4/3}, bnb {int8, NF4} → T1/T2 on Tier 3, promote survivors to Tiers 1–2.
 - **P3 — Activation quant + CPU story:** W8A8-dynamic, FP8, ONNX-RT dynamic INT8, NNCF static INT8 (attention-node exclusions per known pitfalls).

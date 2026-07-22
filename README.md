@@ -45,6 +45,30 @@ Smoke-test Chronos-2 inference:
 uv run python scripts/smoke_test.py
 ```
 
+## Running evaluations
+
+Evaluations are config-driven and produce [fev](https://github.com/autogluon/fev)-format
+per-task summaries (directly comparable with published reference results):
+
+```bash
+# Run a model over a benchmark (Chronos Benchmark II configs are vendored)
+uv run python scripts/evaluate.py configs/evaluation/runs/chronos2_fp32_dev.yaml
+
+# Leaderboard (fev-bench methodology: skill score + win rate + bootstrap CIs)
+uv run python scripts/aggregate.py leaderboard results/raw/chronos2_fp32_dev \
+    results/reference/chronos_zeroshot/seasonal_naive.csv --metric WQL --missing-strategy drop
+
+# Accuracy retention of quantized variants vs the fp32 parent
+uv run python scripts/aggregate.py retention results/raw/* --reference chronos2-fp32
+
+# Reproduction gate: verify our harness matches published per-task numbers
+uv run python scripts/aggregate.py validate results/raw/seasonal_naive_dev \
+    --reference-csv results/reference/chronos_zeroshot/seasonal_naive.csv
+```
+
+Tests: `uv run pytest` (offline, synthetic data) and `uv run pytest -m network`
+(reference-parity gate against published results; downloads small HF datasets).
+
 ## Documentation
 
 - [docs/EVALUATION_PLAN.md](docs/EVALUATION_PLAN.md) — the evaluation framework: benchmarks, datasets, metrics, protocols, and efficiency measurement methodology, grounded in the recent TSFM and quantization literature.

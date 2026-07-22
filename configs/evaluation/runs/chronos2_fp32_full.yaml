@@ -1,0 +1,9 @@
+# Chronos-2 fp32 (unquantized reference) on the full 27-task Chronos Benchmark II.
+name: chronos2_fp32_full
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+predictor:
+  type: chronos2
+  model_id: amazon/chronos-2
+  name: chronos2-fp32
+  device_map: cuda
+  batch_size: 128

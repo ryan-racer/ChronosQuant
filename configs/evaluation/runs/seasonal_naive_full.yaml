@@ -1,0 +1,5 @@
+# Seasonal Naive on the full 27-task Chronos Benchmark II (baseline normalizer).
+name: seasonal_naive_full
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+predictor:
+  type: seasonal_naive
