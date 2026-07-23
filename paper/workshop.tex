@@ -6,8 +6,15 @@
 \usepackage{hyperref}
 \usepackage{url}
 
-% Official ICML 2025 style. [accepted] reveals author names (non-anonymous).
-\usepackage[accepted]{icml2025}
+% ICML 2025 style used purely for formatting. No [accepted] option -> anonymous
+% (author info is auto-removed). Venue notice below is overridden to neutral text.
+\usepackage{icml2025}
+
+% Neutralize the venue-specific submission notice and PDF metadata (no ICML branding).
+\makeatletter
+\renewcommand{\Notice@String}{Preliminary work. Under review. Please do not distribute.}
+\makeatother
+\hypersetup{pdfsubject={}, pdfauthor={Anonymous}, pdfkeywords={}}
 
 \icmltitlerunning{How Low Can Chronos-2 Go? Post-Training Quantization of a TSFM}
 
@@ -17,12 +24,14 @@
 \icmltitle{How Low Can Chronos-2 Go? Post-Training Quantization\\
 of a Time-Series Foundation Model}
 
+% Anonymous submission: real author info omitted. The style renders
+% "Anonymous Authors" / "Anonymous Institution" regardless of what appears here.
 \begin{icmlauthorlist}
-\icmlauthor{Ryan Quinlivan}{rice}
+\icmlauthor{Anonymous Author}{anon}
 \end{icmlauthorlist}
 
-\icmlaffiliation{rice}{Department of Electrical \& Computer Engineering, Rice University, Houston, TX, USA}
-\icmlcorrespondingauthor{Ryan Quinlivan}{rq11@rice.edu}
+\icmlaffiliation{anon}{Anonymous Institution}
+\icmlcorrespondingauthor{Anonymous Author}{anon@example.com}
 
 \icmlkeywords{quantization, time-series foundation models, forecasting, model compression}
 

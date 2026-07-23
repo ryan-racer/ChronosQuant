@@ -1,6 +1,9 @@
 # Building the paper
 
-`workshop.tex` is the ICML 2025-formatted workshop paper (official `icml2025.sty`).
+`workshop.tex` is the workshop paper, typeset with the ICML 2025 style files
+(`icml2025.sty`) **for formatting only** — the `[accepted]` option is intentionally
+omitted, so it renders as an **anonymous submission** (no author info, review line
+numbers, neutral "under review" notice; no venue branding).
 
 ```bash
 cd paper
