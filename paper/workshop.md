@@ -1,6 +1,6 @@
 # How Low Can Chronos-2 Go? Post-Training Quantization of a Time-Series Foundation Model
 
-**Ryan Quinlivan**
+**Ryan Quinlivan** — Department of Electrical & Computer Engineering, Rice University · `rq11@rice.edu`
 
 ## Abstract
 

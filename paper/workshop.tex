@@ -1,13 +1,15 @@
 \documentclass[10pt,twocolumn,letterpaper]{article}
 
-\usepackage[letterpaper,margin=0.75in,columnsep=0.25in]{geometry}
-\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper,margin=0.75in,columnsep=0.28in]{geometry}
+\usepackage{mathptmx}          % consistent Times text + math
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
 \usepackage{caption}
 \usepackage[dvipsnames]{xcolor}
-\usepackage{microtype}
+\usepackage[protrusion=true,expansion=true]{microtype}
 \usepackage{titlesec}
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
@@ -15,17 +17,34 @@
 \captionsetup{font=small,labelfont=bf,skip=4pt}
 \setlength{\parindent}{1em}
 \setlength{\parskip}{0pt}
-\titlespacing*{\section}{0pt}{6pt}{2pt}
-\titlespacing*{\subsection}{0pt}{4pt}{1pt}
+% Looser tolerance + emergency stretch to avoid loose lines / rivers in narrow columns
+\tolerance=1400
+\emergencystretch=1.4em
+\hyphenpenalty=200
+\titlespacing*{\section}{0pt}{7pt}{2pt}
+\titlespacing*{\subsection}{0pt}{5pt}{1pt}
 \titleformat{\section}{\normalfont\large\bfseries}{\thesection}{0.6em}{}
 \titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.6em}{}
 \setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=2pt,parsep=0pt}
 
 \newcommand{\best}[1]{\textbf{#1}}
 
-\title{\vspace{-2.5em}\textbf{How Low Can Chronos-2 Go? Post-Training Quantization\\
-of a Time-Series Foundation Model}}
-\author{Ryan Quinlivan\vspace{-1.0em}}
+% --- Title block (article auto-spans it across both columns in twocolumn mode) ---
+\makeatletter
+\renewcommand{\@maketitle}{%
+  \begin{center}%
+    {\LARGE\bfseries \@title \par}%
+    \vskip 0.9em%
+    {\large \@author \par}%
+  \end{center}%
+  \vskip 0.6em}
+\makeatother
+
+\title{How Low Can Chronos-2 Go? Post-Training Quantization\\[2pt]
+of a Time-Series Foundation Model}
+\author{Ryan Quinlivan\\[3pt]
+\normalsize Department of Electrical \& Computer Engineering, Rice University \\[1pt]
+\normalsize\texttt{rq11@rice.edu}}
 \date{}
 
 \begin{document}
