@@ -1,0 +1,633 @@
+<!doctype html><html><head><meta charset='utf-8'><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 10.2pt; line-height: 1.45; color: #111; max-width: 100%;
+}
+h1 { font-size: 19pt; line-height: 1.2; margin: 0 0 2pt; }
+h2 { font-size: 13pt; border-bottom: 1px solid #bbb; padding-bottom: 3px;
+     margin: 18px 0 8px; }
+h3 { font-size: 11pt; margin: 14px 0 5px; }
+h4 { font-size: 10.2pt; margin: 11px 0 4px; font-variant: small-caps;
+     letter-spacing: .3px; }
+p, li { text-align: justify; }
+code, pre { font-family: "Consolas", "Courier New", monospace; font-size: 8.6pt; }
+pre { background: #f5f5f5; padding: 8px 10px; border-radius: 4px; overflow-x: auto;
+      border: 1px solid #e2e2e2; white-space: pre-wrap; }
+code { background: #f0f0f0; padding: 1px 3px; border-radius: 3px; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid #4a6fa5; background: #f4f7fb; margin: 10px 0;
+             padding: 6px 12px; }
+blockquote p { margin: 5px 0; }
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 8.4pt;
+        font-family: "Helvetica Neue", Arial, sans-serif; }
+th, td { border: 1px solid #ccc; padding: 3px 6px; text-align: left; }
+th { background: #eef1f5; font-weight: 600; }
+tr:nth-child(even) td { background: #fafbfc; }
+a { color: #2a4d80; text-decoration: none; }
+.results-table td:first-child { font-family: "Consolas", monospace; }
+.pdf-meta { color: #666; font-size: 8.5pt; font-family: Arial, sans-serif;
+            margin-bottom: 14px; }
+hr { border: none; border-top: 1px solid #ddd; margin: 16px 0; }
+</style></head><body><div class="pdf-meta">Rendered from paper/draft.md · git 2ee5f8a · results/tables/campaign_master.csv</div><h1 id="quantizing-chronos-2-a-systematic-study-of-post-training-quantization-for-time-series-foundation-models">Quantizing Chronos-2: A Systematic Study of Post-Training Quantization for Time Series Foundation Models</h1>
+<p><strong>Draft v0.1 — 2026-07-22.</strong> Working draft; brackets <code>[TBD]</code> mark results to be filled from
+<code>results/</code>. Every table below specifies its data source in the <em>Data provenance map</em>
+(Appendix D), which doubles as the tracking contract for the evaluation harness.</p>
+<blockquote>
+<p>Structure modeled on multi-technique quantization studies: <em>A Comprehensive Evaluation of
+Quantization Strategies for LLMs</em> (arXiv:2402.16775), <em>Quantizing Whisper</em> (arXiv:2511.08093),
+and the reporting conventions of GPTQ (arXiv:2210.17323) / AWQ (arXiv:2306.00978), adapted to
+probabilistic forecasting.</p>
+</blockquote>
+<hr />
+<h2 id="abstract">Abstract</h2>
+<p>Time series foundation models (TSFMs) are increasingly deployed for zero-shot forecasting, yet
+unlike large language models, nothing is known about how they respond to post-training
+quantization (PTQ). We present the first systematic study of quantizing Chronos-2, a
+state-of-the-art 120M-parameter encoder-only TSFM with a direct multi-quantile output head. We
+evaluate [N] PTQ methods (round-to-nearest, HQQ, NF4, FP8, ONNX/OpenVINO INT8, [...]) across
+bit-widths from W8A16 to W4A16 [W3/W2] on the 27-task Chronos Benchmark II [and GIFT-Eval],
+measuring not only point and probabilistic accuracy retention (MASE, WQL/SQL) but also
+<em>prediction-interval calibration</em> (coverage error) and <em>quantile monotonicity</em> (crossing rate) —
+failure modes unique to probabilistic forecasters that aggregate accuracy metrics do not detect.
+We find that [TBD: e.g., 8-bit quantization is accuracy-neutral (≤X% WQL degradation) while
+4-bit degrades calibration before point accuracy; the most sensitive modules are TBD].
+On [hardware], INT8 reduces model footprint by [X]× and improves CPU latency by [X]× at [X]%
+accuracy retention. We release our evaluation framework, which reproduces published per-task
+benchmark numbers to &lt;1e-6, and all per-series predictions for every variant.</p>
+<p><strong>Keywords:</strong> time series forecasting, foundation models, post-training quantization, model
+compression, probabilistic forecasting, calibration</p>
+<hr />
+<h2 id="1-introduction">1. Introduction</h2>
+<ul>
+<li>TSFMs (Chronos, TimesFM, Moirai, Chronos-2) enable zero-shot forecasting; deployment targets
+  include CPU-only servers, edge devices, and high-throughput batch pipelines where fp32
+  inference is costly.</li>
+<li>Quantization is the standard efficiency lever for LLMs, but its findings do not transfer
+  directly: Chronos-2 is encoder-only (no autoregressive decode, no KV cache), 120M params
+  (small-model regime where quantization bites harder — arXiv:2409.11055), and emits <em>21
+  quantile forecasts</em> whose calibration and monotonicity matter, not just token accuracy.</li>
+<li><strong>Terminology note (early, prominent):</strong> in the Chronos literature, "quantization" often
+  refers to Chronos-v1's <em>input value-binning tokenization</em>. Chronos-2 has no input binning;
+  this paper concerns <em>weight/activation quantization</em> of the network.</li>
+<li>No peer-reviewed work quantizes any Chronos-family model (as of 2026-07). Closest artifacts:
+  a community ONNX-INT8 export (unevaluated on benchmarks) and non-peer-reviewed MLX
+  experiments suggesting int8 is free while int4 damages interval coverage — hypotheses we
+  test rigorously.</li>
+</ul>
+<p><strong>Contributions</strong>
+1. First systematic PTQ study of a probabilistic TSFM: [N] methods × [M] bit-widths on
+   standard zero-shot benchmarks, with bootstrap CIs on all aggregate claims.
+2. Calibration-aware evaluation protocol for compressed probabilistic forecasters: coverage
+   error (MACE) and quantile crossing rate (QCR) alongside WQL/MASE retention; per-series
+   degradation distributions and prediction "flips", not just aggregates.
+3. Module-level sensitivity analysis, incl. the first quantization data on <em>group attention</em>
+   layers (Chronos-2's mechanism for multivariate/covariate in-context learning).
+4. Practical deployment guidance: accuracy/efficiency Pareto frontier on GPU and CPU, with an
+   anchor comparison against smaller fp32 models (quantized-120M vs fp32-28M).
+5. Open, reproducible framework: reproduces published per-task benchmark numbers to &lt;1e-6;
+   all per-series predictions released for every variant.</p>
+<h2 id="2-related-work">2. Related Work</h2>
+<p><em>(Condensed from <code>docs/RELATED_WORK.md</code>; full citations there.)</em></p>
+<ul>
+<li><strong>TSFMs &amp; their evaluation:</strong> Chronos (arXiv:2403.07815), Chronos-2 (arXiv:2510.15821),
+  TimesFM, Moirai, TiRex; benchmarks: Chronos Benchmark II, GIFT-Eval (arXiv:2410.10393),
+  fev-bench (arXiv:2509.26468); metrics WQL/SQL/MASE, skill scores &amp; win rates with
+  bootstrap CIs.</li>
+<li><strong>PTQ methods:</strong> RTN, LLM.int8(), GPTQ, AWQ, SmoothQuant, HQQ, NF4/QLoRA, FP8, rotations
+  (QuaRot/SpinQuant); toolkits: torchao, bitsandbytes, ONNX Runtime, OpenVINO/NNCF, Quanto.</li>
+<li><strong>Quantization evaluation methodology:</strong> comprehensive evals (arXiv:2402.16775,
+  arXiv:2409.11055); calibration-set effects (arXiv:2311.09755); beyond-accuracy distributional
+  fidelity / flips (arXiv:2407.09141); encoder(-decoder) precedent from Whisper
+  (arXiv:2511.08093): dynamic &gt; static activations, symmetric per-channel &gt; asymmetric
+  per-tensor, degradation concentrates on hard inputs.</li>
+<li><strong>TSFM compression:</strong> structured pruning (arXiv:2505.23195), distillation/DistilTS
+  (arXiv:2601.12785), edge QAT for small TS transformers (arXiv:2407.11041, 2408.16495).
+  Weight quantization of TSFMs: none published — the gap this paper fills.</li>
+</ul>
+<h2 id="3-background-chronos-2">3. Background: Chronos-2</h2>
+<p>Facts that shape the quantization design space (Table 1):</p>
+<p><strong>Table 1 — Model architecture summary.</strong>
+| Property | Value |
+|---|---|
+| Backbone | Encoder-only transformer (T5-derived), 12 layers, d_model 768, d_ff 3072, 12 heads, RoPE |
+| Input | Patch size 16, per-instance standardization + arcsinh, residual-net embedding (no tokenization) |
+| Attention | Alternating time attention / group attention (multivariate &amp; covariate ICL) |
+| Output | Direct quantile head, 21 levels {0.01–0.99}, up to 1024 steps in one forward pass |
+| Params / precision | 119.5M, shipped fp32 (478 MB safetensors) |
+| Inference | Non-autoregressive; no KV cache; compute-bound at batch |</p>
+<p>Implications: (i) weight-only quantization buys footprint but not necessarily latency
+(no memory-bound decode); (ii) W8A8/FP8 with integer/FP8 GEMMs is the throughput lever;
+(iii) the quantile head is tiny — keeping it high-precision is nearly free; (iv) known
+precision sensitivity in the input-normalization path (Chronos PR #197) motivates keeping
+normalization/embedding in fp32 by default.</p>
+<h2 id="4-method-quantization-design-space">4. Method: Quantization Design Space</h2>
+<p>Factors (full grid in Appendix B):</p>
+<ul>
+<li><strong>Bit-width / format:</strong> bf16 (baseline), FP8-E4M3, W8A16, W8A8-dynamic, W4A16 (g=32/64/128),
+  [W4A8, W3, W2 exploratory].</li>
+<li><strong>Method family:</strong> RTN (torchao), HQQ, NF4 (bitsandbytes), LLM.int8(), ONNX-RT dynamic INT8,
+  OpenVINO NNCF static INT8 [stretch: GPTQ / SmoothQuant via llm-compressor, AWQ-style scaling].</li>
+<li><strong>Granularity:</strong> per-tensor vs per-channel weights; group size; static vs dynamic activations.</li>
+<li><strong>Calibration</strong> (for calibrated methods): set size {32, 128, 512, 1024 series} × domain
+  (in-domain / cross-domain / synthetic) × ≥3 seeds.</li>
+<li><strong>Module scope:</strong> which modules quantize (attention QKV/O, FFN wi, FFN wo, patch embed,
+  quantile head; time- vs group-attention layers; encoder depth thirds); default
+  high-precision set: norms, input normalization path, residual adds, softmax.</li>
+</ul>
+<p>All variants share one evaluation path (<code>model_transform</code> hook); the fp32 model is the
+reference for every retention number; bf16 is the deployment baseline. fp16 is excluded
+(documented T5-lineage overflow pathology).</p>
+<h2 id="5-experimental-setup">5. Experimental Setup</h2>
+<ul>
+<li><strong>Benchmarks:</strong> Chronos Benchmark II (27 zero-shot tasks; primary sweep arena);
+  [GIFT-Eval 97 configs for promoted configs; fev-bench for covariate tasks — future tier].</li>
+<li><strong>Metrics:</strong> per benchmark convention — WQL + MASE (9-quantile grid), plus the full
+  supplementary suite (SQL, MQL, MAE, RMSE, RMSSE, WAPE, SMAPE, MAPE) recorded for every run;
+  aggregation: relative to Seasonal Naive → clipped [1e-2, 1e2] → geometric mean → skill
+  score; pairwise win rates (ties = 0.5); 95% bootstrap CIs (1,000 task resamples). Identical
+  code to fev-bench (we reuse <code>fev.analysis</code>).</li>
+<li><strong>Quantization-specific:</strong> accuracy retention (metric ratio vs fp32, GM over tasks);
+  MACE + per-interval coverage {0.8, 0.6, 0.4, 0.2}; QCR; per-series ΔWQL distribution;
+  flip rate (tasks/series where variant crosses the Seasonal-Naive boundary or the
+  beats-fp32 boundary); win rate of each variant vs its fp32 parent.</li>
+<li><strong>Efficiency protocol:</strong> model bytes &amp; effective bits/param (incl. scales — Appendix C);
+  peak GPU memory during eval; batch-1 latency (median/p90 over ≥20 warm reps) and
+  throughput (series/s) at batch {1, 32, 256} with context 2048, horizon 64 (paper
+  convention), on [RTX 2000 Ada Laptop 8 GB, driver 596.58] and CPU [model]; backend/kernel
+  named per row; model load time.</li>
+<li><strong>Hygiene:</strong> all runs carry git SHA + environment + benchmark-file hash; deterministic
+  inference (direct quantile head, no sampling); dataset fingerprints verified against
+  published reference results; failures logged, never silently dropped.</li>
+<li><strong>Reproduction gate (passed):</strong> our harness reproduces published per-task Seasonal-Naive
+  MASE/WQL to &lt;1e-6 on Benchmark II; our fp32 Chronos-2 ranks above chronos-bolt-base
+  published anchors ([83]% win rate on dev subset).</li>
+</ul>
+<h2 id="6-results">6. Results</h2>
+<blockquote>
+<p><strong>Campaign v0.2 (2026-07-23) — 18 quantized variants × 27 tasks, full Benchmark II.</strong>
+Complete method × bit-width matrix in <code>results/tables/campaign_master.csv</code>. Retention =
+geometric-mean WQL(variant)/WQL(fp32) over 27 tasks, 1000-resample bootstrap CI.
+Headline findings (all confirmed at full scale):</p>
+<ol>
+<li><strong>8-bit is free across every method</strong> (WQL retention 0.999–1.013): RTN, HQQ, torchao,
+   bnb, even W8A8 dynamic activations. Method-agnostic.</li>
+<li><strong>GPTQ achieves fp32 parity down to 3 bits.</strong> W4-GPTQ 0.996–1.002 (CI includes 1.0);
+   <strong>W3-GPTQ 1.047 [0.988–1.137], still statistical parity</strong>, vs W3-HQQ 1.229 and
+   W3-RTN 1.695. Hessian error compensation moves the accuracy cliff ≥1 bit lower.</li>
+<li><strong>Method dominates bit-width.</strong> At 4 bits, WQL retention spans 0.996 (GPTQ) → 1.66
+   (naive RTN) — a 66-point spread — while a <em>good</em> method costs ≤6% going 8→4 bits.</li>
+<li><strong>Calibration degrades before accuracy, and only GPTQ preserves it.</strong> coverage[0.8]:
+   fp32 0.750; W4-GPTQ 0.756 (intact) vs W4-HQQ 0.630, W4-NF4 0.686. QCR (quantile
+   crossing) rises under <em>every</em> method even when accuracy/coverage are perfect
+   (W8-RTN: acc-neutral yet QCR 0.039→0.149) — an accuracy-invisible failure mode that
+   only a probabilistic-structure metric detects.</li>
+<li><strong>Tail-concentrated damage.</strong> Mean retention hides worst-case: W3-HQQ averages 1.23
+   but its worst task is 8.2×; per-series ΔWQL distributions (persisted for every run)
+   are the honest view.</li>
+<li><strong>Rigorous negative result:</strong> AWQ-style activation-aware scaling — with <em>provably
+   exact</em> folds on this architecture — barely beats plain RTN (W4 1.64 vs 1.66). Error
+   <em>compensation</em> works here; activation <em>scaling</em> alone does not.</li>
+<li><strong>Efficiency (storage-real variants, RTX 2000 Ada):</strong> peak batch-1 GPU memory
+   fp32 493 MB → W8 154–176 MB → W4-NF4 87 MB (5.7×); throughput ~flat (~120 series/s,
+   dequant-at-forward). Weight-only PTQ buys footprint, not speed — the fused-kernel
+   arms (torchao, ONNX-RT) are the speed comparison.</li>
+</ol>
+</blockquote>
+<p><strong>Table 2 — Master accuracy/calibration matrix (Benchmark II, 27 tasks; retention vs fp32, bootstrap CI).</strong></p><table class="dataframe results-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>variant</th>
+      <th>method</th>
+      <th>weight_bits</th>
+      <th>eff_bpw</th>
+      <th>size_MB</th>
+      <th>WQL_ret</th>
+      <th>WQL_lo</th>
+      <th>WQL_hi</th>
+      <th>MASE_ret</th>
+      <th>worst_task_WQL</th>
+      <th>QCR</th>
+      <th>cov80</th>
+      <th>parity_with_fp32</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>w4-gptq-g64</td>
+      <td>gptq</td>
+      <td>4</td>
+      <td>4.2500</td>
+      <td>477.9000</td>
+      <td>0.9962</td>
+      <td>0.9783</td>
+      <td>1.0185</td>
+      <td>1.0083</td>
+      <td>1.2100</td>
+      <td>0.2237</td>
+      <td>0.7539</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>w8a16-rtn</td>
+      <td>rtn</td>
+      <td>8</td>
+      <td>8.0343</td>
+      <td>120.1000</td>
+      <td>0.9994</td>
+      <td>0.9970</td>
+      <td>1.0014</td>
+      <td>1.0008</td>
+      <td>1.0120</td>
+      <td>0.1494</td>
+      <td>0.7492</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>w8-gptq</td>
+      <td>gptq</td>
+      <td>8</td>
+      <td>8.1250</td>
+      <td>477.9000</td>
+      <td>0.9998</td>
+      <td>0.9904</td>
+      <td>1.0092</td>
+      <td>1.0030</td>
+      <td>1.0550</td>
+      <td>0.0641</td>
+      <td>0.7489</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>w8-hqq</td>
+      <td>hqq</td>
+      <td>8</td>
+      <td>9.0000</td>
+      <td>119.6000</td>
+      <td>1.0020</td>
+      <td>1.0001</td>
+      <td>1.0043</td>
+      <td>1.0003</td>
+      <td>1.0300</td>
+      <td>0.0862</td>
+      <td>0.7459</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w4-gptq</td>
+      <td>gptq</td>
+      <td>4</td>
+      <td>4.1250</td>
+      <td>477.9000</td>
+      <td>1.0024</td>
+      <td>0.9846</td>
+      <td>1.0231</td>
+      <td>1.0113</td>
+      <td>1.2020</td>
+      <td>0.2535</td>
+      <td>0.7557</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>w8a16-torchao</td>
+      <td>torchao_int8wo</td>
+      <td>8</td>
+      <td>NaN</td>
+      <td>477.9000</td>
+      <td>1.0028</td>
+      <td>1.0003</td>
+      <td>1.0063</td>
+      <td>1.0017</td>
+      <td>1.0420</td>
+      <td>0.1553</td>
+      <td>0.7477</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w8a16-rtn-pt</td>
+      <td>rtn</td>
+      <td>8</td>
+      <td>8.0000</td>
+      <td>119.6000</td>
+      <td>1.0065</td>
+      <td>1.0000</td>
+      <td>1.0135</td>
+      <td>1.0105</td>
+      <td>1.0600</td>
+      <td>0.2563</td>
+      <td>0.7085</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w8a8-torchao-dyn</td>
+      <td>torchao_int8dyn</td>
+      <td>8</td>
+      <td>NaN</td>
+      <td>477.9000</td>
+      <td>1.0126</td>
+      <td>1.0041</td>
+      <td>1.0244</td>
+      <td>1.0040</td>
+      <td>1.1230</td>
+      <td>0.1553</td>
+      <td>0.7412</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w8-bnb-int8</td>
+      <td>bnb_int8</td>
+      <td>8</td>
+      <td>NaN</td>
+      <td>119.6000</td>
+      <td>1.0127</td>
+      <td>1.0021</td>
+      <td>1.0306</td>
+      <td>1.0027</td>
+      <td>1.2150</td>
+      <td>0.1469</td>
+      <td>0.7431</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w3-gptq</td>
+      <td>gptq</td>
+      <td>3</td>
+      <td>3.2500</td>
+      <td>477.9000</td>
+      <td>1.0468</td>
+      <td>0.9881</td>
+      <td>1.1367</td>
+      <td>1.0587</td>
+      <td>2.4210</td>
+      <td>0.3662</td>
+      <td>0.7913</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>w6-rtn-sim</td>
+      <td>rtn</td>
+      <td>6</td>
+      <td>NaN</td>
+      <td>477.9000</td>
+      <td>1.0599</td>
+      <td>1.0281</td>
+      <td>1.1040</td>
+      <td>1.0452</td>
+      <td>1.5630</td>
+      <td>0.3422</td>
+      <td>0.6430</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w4-hqq</td>
+      <td>hqq</td>
+      <td>4</td>
+      <td>5.0000</td>
+      <td>59.8000</td>
+      <td>1.0600</td>
+      <td>1.0167</td>
+      <td>1.1238</td>
+      <td>1.0265</td>
+      <td>1.8800</td>
+      <td>0.4198</td>
+      <td>0.6302</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w4-bnb-nf4</td>
+      <td>bnb_nf4</td>
+      <td>4</td>
+      <td>4.1270</td>
+      <td>59.9000</td>
+      <td>1.0649</td>
+      <td>1.0007</td>
+      <td>1.1486</td>
+      <td>1.0256</td>
+      <td>2.4960</td>
+      <td>0.3955</td>
+      <td>0.6864</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w3-hqq</td>
+      <td>hqq</td>
+      <td>3</td>
+      <td>4.2010</td>
+      <td>47.9000</td>
+      <td>1.2292</td>
+      <td>1.0911</td>
+      <td>1.4806</td>
+      <td>1.1426</td>
+      <td>8.2440</td>
+      <td>0.5886</td>
+      <td>0.6662</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w3-awq-rtn</td>
+      <td>awq_rtn</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>477.9000</td>
+      <td>1.5009</td>
+      <td>1.3133</td>
+      <td>1.7700</td>
+      <td>1.4192</td>
+      <td>4.7730</td>
+      <td>0.7991</td>
+      <td>0.4795</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w4-awq-rtn</td>
+      <td>awq_rtn</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>477.9000</td>
+      <td>1.6389</td>
+      <td>1.3772</td>
+      <td>2.0109</td>
+      <td>1.4088</td>
+      <td>6.7130</td>
+      <td>0.5988</td>
+      <td>0.4814</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w4-rtn-sim</td>
+      <td>rtn</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>477.9000</td>
+      <td>1.6560</td>
+      <td>1.3838</td>
+      <td>2.0534</td>
+      <td>1.4035</td>
+      <td>6.9940</td>
+      <td>0.6105</td>
+      <td>0.4666</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w3-rtn-sim</td>
+      <td>rtn</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>477.9000</td>
+      <td>1.6947</td>
+      <td>1.4665</td>
+      <td>2.0108</td>
+      <td>1.6152</td>
+      <td>5.9610</td>
+      <td>0.7584</td>
+      <td>0.3671</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>w2-rtn-sim</td>
+      <td>rtn</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>477.9000</td>
+      <td>4.0824</td>
+      <td>3.0826</td>
+      <td>5.5662</td>
+      <td>3.1077</td>
+      <td>31.4890</td>
+      <td>0.5229</td>
+      <td>0.0601</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>fp32 (ref)</td>
+      <td>none</td>
+      <td>32</td>
+      <td>32.0000</td>
+      <td>477.9000</td>
+      <td>1.0000</td>
+      <td>1.0000</td>
+      <td>1.0000</td>
+      <td>1.0000</td>
+      <td>1.0000</td>
+      <td>0.0388</td>
+      <td>0.7500</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Table 3 — Calibration under quantization.</strong>
+Rows: variant. Columns: MACE; coverage[0.8] / [0.6] / [0.4] / [0.2] (nominal vs empirical);
+QCR; ΔQCR vs fp32 baseline (fp32 QCR is nonzero on some tasks — e.g. 0.178 on covid_deaths —
+so deltas, not absolutes). <code>[TBD]</code></p>
+<p><strong>Table 4 — Efficiency.</strong>
+Rows: variant. Columns: bits/param (effective), checkpoint MB, peak GPU mem (eval), batch-1
+latency p50/p90 (GPU, CPU), throughput series/s @ batch 256 (GPU, CPU), load time, backend.
+<code>[TBD after P1 profiler + variants]</code></p>
+<p><strong>Table 5 — Anchors: quantized-large vs fp32-small.</strong>
+chronos2-W8 / chronos2-W4 vs <code>chronos-2-small</code> (28M fp32) and <code>chronos-bolt-small/base</code> fp32:
+skill, retention, size, latency. Answers the deployment question directly. <code>[TBD]</code></p>
+<p><strong>Figure 1 — Accuracy–efficiency Pareto.</strong> WQL skill vs model bytes; WQL skill vs CPU/GPU
+latency; frontier annotated by method. <code>[TBD]</code></p>
+<p><strong>Figure 2 — Quality vs bit-width curves.</strong> WQL/MASE retention and MACE vs effective BPW,
+one line per method; the degradation cliff. <code>[TBD]</code></p>
+<p><strong>Figure 3 — Per-series degradation.</strong> Violin/ECDF of per-series ΔWQL (variant − fp32) per
+bit-width; flip-rate annotation. Computed from persisted per-series predictions. <code>[TBD]</code></p>
+<p><strong>Figure 4 — Calibration curves.</strong> Nominal vs empirical central-interval coverage per
+bit-width. <code>[TBD]</code></p>
+<h2 id="7-analysis">7. Analysis</h2>
+<ul>
+<li><strong>Module sensitivity (Table 6):</strong> leave-one-module-type-quantized / leave-one-out grids;
+  heatmap module × bit-width of ΔWQL. Expected cliff: FFN down-projection (GLU-outlier
+  precedent); novel data: group-attention vs time-attention sensitivity. <code>[TBD after P4]</code></li>
+<li><strong>Calibration-set ablations (Table 7):</strong> size / domain / seed variance for calibrated
+  methods. <code>[TBD]</code></li>
+<li><strong>Difficulty slicing (Figure 5):</strong> ΔWQL vs series volatility/seasonality-strength deciles
+  (Whisper precedent: damage concentrates on hard inputs). From persisted predictions. <code>[TBD]</code></li>
+<li><strong>Where does the damage live?</strong> decomposition: point error vs interval width vs interval
+  placement; quantile-level breakdown from per-quantile WQL/SQL columns. <code>[TBD]</code></li>
+</ul>
+<h2 id="8-discussion-recommendations">8. Discussion &amp; Recommendations</h2>
+<p><code>[TBD: deployment recipe per target (GPU batch, CPU server, edge); which methods to skip;
+what transfers from LLM practice and what does not.]</code></p>
+<h2 id="9-limitations">9. Limitations</h2>
+<ul>
+<li>Single model family (Chronos-2 120M [+ 28M small]); zero-shot univariate benchmark focus
+  [covariate/multivariate tiers pending]; consumer-laptop hardware (absolute latency is
+  hardware-specific; retention ratios are the transferable claim); PTQ focus (QAT only if
+  W4 fails); pretraining-corpus overlap disclosed as in the Chronos-2 paper.</li>
+</ul>
+<h2 id="10-reproducibility-statement">10. Reproducibility Statement</h2>
+<p>Code, configs, lockfile, vendored benchmark definitions, reference results, per-task
+summaries, per-series predictions, and run metadata (git SHA, environment, hardware,
+benchmark hash) are released. The harness reproduces published per-task baseline numbers
+to &lt;1e-6 (continuously enforced by <code>pytest -m network</code>).</p>
+<hr />
+<h2 id="appendix-a-full-per-task-result-tables">Appendix A — Full per-task result tables</h2>
+<p><code>[Generated from results/raw/*/summaries.csv]</code></p>
+<h2 id="appendix-b-variant-grid-and-hyperparameters">Appendix B — Variant grid and hyperparameters</h2>
+<p><code>[Generated from configs/quantization/*.yaml]</code></p>
+<h2 id="appendix-c-effective-bits-per-parameter-accounting">Appendix C — Effective bits-per-parameter accounting</h2>
+<p>BPW = (param_bytes + buffer_bytes incl. scales/zero-points) × 8 / num_params, reported by
+<code>chronosquant.models.inspect.model_summary</code>; cross-checked against checkpoint bytes on disk.</p>
+<h2 id="appendix-d-data-provenance-map-tracking-contract">Appendix D — Data provenance map (tracking contract)</h2>
+<table>
+<thead>
+<tr>
+<th>Paper artifact</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Table 2 (accuracy matrix)</td>
+<td><code>results/raw/&lt;run&gt;/summaries.csv</code>: <code>WQL</code>, <code>MASE</code>, <code>SQL</code>, … + <code>chronosquant.analysis.leaderboard</code> / <code>retention_table</code></td>
+</tr>
+<tr>
+<td>Table 3 (calibration)</td>
+<td><code>summaries.csv</code>: <code>MACE</code>, <code>QCR</code>, <code>coverage[*]</code> columns</td>
+</tr>
+<tr>
+<td>Table 4 (efficiency)</td>
+<td><code>results/profiles/&lt;variant&gt;_&lt;device&gt;.json</code> (latency/throughput/memory) + <code>summaries.csv</code>: <code>model_bits_per_param</code>, <code>model_total_bytes</code>, <code>peak_gpu_memory_mb</code>, <code>model_model_load_time_s</code></td>
+</tr>
+<tr>
+<td>Table 5 (anchors)</td>
+<td>same as Tables 2+4 for anchor models + <code>results/reference/chronos_zeroshot/*.csv</code></td>
+</tr>
+<tr>
+<td>Table 6 (sensitivity)</td>
+<td><code>summaries.csv</code> of module-scoped runs (P4 configs)</td>
+</tr>
+<tr>
+<td>Table 7 (calibration ablations)</td>
+<td><code>summaries.csv</code> of calibration-sweep runs (P4 configs)</td>
+</tr>
+<tr>
+<td>Fig. 1–2 (Pareto, bit-width curves)</td>
+<td>Tables 2+4 columns</td>
+</tr>
+<tr>
+<td>Fig. 3, 5 (per-series, difficulty)</td>
+<td><code>results/raw/&lt;run&gt;/predictions/&lt;task&gt;.parquet</code> (y_true + point + all quantiles per series/step)</td>
+</tr>
+<tr>
+<td>Fig. 4 (calibration curves)</td>
+<td><code>coverage[*]</code> columns</td>
+</tr>
+<tr>
+<td>Per-quantile breakdowns</td>
+<td><code>WQL[q]</code>, <code>SQL[q]</code> columns</td>
+</tr>
+<tr>
+<td>Environment/hardware statements</td>
+<td><code>results/raw/&lt;run&gt;/run_metadata.yaml</code> (<code>environment</code>, <code>model_card</code>, <code>benchmark_sha256</code>)</td>
+</tr>
+<tr>
+<td>Statistical significance</td>
+<td>bootstrap CIs from <code>fev.analysis</code> (seed 123, 1,000 resamples)</td>
+</tr>
+</tbody>
+</table>
+<p><em>Anything a reviewer can ask for reduces to these artifacts; if a new metric is needed, it is
+computable offline from the persisted predictions without re-running any model.</em></p></body></html>

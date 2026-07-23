@@ -69,3 +69,8 @@ addopts = "-m 'not network'"
 markers = [
     "network: requires internet access (HF dataset downloads); run with `pytest -m network`",
 ]
+
+[dependency-groups]
+dev = [
+    "markdown>=3.10.2",
+]
