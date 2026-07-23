@@ -1,0 +1,79 @@
+\begin{thebibliography}{10}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ansari et~al.(2024)Ansari, Stella, Turkmen, Zhang, Mercado, Shen,
+  Shchur, Rangapuram, Pineda~Arango, Kapoor, et~al.]{chronos}
+Ansari, A.~F., Stella, L., Turkmen, C., Zhang, X., Mercado, P., Shen, H.,
+  Shchur, O., Rangapuram, S.~S., Pineda~Arango, S., Kapoor, S., et~al.
+\newblock Chronos: Learning the language of time series.
+\newblock \emph{Transactions on Machine Learning Research (TMLR)}, 2024.
+\newblock arXiv:2403.07815.
+
+\bibitem[Ansari et~al.(2025)Ansari, Shchur, K{\"u}ken, Auer, Han, Mercado,
+  Rangapuram, Shen, Stella, Zhang, et~al.]{chronos2}
+Ansari, A.~F., Shchur, O., K{\"u}ken, J., Auer, A., Han, B., Mercado, P.,
+  Rangapuram, S.~S., Shen, H., Stella, L., Zhang, X., et~al.
+\newblock Chronos-2: From univariate to universal forecasting.
+\newblock \emph{arXiv preprint arXiv:2510.15821}, 2025.
+
+\bibitem[Badri \& Shao(2023)Badri and Shao]{hqq}
+Badri, H. and Shao, A.
+\newblock Half-quadratic quantization of large machine learning models.
+\newblock \url{https://mobiusml.github.io/hqq_blog/}, 2023.
+
+\bibitem[Dettmers et~al.(2022)Dettmers, Lewis, Belkada, and
+  Zettlemoyer]{llmint8}
+Dettmers, T., Lewis, M., Belkada, Y., and Zettlemoyer, L.
+\newblock {LLM.int8()}: 8-bit matrix multiplication for transformers at scale.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2022.
+\newblock arXiv:2208.07339.
+
+\bibitem[Dettmers et~al.(2023)Dettmers, Pagnoni, Holtzman, and
+  Zettlemoyer]{qlora}
+Dettmers, T., Pagnoni, A., Holtzman, A., and Zettlemoyer, L.
+\newblock {QLoRA}: Efficient finetuning of quantized {LLMs}.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2023.
+\newblock arXiv:2305.14314.
+
+\bibitem[Dettmers et~al.(2024)]{accuracy}
+Dettmers, T. et~al.
+\newblock Accuracy is not all you need.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2024.
+\newblock arXiv:2407.09141.
+
+\bibitem[Frantar et~al.(2023)Frantar, Ashkboos, Hoefler, and Alistarh]{gptq}
+Frantar, E., Ashkboos, S., Hoefler, T., and Alistarh, D.
+\newblock {GPTQ}: Accurate post-training quantization for generative
+  pre-trained transformers.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2023.
+\newblock arXiv:2210.17323.
+
+\bibitem[Li et~al.(2024)Li, Ning, Wang, Liu, Shi, Yan, Dai, Yang, and
+  Wang]{qeval}
+Li, S., Ning, X., Wang, L., Liu, T., Shi, X., Yan, S., Dai, G., Yang, H., and
+  Wang, Y.
+\newblock Evaluating quantized large language models.
+\newblock \emph{arXiv preprint arXiv:2402.16775}, 2024.
+
+\bibitem[Lin et~al.(2024)Lin, Tang, Tang, Yang, Dang, and Han]{awq}
+Lin, J., Tang, J., Tang, H., Yang, S., Dang, X., and Han, S.
+\newblock {AWQ}: Activation-aware weight quantization for {LLM} compression and
+  acceleration.
+\newblock In \emph{Proceedings of Machine Learning and Systems (MLSys)}, 2024.
+\newblock arXiv:2306.00978.
+
+\bibitem[Zandieh et~al.(2025)Zandieh, Daliri, Hadian, and Mirrokni]{turboquant}
+Zandieh, A., Daliri, M., Hadian, M., and Mirrokni, V.
+\newblock {TurboQuant}: Online vector quantization with near-optimal distortion
+  rate.
+\newblock \emph{arXiv preprint arXiv:2504.19874}, 2025.
+
+\end{thebibliography}

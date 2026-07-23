@@ -1,57 +1,41 @@
-\documentclass[10pt,twocolumn,letterpaper]{article}
-
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[letterpaper,margin=0.75in,columnsep=0.28in]{geometry}
-\usepackage{mathptmx}          % consistent Times text + math
+\documentclass{article}
+\usepackage{microtype}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
-\usepackage{caption}
-\usepackage[dvipsnames]{xcolor}
-\usepackage[protrusion=true,expansion=true]{microtype}
-\usepackage{titlesec}
-\usepackage[hidelinks]{hyperref}
-\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{url}
 
-\captionsetup{font=small,labelfont=bf,skip=4pt}
-\setlength{\parindent}{1em}
-\setlength{\parskip}{0pt}
-% Looser tolerance + emergency stretch to avoid loose lines / rivers in narrow columns
-\tolerance=1400
-\emergencystretch=1.4em
-\hyphenpenalty=200
-\titlespacing*{\section}{0pt}{7pt}{2pt}
-\titlespacing*{\subsection}{0pt}{5pt}{1pt}
-\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{0.6em}{}
-\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.6em}{}
-\setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=2pt,parsep=0pt}
+% Official ICML 2025 style. [accepted] reveals author names (non-anonymous).
+\usepackage[accepted]{icml2025}
 
-\newcommand{\best}[1]{\textbf{#1}}
-
-% --- Title block (article auto-spans it across both columns in twocolumn mode) ---
-\makeatletter
-\renewcommand{\@maketitle}{%
-  \begin{center}%
-    {\LARGE\bfseries \@title \par}%
-    \vskip 0.9em%
-    {\large \@author \par}%
-  \end{center}%
-  \vskip 0.6em}
-\makeatother
-
-\title{How Low Can Chronos-2 Go? Post-Training Quantization\\[2pt]
-of a Time-Series Foundation Model}
-\author{Ryan Quinlivan\\[3pt]
-\normalsize Department of Electrical \& Computer Engineering, Rice University \\[1pt]
-\normalsize\texttt{rq11@rice.edu}}
-\date{}
+\icmltitlerunning{How Low Can Chronos-2 Go? Post-Training Quantization of a TSFM}
 
 \begin{document}
-\maketitle
+
+\twocolumn[
+\icmltitle{How Low Can Chronos-2 Go? Post-Training Quantization\\
+of a Time-Series Foundation Model}
+
+\begin{icmlauthorlist}
+\icmlauthor{Ryan Quinlivan}{rice}
+\end{icmlauthorlist}
+
+\icmlaffiliation{rice}{Department of Electrical \& Computer Engineering, Rice University, Houston, TX, USA}
+\icmlcorrespondingauthor{Ryan Quinlivan}{rq11@rice.edu}
+
+\icmlkeywords{quantization, time-series foundation models, forecasting, model compression}
+
+\vskip 0.3in
+]
+
+\printAffiliationsAndNotice{}
+
+% Fill columns top-down; keep any slack at the column bottom instead of letting
+% ICML's \flushbottom stretch inter-paragraph glue (which balloons list spacing).
+\raggedbottom
 
 \begin{abstract}
-\small
 Time-series foundation models (TSFMs) such as Chronos-2 deliver strong zero-shot
 probabilistic forecasts, but their deployment cost is rarely studied and, unlike large
 language models, \emph{nothing} is known about how they respond to post-training
@@ -64,26 +48,26 @@ calibration-aware diagnostics---mean absolute coverage error and a quantile-cros
 rate---because a probabilistic forecaster can degrade in ways aggregate accuracy cannot
 see. Four findings emerge. (i)~8-bit quantization is free for every method
 ($\le$1.3\% WQL change) and shrinks the model $4\times$. (ii)~Hessian-aware GPTQ retains
-full-precision accuracy down to \best{3 bits} (WQL retention 1.05, 95\% CI $[0.99,1.14]$),
-where the naive baseline degrades 70\%. (iii)~The \emph{method} matters far more than the
-\emph{bit-width}: at 4 bits, retention spans 0.996--1.66 across methods. (iv)~Interval
-calibration and quantile monotonicity degrade \emph{before} accuracy does---8-bit
-quantization leaves WQL untouched yet quadruples the quantile-crossing rate---so
-accuracy-only evaluation overstates the quality of a quantized forecaster. We release the
-framework, which reproduces published per-task benchmark numbers to $<\!10^{-6}$, and all
-per-series predictions.
+full-precision accuracy down to \textbf{3 bits} (WQL retention 1.05, 95\% CI
+$[0.99,1.14]$), where the naive baseline degrades 70\%. (iii)~The \emph{method} matters
+far more than the \emph{bit-width}: at 4 bits, retention spans 0.996--1.66 across methods.
+(iv)~Interval calibration and quantile monotonicity degrade \emph{before} accuracy
+does---8-bit quantization leaves WQL untouched yet quadruples the quantile-crossing
+rate---so accuracy-only evaluation overstates the quality of a quantized forecaster. We
+release the framework, which reproduces published per-task benchmark numbers to
+$<\!10^{-6}$, and all per-series predictions.
 \end{abstract}
 
 \section{Introduction}
-Time-series foundation models (TSFMs)---Chronos~\cite{chronos}, Chronos-2~\cite{chronos2},
-TimesFM, Moirai---forecast unseen series zero-shot and are increasingly deployed on
-CPU-only servers, edge devices, and high-throughput batch pipelines where full-precision
-inference is costly. Quantization is the standard efficiency lever for large language
-models (LLMs), but its lessons do not obviously transfer to TSFMs, which are small
-(Chronos-2 has 120M parameters, a regime where quantization bites harder~\cite{qeval}),
-encoder-only and non-autoregressive (no KV cache, so LLM decode-centric methods do not
-apply), and---critically---emit \emph{probabilistic} forecasts whose calibration and
-quantile monotonicity matter, not just point accuracy.
+Time-series foundation models (TSFMs)---Chronos \citep{chronos}, Chronos-2
+\citep{chronos2}, TimesFM, Moirai---forecast unseen series zero-shot and are increasingly
+deployed on CPU-only servers, edge devices, and high-throughput batch pipelines where
+full-precision inference is costly. Quantization is the standard efficiency lever for
+large language models (LLMs), but its lessons do not obviously transfer to TSFMs, which
+are small (Chronos-2 has 120M parameters, a regime where quantization bites harder
+\citep{qeval}), encoder-only and non-autoregressive (no KV cache, so LLM decode-centric
+methods do not apply), and---critically---emit \emph{probabilistic} forecasts whose
+calibration and quantile monotonicity matter, not just point accuracy.
 
 Despite an extensive LLM-quantization literature, \textbf{no published work quantizes the
 weights of any Chronos-family or comparable TSFM} (in that literature ``quantization''
@@ -93,7 +77,7 @@ evaluating a \emph{quantized probabilistic} forecaster demands metrics beyond th
 TSFM leaderboards.
 
 \vspace{2pt}\noindent\textbf{Contributions.}
-\begin{itemize}
+\begin{itemize}\itemsep2pt \topsep2pt \parskip0pt
 \item The first systematic PTQ study of a TSFM: 18 configurations across 6 method families
 and 5 bit-widths, zero-shot on 27 datasets, with bootstrap confidence intervals on every
 aggregate.
@@ -107,7 +91,7 @@ floating-point precision and releases all per-series predictions.
 \end{itemize}
 
 \section{Setup}
-\textbf{Model.} Chronos-2~\cite{chronos2} (\texttt{amazon/chronos-2}) is a
+\textbf{Model.} Chronos-2 \citep{chronos2} (\texttt{amazon/chronos-2}) is a
 119.5M-parameter, T5-derived \emph{encoder-only} transformer (12 layers,
 $d_{\text{model}}{=}768$, RoPE, alternating ``time'' and ``group'' attention). It ingests
 patches of a per-instance-normalized series through a residual embedding (no input
@@ -118,17 +102,17 @@ quantile head follow standard practice and stay in fp32, and bf16 (not fp16, whi
 overflows in T5-lineage models) is the deployment baseline.
 
 \vspace{2pt}\noindent\textbf{Methods.} We evaluate weight-only PTQ across six families
-runnable on commodity hardware: \textbf{RTN} (symmetric round-to-nearest, per-channel/
-per-tensor, plus a simulated sub-8-bit sweep for the accuracy--bit curve);
+runnable on commodity hardware: \textbf{RTN} (symmetric round-to-nearest,
+per-channel/per-tensor, plus a simulated sub-8-bit sweep for the accuracy--bit curve);
 \textbf{torchao} INT8 weight-only and INT8 dynamic-activation (W8A8);
-\textbf{bitsandbytes} LLM.int8()~\cite{llmint8} and NF4~\cite{qlora}; \textbf{HQQ}%
-~\cite{hqq}, a calibration-free half-quadratic solver, at 8/4/3 bits; \textbf{GPTQ}%
-~\cite{gptq}, a Hessian-aware error-compensating quantizer we implement directly on the
+\textbf{bitsandbytes} LLM.int8() \citep{llmint8} and NF4 \citep{qlora}; \textbf{HQQ}
+\citep{hqq}, a calibration-free half-quadratic solver, at 8/4/3 bits; \textbf{GPTQ}
+\citep{gptq}, a Hessian-aware error-compensating quantizer we implement directly on the
 encoder's linear layers with one-shot calibration; and \textbf{AWQ-style} activation-aware
-scale folding~\cite{awq}. Methods are exercised at W8, W4 (group size 64/128), W3, and W2.
+scale folding \citep{awq}. Methods are exercised at W8, W4 (group size 64/128), W3, and W2.
 
 \vspace{2pt}\noindent\textbf{Protocol \& metrics.} We evaluate zero-shot on the
-27-dataset Chronos benchmark~\cite{chronos} (190{,}674 forecasts) using the \texttt{fev}
+27-dataset Chronos benchmark \citep{chronos} (190{,}674 forecasts) using the \texttt{fev}
 library---the harness the Chronos-2 authors use---so our numbers are directly comparable
 with the public leaderboard. Point accuracy is MASE and probabilistic accuracy is
 weighted quantile loss (WQL, 9 levels); per task each is normalized by a seasonal-naive
@@ -153,8 +137,8 @@ the full accuracy--bit curve and calibration. The complete 18-variant matrix is 
 
 \begin{table}[t]
 \centering\small
-\setlength{\tabcolsep}{3.2pt}
-\renewcommand{\arraystretch}{1.06}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.05}
 \caption{Representative variants, full 27-task benchmark. Retention = geometric-mean
 WQL(quant)/WQL(fp32), [95\% bootstrap CI]. \emph{c80} = empirical coverage of the
 nominal-80\% interval (fp32: 0.750). \emph{QCR} = quantile-crossing rate (fp32: 0.039).
@@ -169,11 +153,11 @@ fp32 (ref)    & 32 & 32.0        & 1.000              & 1.000 & .750 & .039 \\
 RTN W8        & 8  & 8.03        & 0.999 [.997,1.00]  & 1.001 & .749 & .149 \\
 GPTQ W8       & 8  & 8.13$\dagger$ & 1.000 [.990,1.01] & 1.003 & .749 & .064 \\
 HQQ W8        & 8  & 9.00        & 1.002 [1.00,1.00]  & 1.000 & .746 & .086 \\
-\best{GPTQ W4}& 4  & 4.13$\dagger$ & \best{1.002 [.985,1.02]} & 1.011 & .756 & .254 \\
+\textbf{GPTQ W4}& 4 & 4.13$\dagger$ & \textbf{1.002 [.985,1.02]} & 1.011 & .756 & .254 \\
 HQQ W4        & 4  & 5.00        & 1.060 [1.02,1.12]  & 1.027 & .630 & .420 \\
 NF4 W4        & 4  & 4.13        & 1.065 [1.00,1.15]  & 1.026 & .686 & .396 \\
 AWQ W4        & 4  & 4.03$\dagger$ & 1.639 [1.38,2.01] & 1.409 & .481 & .599 \\
-\best{GPTQ W3}& 3  & 3.25$\dagger$ & \best{1.047 [.988,1.14]} & 1.059 & .791 & .366 \\
+\textbf{GPTQ W3}& 3 & 3.25$\dagger$ & \textbf{1.047 [.988,1.14]} & 1.059 & .791 & .366 \\
 HQQ W3        & 3  & 4.20        & 1.229 [1.09,1.48]  & 1.143 & .666 & .589 \\
 RTN W2        & 2  & 2.0$\dagger$  & 4.082 [3.08,5.57] & 3.108 & .060 & .523 \\
 \bottomrule
@@ -182,7 +166,7 @@ RTN W2        & 2  & 2.0$\dagger$  & 4.082 [3.08,5.57] & 3.108 & .060 & .523 \\
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.86\textwidth]{figures/fig1_accuracy_calibration.png}
+\includegraphics[width=0.84\textwidth]{figures/fig1_accuracy_calibration.png}
 \caption{\emph{(a)} WQL retention vs weight bits by method (log scale; lower is better,
 1.0~=~fp32). GPTQ tracks fp32 to 3 bits; the method spread at 4 bits exceeds the
 8$\to$4-bit gap of any single method; AWQ-fold sits on the RTN line. \emph{(b)} Empirical
@@ -199,11 +183,12 @@ for practical purposes, lossless regardless of method.
 
 \vspace{2pt}\noindent\textbf{F2---GPTQ reaches full-precision accuracy at 3 bits.} GPTQ
 retains parity at 4 bits (retention 1.00, both group sizes; CIs include 1.0) and,
-remarkably, at \best{3 bits} (1.047, CI $[0.988,1.137]$---statistically indistinguishable
-from fp32), where HQQ loses 23\% and naive RTN 70\% (Fig.~\ref{fig:main}a). Hessian-aware
-error compensation moves the accuracy cliff at least one bit lower than any
-calibration-free method. (A dev-subset signal that GPTQ \emph{beat} fp32 did not survive
-the full 27-task evaluation, resolving to parity---we report the confirmed result.)
+remarkably, at \textbf{3 bits} (1.047, CI $[0.988,1.137]$---statistically
+indistinguishable from fp32), where HQQ loses 23\% and naive RTN 70\%
+(Fig.~\ref{fig:main}a). Hessian-aware error compensation moves the accuracy cliff at least
+one bit lower than any calibration-free method. (A dev-subset signal that GPTQ \emph{beat}
+fp32 did not survive the full 27-task evaluation, resolving to parity---we report the
+confirmed result.)
 
 \vspace{2pt}\noindent\textbf{F3---method dominates bit-width.} At a fixed 4 bits, WQL
 retention spans 0.996 (GPTQ) to 1.66 (RTN)---a 66-point gap---whereas moving a
@@ -214,13 +199,13 @@ that bit-width is the primary knob.
 \vspace{2pt}\noindent\textbf{F4---calibration and monotonicity degrade before accuracy,
 and only GPTQ preserves them.} This is the study's central cautionary finding. At 8 bits,
 accuracy is perfectly retained yet the quantile-crossing rate already quadruples
-($0.039\to0.149$ for RTN) ---a defect in the quantile head that WQL and MASE cannot see.
+($0.039\to0.149$ for RTN)---a defect in the quantile head that WQL and MASE cannot see.
 At 4 bits, GPTQ keeps interval coverage intact (c80 0.756 vs fp32 0.750;
 Fig.~\ref{fig:main}b) while HQQ and NF4 sag to 0.630 and 0.686---a user trusting the
 ``80\%'' band of HQQ-W4 actually holds a 63\% band. GPTQ is the \emph{only} 4-bit method
-preserving both accuracy and calibration; no method fully preserves quantile
-monotonicity. Evaluating a quantized probabilistic forecaster on accuracy alone therefore
-overstates its deployable quality~\cite{accuracy}.
+preserving both accuracy and calibration; no method fully preserves quantile monotonicity.
+Evaluating a quantized probabilistic forecaster on accuracy alone therefore overstates its
+deployable quality \citep{accuracy}.
 
 \vspace{2pt}\noindent\textbf{F5---damage is tail-concentrated.} Mean retention hides worst
 cases. HQQ-W3 averages 1.23 but its worst task is $8.2\times$ and 44\% of tasks exceed
@@ -245,19 +230,18 @@ benefit immediately.
 
 \begin{table}[t]
 \centering\small
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{5pt}
 \renewcommand{\arraystretch}{1.05}
 \caption{Inference efficiency (storage-real variants, NVIDIA RTX 2000 Ada laptop, context
-2048, horizon 64). Peak mem and latency at batch 1; throughput at batch 256.}
+2048, horizon 64). Peak memory and latency at batch 1; throughput at batch 256.}
 \label{tab:eff}
 \begin{tabular}{@{}lcccc@{}}
 \toprule
-Model & Size & Peak GPU & GPU lat. & Thr. \\
-      & MB   & MB (b1)  & ms (b1)  & ser./s \\
+Model & Size MB & Peak GPU MB & Lat.\ ms & Thr.\ ser./s \\
 \midrule
-fp32     & 478 & 493 & 30 & 110 \\
+fp32       & 478 & 493 & 30 & 110 \\
 INT8 (HQQ) & 120 & 176 & 42 & 122 \\
-NF4 (W4) & 60  & 87  & 45 & 120 \\
+NF4 (W4)   & 60  & 87  & 45 & 120 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -276,7 +260,7 @@ training are future work. Our GPTQ/AWQ arms are accuracy-exact simulations (dequ
 grids in fp32 containers); realized latency for them requires packed kernels we do not
 implement (achievable footprint is reported). Latency is hardware-specific; retention
 ratios are the transferable claim. We assess but exclude KV-cache/vector methods such as
-TurboQuant~\cite{turboquant}, which do not apply to a cache-free encoder.
+TurboQuant \citep{turboquant}, which do not apply to a cache-free encoder.
 
 \vspace{2pt}\noindent\textbf{Conclusion.} Chronos-2 quantizes remarkably well: 8-bit is
 free, and Hessian-aware 4- and 3-bit quantization retains full-precision forecasting
@@ -286,21 +270,7 @@ Compressing a probabilistic forecaster is therefore not merely an accuracy-reten
 problem, and should not be evaluated as one. Code, configs, per-task summaries, and all
 per-series predictions are released; every number is regenerated by one command.
 
-\begingroup
-\small
-\begin{thebibliography}{99}
-\setlength{\itemsep}{0pt}
-\bibitem{chronos} Ansari et al. Chronos: Learning the Language of Time Series. \emph{TMLR} 2024. arXiv:2403.07815.
-\bibitem{chronos2} Ansari et al. Chronos-2: From Univariate to Universal Forecasting. 2025. arXiv:2510.15821.
-\bibitem{hqq} Badri \& Shao. Half-Quadratic Quantization (HQQ). 2023.
-\bibitem{llmint8} Dettmers et al. LLM.int8(). \emph{NeurIPS} 2022. arXiv:2208.07339.
-\bibitem{qlora} Dettmers et al. QLoRA (NF4). \emph{NeurIPS} 2023. arXiv:2305.14314.
-\bibitem{accuracy} Dettmers et al. Accuracy is Not All You Need. \emph{NeurIPS} 2024. arXiv:2407.09141.
-\bibitem{gptq} Frantar et al. GPTQ. \emph{ICLR} 2023. arXiv:2210.17323.
-\bibitem{awq} Lin et al. AWQ. \emph{MLSys} 2024. arXiv:2306.00978.
-\bibitem{qeval} Li et al. Evaluating Quantized LLMs. 2024. arXiv:2402.16775.
-\bibitem{turboquant} Zandieh et al. TurboQuant. 2025. arXiv:2504.19874.
-\end{thebibliography}
-\endgroup
+\bibliography{refs}
+\bibliographystyle{icml2025}
 
 \end{document}
