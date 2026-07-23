@@ -17,6 +17,9 @@ import chronos  # noqa: F401
 from chronosquant.evaluation import RunConfig, load_benchmark_tasks, run_evaluation
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+# Quiet per-request HTTP logging (404s on optional HF files are the normal path)
+for _noisy in ("httpx", "huggingface_hub", "urllib3", "filelock"):
+    logging.getLogger(_noisy).setLevel(logging.WARNING)
 
 
 def main() -> None:

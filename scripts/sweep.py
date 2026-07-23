@@ -30,6 +30,10 @@ from chronosquant.utils import REPO_ROOT
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("chronosquant.sweep")
+# Quiet the per-request HTTP logging from HF hub probes (404s on optional files are
+# the normal path and drown the actual progress lines)
+for noisy in ("httpx", "huggingface_hub", "urllib3", "filelock"):
+    logging.getLogger(noisy).setLevel(logging.WARNING)
 
 
 def run_name_for(variant_name: str, tier: str) -> str:

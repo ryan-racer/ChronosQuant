@@ -1,0 +1,101 @@
+{
+  "name": "chronos2-w8-hqq",
+  "model_id": "amazon/chronos-2",
+  "device": "cuda",
+  "backend": "torch-cuda",
+  "torch_num_threads": 24,
+  "config": {
+    "context_length": 2048,
+    "horizon": 64,
+    "batch_sizes": [
+      1,
+      32,
+      256
+    ],
+    "n_warmup": 3,
+    "n_reps_batch1": 20,
+    "n_reps_batched": 5,
+    "seed": 42
+  },
+  "model": {
+    "num_params": 119469312,
+    "num_buffers": 789,
+    "param_bytes": 119559168,
+    "buffer_bytes": 3156,
+    "total_bytes": 119562324,
+    "bits_per_param": 8.0062,
+    "bits_per_element": 8.0062,
+    "param_dtypes": {
+      "float32": 29952,
+      "uint8": 119439360
+    },
+    "module_types": {
+      "Embedding": 1,
+      "Dropout": 51,
+      "HQQLinear": 126,
+      "ReLU": 14,
+      "Patch": 1,
+      "InstanceNorm": 1,
+      "Chronos2RotaryEmbedding": 12,
+      "Chronos2LayerNorm": 37
+    },
+    "load_time_s": 2.1,
+    "rss_before_load_mb": 681.619456
+  },
+  "latency": {
+    "1": {
+      "n_reps": 20,
+      "median_s": 0.04232220002450049,
+      "p90_s": 0.047293299925513566,
+      "mean_s": 0.0427949599979911,
+      "std_s": 0.004308624093089237,
+      "min_s": 0.03709739993792027,
+      "throughput_series_per_s": 23.628261277086164,
+      "peak_gpu_memory_mb": 176.1,
+      "process_rss_mb": 1522.0
+    },
+    "32": {
+      "n_reps": 5,
+      "median_s": 0.36091040004976094,
+      "p90_s": 0.3622395000420511,
+      "mean_s": 0.36026010001078246,
+      "std_s": 0.001970058037858213,
+      "min_s": 0.3575618000468239,
+      "throughput_series_per_s": 88.66466578848369,
+      "peak_gpu_memory_mb": 316.1,
+      "process_rss_mb": 1536.1
+    },
+    "256": {
+      "n_reps": 5,
+      "median_s": 2.1048295999644324,
+      "p90_s": 2.118182100006379,
+      "mean_s": 2.1041845799889414,
+      "std_s": 0.01553496228186924,
+      "min_s": 2.079261099919677,
+      "throughput_series_per_s": 121.62504746432961,
+      "peak_gpu_memory_mb": 1973.2,
+      "process_rss_mb": 1542.9
+    }
+  },
+  "environment": {
+    "git_sha": "d440761e3ed0e87fe1dcfc0d9869029398bb7b61+dirty",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.12.4",
+    "version_chronosquant": "0.1.0",
+    "version_chronos_forecasting": "2.3.1",
+    "version_fev": "0.9.0",
+    "version_torch": "2.11.0+cu128",
+    "version_datasets": "3.6.0",
+    "version_numpy": "2.5.1",
+    "cpu": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "ram_total_gb": 68.3,
+    "cpu_count_physical": 24,
+    "cpu_count_logical": 32,
+    "cuda_available": true,
+    "gpu_name": "NVIDIA RTX 2000 Ada Generation Laptop GPU",
+    "cuda_version": "12.8",
+    "gpu_memory_gb": 8.6,
+    "gpu_compute_capability": "8.9",
+    "nvidia_driver_version": "596.58"
+  }
+}

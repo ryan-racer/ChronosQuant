@@ -2,6 +2,21 @@
 
 Dated log of experiments, decisions, and findings. Newest entries first.
 
+## 2026-07-23 — Full quantization campaign complete (18 variants × 27 tasks)
+
+Master table: `results/tables/campaign_master.csv` (via `python -m chronosquant.analysis.campaign`).
+
+- **Both full sweeps finished, 0 failures.** Recovered twice: (1) bnb-int8 native process crash → per-variant process isolation + metadata-based completeness check; (2) user closed the tab mid-`w3-gptq` → resumed cleanly (completed variants skipped, partial reran).
+- **Confirmed headline results (full-tier, bootstrap CIs):**
+  1. **8-bit is free, method-agnostic** — WQL retention 0.999–1.013 across all 6 W8 methods.
+  2. **GPTQ = fp32 parity to 3 bits.** W4-GPTQ 0.996/1.002 (CI incl. 1.0); **W3-GPTQ 1.047 [0.988–1.137] = still parity** (vs W3-HQQ 1.229, W3-RTN 1.695). Real 3-bit at no accuracy cost is the campaign's strongest result.
+  3. **Dev "beats fp32" (0.96) did NOT replicate** at full scale — resolved to parity for both GPTQ W4 group sizes. Flagging-before-claiming paid off.
+  4. **Method ≫ bit-width**: 66-pt WQL spread at 4 bits (GPTQ 0.996 → RTN 1.66); ≤6% cost 8→4 with a good method.
+  5. **Only GPTQ preserves calibration at W4**: coverage[0.8] 0.756 vs fp32 0.750, while HQQ 0.630 / NF4 0.686. **QCR rises under every method even when accuracy is perfect** (the earliest, accuracy-invisible damage signal — our metric).
+  6. **AWQ-fold ≈ RTN** (W4 1.64 vs 1.66) despite provably-exact folds — clean negative result: compensation works, scaling alone doesn't.
+- **Efficiency (storage-real winners, GPU):** peak batch-1 memory fp32 493 → W8-hqq 176 → W4-hqq 117 → W4-nf4 87 MB (5.7×); throughput flat (~120 series/s) — dequant-at-forward buys footprint not speed. Profiles in `results/profiles/`.
+- Storage caveat recorded: GPTQ/AWQ/sim variants store dequantized grids in fp32 containers (accuracy arms); achievable footprint = eff_bpw column. HQQ/NF4/bnb/RTN-real carry true reduced size.
+
 ## 2026-07-22 — Leading-methods dev sweep (GPTQ, AWQ-fold); TurboQuant excluded
 
 - **TurboQuant (arXiv:2504.19874, ICLR 2026) assessed and excluded**: online *vector* quantization for KV caches/retrieval — Chronos-2 has no KV cache; as a weight method it reduces to rotation + scalar quant (subset of QuaRot-class). Cited in related work instead.
