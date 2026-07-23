@@ -2,6 +2,14 @@
 
 Dated log of experiments, decisions, and findings. Newest entries first.
 
+## 2026-07-23 — ICML-workshop paper (LaTeX, 3 pp.), figures, efficiency table
+
+- Rewrote the paper as a tight two-column ICML-workshop submission: `paper/workshop.tex` → `paper/workshop.pdf` (**3 pages, under the 4-page limit**), typeset with MiKTeX `pdflatex`. Markdown source retained at `paper/workshop.md`; long working draft at `paper/draft.md`.
+- Every number pulled directly from result CSVs (no transcription): abstract, main results table (Table 1, 11 representative variants), efficiency table (Table 2), findings F1–F6.
+- Figure: `scripts/make_figures.py` → `paper/figures/fig1_accuracy_calibration.png` — 2-panel (accuracy-vs-bits by method; calibration curves), Okabe-Ito CVD-safe palette + distinct markers/linestyles (print-safe), one axis per panel.
+- Visual review loop: PyMuPDF rasterizes each page → I inspect layout (no overfull boxes, tables/figure placement, page count) → iterate. Added Table 2 (efficiency) to use page-3 whitespace and make the deployment claims concrete.
+- Build: `pdflatex` at `%LOCALAPPDATA%/Programs/MiKTeX/...`; missing packages installed via `mpm` (network slow but works; on-the-fly installer hangs behind the proxy so pre-install or use `--disable-installer`).
+
 ## 2026-07-23 — Full quantization campaign complete (18 variants × 27 tasks)
 
 Master table: `results/tables/campaign_master.csv` (via `python -m chronosquant.analysis.campaign`).

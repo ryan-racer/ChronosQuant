@@ -73,4 +73,5 @@ markers = [
 [dependency-groups]
 dev = [
     "markdown>=3.10.2",
+    "pymupdf>=1.28.0",
 ]

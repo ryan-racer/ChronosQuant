@@ -57,3 +57,7 @@ paper/*.out
 paper/*.synctex.gz
 paper/*.fdb_latexmk
 paper/*.fls
+
+# LaTeX/PDF review intermediates
+paper/_review_*.png
+paper/pass*.log
