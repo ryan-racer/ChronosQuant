@@ -1,0 +1,48 @@
+# Method x head-protection interaction (RQ3 follow-up).
+#
+# The sensitivity study showed calibration damage at W4 is exclusively gated by the
+# 3-linear quantile head (output_patch_embedding, 3.2% of weights): protecting it under
+# RTN-sim restores cov80/QCR to fp32-or-better. Question: does the same one-line recipe
+# rescue the REAL calibration-free methods whose W4 arms broke calibration in the main
+# campaign (HQQ cov80 0.630, NF4 0.686 vs fp32 0.750), making "any method + fp32 head"
+# competitive with GPTQ? RTN real-storage W8 arm included to measure the QCR effect
+# (W8 RTN quadrupled QCR despite perfect accuracy) with the head kept fp32.
+#
+# Run:  uv run python scripts/sweep.py configs/evaluation/sweeps/head_interaction.yaml --tier dev
+name: head_interaction
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+reference_model: chronos2-fp32
+dev_task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+base_predictor:
+  type: chronos2
+  model_id: amazon/chronos-2
+  device_map: cuda
+  batch_size: 128
+variants:
+  - name: chronos2-w4-hqq-fp32head
+    quantization:
+      method: hqq
+      bits: 4
+      group_size: 64
+      skip_modules:
+        - output_patch_embedding.*
+  - name: chronos2-w4-bnb-nf4-fp32head
+    quantization:
+      method: bnb_nf4
+      skip_modules:
+        - output_patch_embedding.*
+  - name: chronos2-w8a16-rtn-fp32head
+    quantization:
+      method: rtn
+      bits: 8
+      granularity: per_channel
+      skip_modules:
+        - output_patch_embedding.*
