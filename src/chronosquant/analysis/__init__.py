@@ -1,5 +1,6 @@
 """Result aggregation and analysis (leaderboards, retention tables, validation)."""
 
+from chronosquant.analysis.repair import aggregate_repair, analyze_task, conformal_repair, rearrange
 from chronosquant.analysis.aggregate import (
     leaderboard,
     load_summaries,
@@ -10,6 +11,10 @@ from chronosquant.analysis.aggregate import (
 )
 
 __all__ = [
+    "aggregate_repair",
+    "analyze_task",
+    "conformal_repair",
+    "rearrange",
     "leaderboard",
     "load_summaries",
     "pairwise_comparison",
