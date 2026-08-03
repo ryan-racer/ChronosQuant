@@ -1,0 +1,21 @@
+# Chronos-Bolt base (205M) fp32 reference on the dev subset of Chronos Benchmark II.
+# Phase C within-family size sweep: establishes the fp32 parent row for bolt-base
+# quantized variants; sanity anchor is the published per-task reference at
+# results/reference/chronos_zeroshot/chronos_bolt_base.csv.
+name: bolt_base_fp32_dev
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+predictor:
+  type: chronos_bolt
+  model_id: amazon/chronos-bolt-base
+  name: bolt-base-fp32
+  device_map: cuda
+  batch_size: 128

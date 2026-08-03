@@ -1,0 +1,95 @@
+config:
+  name: bolt_base_fp32_dev
+  benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+  predictor:
+    type: chronos_bolt
+    model_id: amazon/chronos-bolt-base
+    name: bolt-base-fp32
+    device_map: cuda
+    batch_size: 128
+  task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+  output_root: results/raw
+  extra_metrics:
+  - SQL
+  - MQL
+  - MAE
+  - RMSE
+  - RMSSE
+  - WAPE
+  - SMAPE
+  - MAPE
+  per_quantile_scores: true
+  quantile_diagnostics: true
+  save_predictions: true
+  trained_on_this_dataset: false
+  overwrite: false
+  notes: ''
+environment:
+  git_sha: 8e9c18a7be1d83230e567b9a60ce179d81b139d2+dirty
+  platform: Windows-11-10.0.26200-SP0
+  python_version: 3.12.4
+  version_chronosquant: 0.1.0
+  version_chronos_forecasting: 2.3.1
+  version_fev: 0.9.0
+  version_torch: 2.11.0+cu128
+  version_datasets: 3.6.0
+  version_numpy: 2.5.1
+  cpu: Intel64 Family 6 Model 183 Stepping 1, GenuineIntel
+  ram_total_gb: 68.3
+  cpu_count_physical: 24
+  cpu_count_logical: 32
+  cuda_available: true
+  gpu_name: NVIDIA RTX 2000 Ada Generation Laptop GPU
+  cuda_version: '12.8'
+  gpu_memory_gb: 8.6
+  gpu_compute_capability: '8.9'
+  nvidia_driver_version: '596.58'
+benchmark_sha256: 05f9cbfd53bf45391a552d90d9669e36cdb5be5987eb0a5638ebebf087c77c1e
+num_tasks: 8
+task_names:
+- monash_cif_2016
+- monash_m1_quarterly
+- monash_tourism_quarterly
+- monash_covid_deaths
+- exchange_rate
+- ercot
+- monash_hospital
+- monash_nn5_weekly
+started_at: '2026-07-30T15:32:56.686408+00:00'
+model_card:
+  predictor_type: ChronosBoltPredictor
+  name: bolt-base-fp32
+  model_id: amazon/chronos-bolt-base
+  device_map: cuda
+  batch_size: 128
+  context_length: null
+  has_model_transform: false
+  model_load_time_s: 61.623
+  num_params: 205292928
+  num_buffers: 9
+  param_bytes: 821171712
+  buffer_bytes: 36
+  total_bytes: 821171748
+  bits_per_param: 32.0
+  bits_per_element: 32.0
+  param_dtypes:
+    float32: 205292928
+  module_types:
+    Embedding: 5
+    Dropout: 88
+    Linear: 198
+    ReLU: 26
+    Patch: 1
+    InstanceNorm: 1
+    T5LayerNorm: 62
+finished_at: '2026-07-30T15:34:21.874950+00:00'
+num_completed: 8
+num_failed: 0

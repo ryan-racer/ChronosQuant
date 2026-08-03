@@ -32,6 +32,15 @@ class TestRTNQuantizedLinear:
         err = (linear.weight.detach() - w_deq).abs()
         assert (err <= qlinear.scale / 2 + 1e-8).all()
 
+    def test_weight_property_exposes_int8_for_t5_dtype_guard(self):
+        """transformers' T5 MLP reads `.weight` in a dtype guard that special-cases
+        int8 (bnb convention); Bolt's T5 blocks hit it on every forward."""
+        linear = nn.Linear(64, 32)
+        qlinear = RTNQuantizedLinear(linear, granularity="per_channel")
+        assert isinstance(qlinear.weight, torch.Tensor)
+        assert qlinear.weight.dtype == torch.int8
+        assert qlinear.weight is qlinear.weight_q
+
     def test_int8_storage_and_scale_shapes(self):
         linear = nn.Linear(64, 32)
         qlinear = RTNQuantizedLinear(linear, granularity="per_channel")

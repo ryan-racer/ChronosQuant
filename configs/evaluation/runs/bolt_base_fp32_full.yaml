@@ -1,0 +1,10 @@
+# Chronos-Bolt base (205M) fp32 reference on the full 27-task Chronos Benchmark II.
+# Parity anchor: results/reference/chronos_zeroshot/chronos_bolt_base.csv.
+name: bolt_base_fp32_full
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+predictor:
+  type: chronos_bolt
+  model_id: amazon/chronos-bolt-base
+  name: bolt-base-fp32
+  device_map: cuda
+  batch_size: 128

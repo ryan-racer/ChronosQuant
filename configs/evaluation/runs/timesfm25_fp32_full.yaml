@@ -1,0 +1,11 @@
+# TimesFM-2.5 (Google, 200M, decoder-only AR) fp32 reference on the full 27-task
+# Chronos Benchmark II. Parent row for the timesfm_ptq sweep retention tables.
+# fix_quantile_crossing is pinned OFF inside the adapter (see timesfm25_fp32_dev.yaml).
+name: timesfm25_fp32_full
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+predictor:
+  type: timesfm
+  model_id: google/timesfm-2.5-200m-pytorch
+  name: timesfm25-fp32
+  device_map: cuda
+  batch_size: 64

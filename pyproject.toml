@@ -35,6 +35,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.6", "ipykernel", "jupyter"]
+# Extra TSFM families for the multi-model extension (Phase C)
+tsfm = ["timesfm[torch]==2.0.2"]
 
 [build-system]
 requires = ["hatchling"]

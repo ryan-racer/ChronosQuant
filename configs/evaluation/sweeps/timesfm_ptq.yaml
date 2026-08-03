@@ -1,0 +1,45 @@
+# TimesFM-2.5 PTQ sweep (Phase C model-family extension): do the Chronos-2/Bolt
+# bit-width/method findings transfer to a decoder-only AR TSFM with a separate
+# continuous-quantile head? Head-to-head axis vs TQS-PTQ (arXiv:2606.13300), which
+# quantizes TimesFM-2.5 without probabilistic metrics.
+#
+# Method points mirror the Chronos-2/Bolt campaigns so numbers are directly comparable:
+#   w8a16-rtn   = per-channel symmetric int8, real storage
+#   w4-hqq      = calibration-free group-64 4-bit
+#   w4-gptq-g64 = Hessian error compensation, group 64
+#   w3-gptq     = the sub-4-bit cliff probe
+#
+# Note: the timesfm predictor keeps tokenizer.* (input embedding) and BOTH output
+# heads (output_projection_point.*, output_projection_quantiles.*) in fp32 by default
+# — the protected-module treatment from the head-mechanism finding. Set skip_modules
+# inside `quantization` (possibly []) to override. fix_quantile_crossing (TimesFM's
+# baked-in sorting repair) is pinned OFF in the adapter for every arm.
+#
+# fp32 reference: run timesfm25_fp32_<tier> first.
+# Run:  uv run python scripts/sweep.py configs/evaluation/sweeps/timesfm_ptq.yaml --tier dev
+name: timesfm_ptq
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+reference_model: timesfm25-fp32
+dev_task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+base_predictor:
+  type: timesfm
+  model_id: google/timesfm-2.5-200m-pytorch
+  device_map: cuda
+  batch_size: 64
+variants:
+  - name: timesfm25-w8a16-rtn
+    quantization: { method: rtn, bits: 8, granularity: per_channel }
+  - name: timesfm25-w4-hqq
+    quantization: { method: hqq, bits: 4, group_size: 64 }
+  - name: timesfm25-w4-gptq-g64
+    quantization: { method: gptq, bits: 4, group_size: 64 }
+  - name: timesfm25-w3-gptq
+    quantization: { method: gptq, bits: 3, group_size: 64 }

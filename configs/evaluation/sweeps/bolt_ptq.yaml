@@ -1,0 +1,63 @@
+# Chronos-Bolt PTQ sweep (Phase C item 4): within-family size sweep on the existing
+# pipeline — do the Chronos-2 bit-width/method findings transfer down (48M) and up
+# (205M) the same architecture family?
+#
+# Method points mirror the Chronos-2 campaign so numbers are directly comparable:
+#   w8a16-rtn   = chronos2_w8a16_rtn (per-channel symmetric int8, real storage)
+#   w4-hqq      = standard_ptq chronos2-w4-hqq
+#   w4-gptq-g64 = leading_ptq chronos2-w4-gptq-g64
+#   w3-gptq     = leading_ptq chronos2-w3-gptq
+#
+# Note: the chronos_bolt predictor keeps input_patch_embedding.* and
+# output_patch_embedding.* (the quantile head) in fp32 by default; set skip_modules
+# inside `quantization` (possibly []) to override.
+#
+# fp32 references: run bolt_small_fp32_<tier> and bolt_base_fp32_<tier> first.
+# Run:  uv run python scripts/sweep.py configs/evaluation/sweeps/bolt_ptq.yaml --tier dev
+name: bolt_ptq
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+# Two fp32 parents: variant-name glob -> reference model (one retention table each).
+reference_model:
+  "bolt-small-*": bolt-small-fp32
+  "bolt-base-*": bolt-base-fp32
+dev_task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+base_predictor:
+  type: chronos_bolt
+  model_id: amazon/chronos-bolt-small
+  device_map: cuda
+  batch_size: 256
+variants:
+  # --- bolt-small (48M) ---
+  - name: bolt-small-w8a16-rtn
+    quantization: { method: rtn, bits: 8, granularity: per_channel }
+  - name: bolt-small-w4-hqq
+    quantization: { method: hqq, bits: 4, group_size: 64 }
+  - name: bolt-small-w4-gptq-g64
+    quantization: { method: gptq, bits: 4, group_size: 64 }
+  - name: bolt-small-w3-gptq
+    quantization: { method: gptq, bits: 3, group_size: 64 }
+  # --- bolt-base (205M): extra keys override base_predictor per variant ---
+  - name: bolt-base-w8a16-rtn
+    model_id: amazon/chronos-bolt-base
+    batch_size: 128
+    quantization: { method: rtn, bits: 8, granularity: per_channel }
+  - name: bolt-base-w4-hqq
+    model_id: amazon/chronos-bolt-base
+    batch_size: 128
+    quantization: { method: hqq, bits: 4, group_size: 64 }
+  - name: bolt-base-w4-gptq-g64
+    model_id: amazon/chronos-bolt-base
+    batch_size: 128
+    quantization: { method: gptq, bits: 4, group_size: 64 }
+  - name: bolt-base-w3-gptq
+    model_id: amazon/chronos-bolt-base
+    batch_size: 128
+    quantization: { method: gptq, bits: 3, group_size: 64 }

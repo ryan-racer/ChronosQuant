@@ -1,0 +1,23 @@
+# TimesFM-2.5 (Google, 200M, decoder-only AR) fp32 reference on the dev subset of
+# Chronos Benchmark II. Phase C model-family extension: establishes the fp32 parent
+# row for timesfm25 quantized variants. Sanity anchor: WQL skill should land in the
+# vicinity of Chronos-2's (TimesFM-2.5 is a strong zero-shot model).
+# Note: fix_quantile_crossing is pinned OFF inside the adapter for every arm (it is
+# TimesFM's baked-in sorting repair and would erase the QCR phenomenon under study).
+name: timesfm25_fp32_dev
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+predictor:
+  type: timesfm
+  model_id: google/timesfm-2.5-200m-pytorch
+  name: timesfm25-fp32
+  device_map: cuda
+  batch_size: 64  # conservative for 8 GB (200M model + flip-invariance double forward)

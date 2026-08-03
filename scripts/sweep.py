@@ -15,6 +15,7 @@ Behaviour:
 """
 
 import argparse
+import fnmatch
 import logging
 import traceback
 from pathlib import Path
@@ -67,7 +68,7 @@ def main() -> None:
         variants = [v for v in variants if v["name"] in args.only]
 
     task_names = sweep["dev_task_names"] if args.tier == "dev" else None
-    completed_dirs: list[Path] = []
+    completed: list[tuple[str, Path]] = []  # (variant name, run dir)
     failed: list[str] = []
 
     for i, variant in enumerate(variants, start=1):
@@ -81,7 +82,7 @@ def main() -> None:
             metadata = yaml.safe_load(metadata_path.read_text()) or {}
             if metadata.get("num_completed"):
                 logger.info("[%d/%d] %s already complete, skipping", i, len(variants), name)
-                completed_dirs.append(output_dir)
+                completed.append((name, output_dir))
                 continue
             logger.warning("[%d/%d] %s has a partial run; rerunning", i, len(variants), name)
             args_overwrite_this = True
@@ -89,6 +90,11 @@ def main() -> None:
             args_overwrite_this = args.overwrite
 
         predictor_config = dict(sweep["base_predictor"])
+        # Any variant key besides name/quantization overrides the base predictor
+        # (e.g. per-variant model_id in within-family size sweeps like bolt_ptq).
+        predictor_config.update(
+            {k: v for k, v in variant.items() if k not in ("name", "quantization")}
+        )
         predictor_config["name"] = name
         predictor_config["quantization"] = variant["quantization"]
         if args.device:
@@ -103,7 +109,7 @@ def main() -> None:
         )
         logger.info("[%d/%d] running %s (%s)", i, len(variants), name, variant["quantization"])
         try:
-            completed_dirs.append(run_evaluation(config))
+            completed.append((name, run_evaluation(config)))
         except Exception as err:  # noqa: BLE001 - per-variant isolation
             failed.append(name)
             logger.error("[%d/%d] %s FAILED: %r\n%s", i, len(variants), name, err,
@@ -112,27 +118,41 @@ def main() -> None:
     if failed:
         logger.warning("Failed variants: %s", failed)
 
-    if args.skip_report or not completed_dirs:
+    if args.skip_report or not completed:
         return
 
-    reference_run = REPO_ROOT / "results" / "raw" / f"chronos2_fp32_{args.tier}"
-    if not (reference_run / "summaries.csv").exists():
-        logger.warning("Reference run %s missing; skipping retention report", reference_run)
-        return
-
-    frames = [pd.read_csv(reference_run / "summaries.csv")]
-    frames += [pd.read_csv(d / "summaries.csv") for d in completed_dirs]
-    summaries = pd.concat(frames, ignore_index=True)
-    table = retention_table(summaries, reference_model=sweep["reference_model"])
+    # `reference_model` is either a single model name or, for sweeps that span
+    # several fp32 parents (e.g. both Chronos-Bolt sizes), a mapping of
+    # variant-name glob -> reference model name; each group gets its own table.
+    reference_models = sweep["reference_model"]
+    if isinstance(reference_models, str):
+        reference_models = {"*": reference_models}
 
     pd.set_option("display.width", 200)
-    print("\n" + table.round(4).to_string())
-
     tables_dir = REPO_ROOT / "results" / "tables"
     tables_dir.mkdir(parents=True, exist_ok=True)
-    out_path = tables_dir / f"sweep_{sweep['name']}_{args.tier}_retention.csv"
-    table.to_csv(out_path)
-    print(f"\nRetention table saved to {out_path}")
+    for pattern, reference_model in reference_models.items():
+        group = [(n, d) for n, d in completed if fnmatch.fnmatch(n, pattern)]
+        if not group:
+            continue
+        reference_run = (
+            REPO_ROOT / "results" / "raw" / run_name_for(reference_model, args.tier)
+        )
+        if not (reference_run / "summaries.csv").exists():
+            logger.warning("Reference run %s missing; skipping retention report", reference_run)
+            continue
+
+        frames = [pd.read_csv(reference_run / "summaries.csv")]
+        frames += [pd.read_csv(d / "summaries.csv") for _, d in group]
+        summaries = pd.concat(frames, ignore_index=True)
+        table = retention_table(summaries, reference_model=reference_model)
+
+        print("\n" + table.round(4).to_string())
+
+        suffix = "" if len(reference_models) == 1 else "_" + reference_model.replace("-", "_")
+        out_path = tables_dir / f"sweep_{sweep['name']}_{args.tier}_retention{suffix}.csv"
+        table.to_csv(out_path)
+        print(f"\nRetention table saved to {out_path}")
 
 
 if __name__ == "__main__":

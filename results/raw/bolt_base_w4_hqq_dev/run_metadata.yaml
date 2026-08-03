@@ -1,0 +1,110 @@
+config:
+  name: bolt_base_w4_hqq_dev
+  benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+  predictor:
+    type: chronos_bolt
+    model_id: amazon/chronos-bolt-base
+    device_map: cuda
+    batch_size: 128
+    name: bolt-base-w4-hqq
+    quantization:
+      method: hqq
+      bits: 4
+      group_size: 64
+  task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+  output_root: results/raw
+  extra_metrics:
+  - SQL
+  - MQL
+  - MAE
+  - RMSE
+  - RMSSE
+  - WAPE
+  - SMAPE
+  - MAPE
+  per_quantile_scores: true
+  quantile_diagnostics: true
+  save_predictions: true
+  trained_on_this_dataset: false
+  overwrite: false
+  notes: sweep=bolt_ptq tier=dev
+environment:
+  git_sha: 8e9c18a7be1d83230e567b9a60ce179d81b139d2+dirty
+  platform: Windows-11-10.0.26200-SP0
+  python_version: 3.12.4
+  version_chronosquant: 0.1.0
+  version_chronos_forecasting: 2.3.1
+  version_fev: 0.9.0
+  version_torch: 2.11.0+cu128
+  version_datasets: 3.6.0
+  version_numpy: 2.5.1
+  cpu: Intel64 Family 6 Model 183 Stepping 1, GenuineIntel
+  ram_total_gb: 68.3
+  cpu_count_physical: 24
+  cpu_count_logical: 32
+  cuda_available: true
+  gpu_name: NVIDIA RTX 2000 Ada Generation Laptop GPU
+  cuda_version: '12.8'
+  gpu_memory_gb: 8.6
+  gpu_compute_capability: '8.9'
+  nvidia_driver_version: '596.58'
+benchmark_sha256: 05f9cbfd53bf45391a552d90d9669e36cdb5be5987eb0a5638ebebf087c77c1e
+num_tasks: 8
+task_names:
+- monash_cif_2016
+- monash_m1_quarterly
+- monash_tourism_quarterly
+- monash_covid_deaths
+- exchange_rate
+- ercot
+- monash_hospital
+- monash_nn5_weekly
+started_at: '2026-07-30T18:34:16.729817+00:00'
+model_card:
+  predictor_type: ChronosBoltPredictor
+  name: bolt-base-w4-hqq
+  model_id: amazon/chronos-bolt-base
+  device_map: cuda
+  batch_size: 128
+  context_length: null
+  has_model_transform: false
+  model_load_time_s: 5.949
+  num_params: 106202496
+  num_buffers: 9
+  param_bytes: 127538688
+  buffer_bytes: 36
+  total_bytes: 127538724
+  bits_per_param: 9.6072
+  bits_per_element: 9.6072
+  param_dtypes:
+    float32: 7112064
+    uint8: 99090432
+  module_types:
+    Embedding: 5
+    Dropout: 88
+    Linear: 6
+    ReLU: 26
+    Patch: 1
+    InstanceNorm: 1
+    HQQLinear: 192
+    T5LayerNorm: 62
+  quant_method: hqq
+  quant_weight_bits: 4
+  quant_activation_bits: null
+  quant_granularity: group_64
+  quant_simulated: false
+  quant_n_modules_quantized: 192
+  quant_n_modules_skipped: 6
+  quant_quantized_weight_numel: 198180864
+  quant_effective_bits_per_weight: 5.0
+finished_at: '2026-07-30T18:34:43.091875+00:00'
+num_completed: 8
+num_failed: 0
