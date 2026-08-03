@@ -1,4 +1,4 @@
-\begin{thebibliography}{14}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -69,6 +69,12 @@ Frantar, E., Ashkboos, S., Hoefler, T., and Alistarh, D.
   (ICLR)}, 2023.
 \newblock arXiv:2210.17323.
 
+\bibitem[Gneiting et~al.(2007)Gneiting, Balabdaoui, and Raftery]{sharpness}
+Gneiting, T., Balabdaoui, F., and Raftery, A.~E.
+\newblock Probabilistic forecasts, calibration and sharpness.
+\newblock \emph{Journal of the Royal Statistical Society: Series B},
+  69\penalty0 (2):\penalty0 243--268, 2007.
+
 \bibitem[Li et~al.(2024)Li, Ning, Wang, Liu, Shi, Yan, Dai, Yang, and
   Wang]{qeval}
 Li, S., Ning, X., Wang, L., Liu, T., Shi, X., Yan, S., Dai, G., Yang, H., and
@@ -89,12 +95,25 @@ Lin, J., Tang, J., Tang, H., Yang, S., Dang, X., and Han, S.
 \newblock In \emph{Proceedings of Machine Learning and Systems (MLSys)}, 2024.
 \newblock arXiv:2306.00978.
 
-\bibitem[Romano et~al.(2019)Romano, Patterson, and Cand{\`e}s]{cqr}
-Romano, Y., Patterson, E., and Cand{\`e}s, E.
-\newblock Conformalized quantile regression.
+\bibitem[Pavlova et~al.(2026)Pavlova, Zhu, Vitanova, Semenova, and Li]{tqsptq}
+Pavlova, M., Zhu, H. B.~H., Vitanova, L., Semenova, E., and Li, Y.
+\newblock Quantizing time-series models as dynamical systems: Trajectory-based
+  quantization sensitivity score.
+\newblock \emph{arXiv preprint arXiv:2606.13300}, 2026.
+
+\bibitem[Stankevi{\v{c}}i{\=u}t{\.e} et~al.(2021)Stankevi{\v{c}}i{\=u}t{\.e},
+  Alaa, and van~der Schaar]{cts}
+Stankevi{\v{c}}i{\=u}t{\.e}, K., Alaa, A.~M., and van~der Schaar, M.
+\newblock Conformal time-series forecasting.
 \newblock In \emph{Advances in Neural Information Processing Systems
-  (NeurIPS)}, 2019.
-\newblock arXiv:1905.03222.
+  (NeurIPS)}, 2021.
+
+\bibitem[Tong et~al.(2026)Tong, Wang, Wan, Zhang, Dong, and
+  Yuan]{conformalcompress}
+Tong, Y., Wang, Y., Wan, Y., Zhang, T., Dong, J., and Yuan, J.
+\newblock Does compression preserve uncertainty? a unified benchmark for
+  quantized and sparse {LLMs} via conformal prediction.
+\newblock \emph{arXiv preprint arXiv:2606.01850}, 2026.
 
 \bibitem[Zandieh et~al.(2025)Zandieh, Daliri, Hadian, and Mirrokni]{turboquant}
 Zandieh, A., Daliri, M., Hadian, M., and Mirrokni, V.
