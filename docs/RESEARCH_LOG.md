@@ -2,6 +2,109 @@
 
 Dated log of experiments, decisions, and findings. Newest entries first.
 
+## 2026-07-31 — Full-tier confirmations (27 tasks, 0 failures across all sweeps)
+
+- **GPTAQ**: W4-g64 0.9998 [0.987, 1.012] = exact parity; **W3 1.016 [0.988, 1.053] — beats
+  GPTQ-W3 (1.047)**, extending the parity frontier; alpha=1.0 ablation 1.087 (official 0.25
+  default confirmed at scale); W2-GPTAQ 1.937 vs W2-GPTQ 2.168 — 10% relative gain but both
+  collapsed → sub-3-bit needs QAT.
+- **fp32-head recipe**: w8a16-rtn+fp32head WQL 0.9995, **QCR 0.037 ≈ fp32 0.039** (F4's QCR
+  quadrupling fully attributed to the head and eliminated); w4-hqq+fp32head 1.020 / cov80
+  0.751 (from 0.630) / QCR 0.021; w4-nf4+fp32head 1.045 / 0.761 / 0.022.
+- **Chronos-Bolt (48M + 205M, head protected by default)**: every method ≈ parity — small
+  w4-hqq 0.994, w3-gptq 0.986 (CI incl. 1.0); base all within 0.9997–1.005; calibration
+  untouched (base cov80 0.783 vs fp32 0.782). First cross-model evidence; Bolt quantizes
+  even more gracefully than Chronos-2.
+- Repair tables regenerated under the reviewed sort-before-calibrate protocol: conformal
+  cov80 lands 0.78–0.80 (nominal) for every arm incl. w2-rtn-sim (0.062→0.782); guarantee
+  now attaches to the evaluated object; `_samestage` retention column added (repair also
+  improves fp32 by ~0.4%).
+- Campaign master regenerated. Paper updated (8 findings, 4pp+refs, all numbers CSV-verified).
+- **TimesFM-2.5 (200M decoder-only AR, 3rd architecture family) integrated and full-tier
+  evaluated (27/27 × 5 arms, 0 failures)**: W8 0.998, **W4-GPTQ 0.999 = parity**, W4-HQQ
+  1.009, W3-GPTQ 1.101 (cliff one bit higher than Chronos-2). Calibration untouched under
+  quantization with head+tokenizer protected (cov80 0.686–0.715 vs fp32 0.709). **fp32
+  TimesFM natively emits crossed quantiles (QCR 0.109) once its built-in
+  fix_quantile_crossing auto-sort is disabled** — the vendor ships our sorting repair by
+  default; crossing is a general TSFM phenomenon, not a quantization artifact. Adapter
+  gotchas handled: forecast() mutates caller's input list; deepcopy of compiled model
+  aliases the quantized stream (custom __deepcopy__); stacked_xf stage patterns added to
+  gptq.py (20 stages × 4 linears). TiRex/TiRex-2 (recurrent xLSTM, 4th family) remains
+  the top extension for the main-conference version (transformers<5 pin needs isolation).
+
+## 2026-07-30 — Phase A–C campaign: repair arm, RQ3 answered, GPTAQ, Chronos-Bolt
+
+Multi-agent campaign executing docs/NEXT_STEPS.md Phases A–C (parallel implementation
+agents + adversarial code review per stage; full-tier promotions running as of this entry).
+
+**RQ3 ANSWERED — the quantile head is the mechanism (dev tier, W4 RTN-sim, 13 arms).**
+- Families partition all 126 linears (verified vs the real model + in metadata). Quantizing
+  ONLY the 3-linear quantile head (3.2% of weights) reproduces the full collapse (WQL_rel
+  2.115 vs all-quantized 2.130); PROTECTING only it recovers to 1.143 with calibration
+  better than fp32 (cov80 0.778, QCR 0.0016). Calibration damage is *exclusively*
+  head-gated; accuracy damage is distributed (only-ffn 1.086 > only-patch 1.097* > time
+  1.018 > group 1.001; *wide CI). First/last-block protection folklore does NOT hold here.
+- Head-interaction sweep (real methods + fp32 head, dev): HQQ-W4 QCR 0.419→0.018, cov80
+  0.650→0.738; NF4 0.409→0.013/0.751; W8-RTN QCR 0.102→0.022 (= fp32). **Solves the F4
+  mystery: the 8-bit QCR quadrupling was entirely head-quantization.** Table:
+  results/tables/sweep_head_interaction_dev_retention.csv (+ full tier queued).
+- Diagnostics (results/tables/sensitivity_{hessian,outliers}.csv): the head's
+  output_layer has rel_recon_err 7.83 — quantization noise ≈ 8x its output signal, 3
+  orders of magnitude above every other module (small quantile differences riding on
+  large weights; no downstream layer to compensate). Family-level Hessian sums are
+  convention-dependent and do NOT flag the head — only the per-module SNR view does
+  (itself a finding: cheap local diagnostics under-flag the head). Chronos-2 has NO
+  LLM-style massive-magnitude activation outliers (global |x|max 11.3; |x|>6 channels
+  ~0-0.2%); what exists is ReLU-sparsity channel heterogeneity (pooled kurtosis up to
+  ~99k driven by dead channels; per-channel kurtosis modest). Reconciles the AWQ≈RTN
+  negative result: the damage is a weight-space SNR problem in the head, which
+  activation-aware scaling cannot address.
+
+**Repair-and-recalibrate arm (FULL tier, 27 tasks × 20 runs, offline on persisted
+predictions; results/tables/repair_{sorting,conformal,per_task}.csv).**
+- Chernozhukov sorting: QCR → exactly 0 for every arm at never-worse WQL (confirmed
+  empirically arm-by-arm; even recovers accuracy — HQQ-W3 1.229→1.170). Coverage only
+  partially restored (HQQ-W4 cov80 0.630→0.703): crossing is cosmetic damage; the
+  remaining under-coverage is genuine distribution corruption.
+- 2-fold series-split conformal (+sorting): restores cov80 to ~0.80 nominal for every
+  method — and reveals raw fp32 itself under-covers (0.750, MACE 0.059→0.018 conformal).
+  A quantized+recalibrated model is better calibrated than raw fp32. Deployment recipe:
+  sort (free) + small conformal window; or prevent at source with the fp32 head.
+
+**GPTAQ (arXiv:2504.02692) implemented** (two-stream asymmetric calibration in gptq.py;
+math review vs the authors' reference code: sign-off; 19 tests). Dev: ≈GPTQ at W4/W3;
+alpha ablation confirms the official 0.25 default (alpha=1.0 degrades W3 0.964→1.089);
+W2 improves over GPTQ (2.51 vs 2.71) but both collapse → QAT is the sub-3-bit path
+(ParetoQ-style, future work). W2-GPTQ cliff point added.
+
+**Chronos-Bolt adapter** (predictors.py subclass + _BoltPipelineAdapter; 172 offline
+tests): fp32 dev parity vs published per-task CSVs 0.34%/0.72% (small/base). Dev PTQ
+(head protected by default, 6 modules skipped): HQQ-W4 at parity (1.000 base/0.989
+small) vs Chronos-2's head-quantized 1.06-1.10 — cross-model confirmation of the head
+mechanism. Two infra fixes: Bolt's predict_quantiles rejects batch_size (adapter chunks
+manually); transformers T5 MLP reads `.weight` in an int8-aware dtype guard →
+RTNQuantizedLinear now exposes int8 `weight` property (bnb convention; regression test).
+sweep.py generalized: per-variant base-predictor overrides + per-reference retention
+tables (existing sweeps byte-identical, reviewed).
+
+**Phase C recon:** TiRex/TiRex-2 viable on Windows via pure-PyTorch sLSTM backends
+(tirex-2 pins transformers<5 — isolate first); TimesFM-2.5 clean torch-only install,
+but `fix_quantile_crossing` must be OFF (it is literally our sorting repair baked in —
+and a free "vendor repair" comparison arm); its KV-cache axis needs horizon >128.
+
+**Reviews:** GPTAQ (no blockers; 3 should-fixes applied), sensitivity+Bolt (no blockers;
+all paper-bound numbers reproduced by hand; 3 diagnostic-table fixes applied: raw
+ch_absmax_median instead of clamp-artifact ratios, per-channel vs pooled kurtosis,
+dual-convention Hessian family sums). Repair module review pending.
+
+**Also noted:** independent InQ experiment (experiments/inq/, not part of this campaign)
+falsified DPCM K/V-state coding on Chronos-2 — K/V activations are insensitive (2-bit
+KV ≈ fp32) and patching+depth whiten temporal redundancy. Complements our story: on
+Chronos-2 the sensitive surface is weights (specifically the head), not states.
+
+**Running:** full-tier chain (GPTAQ 5 variants → head_interaction 3 → Bolt fp32 ×2 →
+Bolt PTQ 8) for paper-grade numbers.
+
 ## 2026-07-23 — ICML-workshop paper (LaTeX, 3 pp.), figures, efficiency table
 
 - Rewrote the paper as a tight two-column ICML-workshop submission: `paper/workshop.tex` → `paper/workshop.pdf` (**3 pages, under the 4-page limit**), typeset with MiKTeX `pdflatex`. Markdown source retained at `paper/workshop.md`; long working draft at `paper/draft.md`.

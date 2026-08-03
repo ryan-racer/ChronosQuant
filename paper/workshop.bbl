@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{14}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -25,6 +25,12 @@ Badri, H. and Shao, A.
 \newblock Half-quadratic quantization of large machine learning models.
 \newblock \url{https://mobiusml.github.io/hqq_blog/}, 2023.
 
+\bibitem[Chernozhukov et~al.(2010)Chernozhukov, Fern{\'a}ndez-Val, and
+  Galichon]{rearrangement}
+Chernozhukov, V., Fern{\'a}ndez-Val, I., and Galichon, A.
+\newblock Quantile and probability curves without crossing.
+\newblock \emph{Econometrica}, 78\penalty0 (3):\penalty0 1093--1125, 2010.
+
 \bibitem[Dettmers et~al.(2022)Dettmers, Lewis, Belkada, and
   Zettlemoyer]{llmint8}
 Dettmers, T., Lewis, M., Belkada, Y., and Zettlemoyer, L.
@@ -48,6 +54,13 @@ Dettmers, T. et~al.
   (NeurIPS)}, 2024.
 \newblock arXiv:2407.09141.
 
+\bibitem[Fakoor et~al.(2023)Fakoor, Kim, Mueller, Smola, and
+  Tibshirani]{fakoor}
+Fakoor, R., Kim, T., Mueller, J., Smola, A.~J., and Tibshirani, R.~J.
+\newblock Flexible model aggregation for quantile regression.
+\newblock \emph{Journal of Machine Learning Research (JMLR)}, 24\penalty0
+  (162):\penalty0 1--45, 2023.
+
 \bibitem[Frantar et~al.(2023)Frantar, Ashkboos, Hoefler, and Alistarh]{gptq}
 Frantar, E., Ashkboos, S., Hoefler, T., and Alistarh, D.
 \newblock {GPTQ}: Accurate post-training quantization for generative
@@ -63,12 +76,25 @@ Li, S., Ning, X., Wang, L., Liu, T., Shi, X., Yan, S., Dai, G., Yang, H., and
 \newblock Evaluating quantized large language models.
 \newblock \emph{arXiv preprint arXiv:2402.16775}, 2024.
 
+\bibitem[Li et~al.(2025)Li, Yin, Lee, Xiao, and Panda]{gptaq}
+Li, Y., Yin, R., Lee, D., Xiao, S., and Panda, P.
+\newblock {GPTAQ}: Efficient finetuning-free quantization for asymmetric
+  calibration.
+\newblock \emph{arXiv preprint arXiv:2504.02692}, 2025.
+
 \bibitem[Lin et~al.(2024)Lin, Tang, Tang, Yang, Dang, and Han]{awq}
 Lin, J., Tang, J., Tang, H., Yang, S., Dang, X., and Han, S.
 \newblock {AWQ}: Activation-aware weight quantization for {LLM} compression and
   acceleration.
 \newblock In \emph{Proceedings of Machine Learning and Systems (MLSys)}, 2024.
 \newblock arXiv:2306.00978.
+
+\bibitem[Romano et~al.(2019)Romano, Patterson, and Cand{\`e}s]{cqr}
+Romano, Y., Patterson, E., and Cand{\`e}s, E.
+\newblock Conformalized quantile regression.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2019.
+\newblock arXiv:1905.03222.
 
 \bibitem[Zandieh et~al.(2025)Zandieh, Daliri, Hadian, and Mirrokni]{turboquant}
 Zandieh, A., Daliri, M., Hadian, M., and Mirrokni, V.
