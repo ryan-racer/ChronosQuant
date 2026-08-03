@@ -47,6 +47,45 @@ anything public: artifacts, HF uploads, repo visibility).
   `python -m chronosquant.quantization.sensitivity analyze|report` (RQ3 diagnostics).
 - Tests: `uv run pytest` (offline) / `-m network` (reference-parity gate).
 
+## New-machine bootstrap (read this first if the repo was just cloned)
+
+Do these checks before launching any sweep; they take two minutes and catch the
+failures that otherwise surface three hours into a run.
+
+```bash
+uv sync --all-extras                        # includes the `tsfm` extra (TimesFM)
+uv run python -c "import torch; print(torch.__version__, torch.version.cuda); \
+print(torch.cuda.get_device_name(0), torch.cuda.get_device_capability(0)); \
+print('arch ok:', any(str(torch.cuda.get_device_capability(0)[0]*10+torch.cuda.get_device_capability(0)[1]) in a for a in torch.cuda.get_arch_list()))"
+uv run pytest -q -m "not network"           # expect 199 passed
+uv run python scripts/smoke_test.py         # downloads chronos-2, one forecast
+```
+
+- **GPU arch:** the pinned torch is 2.11+cu128, whose arch list includes sm_120, so
+  Blackwell (RTX 50-series) works without a rebuild. If `arch ok` prints False, the
+  wheel does not match the card — reinstall torch for that architecture before anything
+  else.
+- **bitsandbytes is the fragile dependency** on any new GPU architecture (NF4 and
+  LLM.int8 arms). Smoke it specifically before a long sweep:
+  `uv run python scripts/sweep.py configs/evaluation/sweeps/standard_ptq.yaml --tier dev`
+  and confirm the `w4-bnb-nf4` / `w8-bnb-int8` variants complete. HQQ, RTN, GPTQ and
+  GPTAQ are pure PyTorch and are architecture-agnostic.
+- **No corporate proxy on a personal machine** means the truststore/`SSL_CERT_FILE`
+  workarounds in this repo are inert but harmless. If TLS errors do appear, note that
+  standalone console scripts (`huggingface-cli`) never run our `ensure_truststore()`,
+  so the fix is a CA bundle via `SSL_CERT_FILE`, not a code change.
+- **RAM:** the repair analysis and the large tasks (m4/m5/dominick) are the memory
+  peaks. 32 GB is sufficient — it processes one task at a time with incremental
+  writes — but do not run it concurrently with a sweep on a 32 GB box.
+- **Batch size:** configs are tuned for an 8 GB card. On 16 GB you can roughly double
+  `batch_size` in the run/sweep YAMLs for a wall-clock win. Accuracy is unaffected;
+  the efficiency profile is not (see below).
+- **Efficiency numbers are hardware-specific.** If the GPU changed, re-run
+  `scripts/profile_model.py` for *every* profiled variant and replace the whole
+  efficiency section — never mix hardware within one table. Retention *ratios* are
+  the transferable claim and reproduce across machines (though not bit-identically:
+  different kernels, different reduction orders).
+
 ## Reproducing everything on a fresh machine
 
 The prediction parquets (~6 GB) are untracked, so a clean clone can recompute every

@@ -560,10 +560,12 @@ dependencies = [
     { name = "datasets" },
     { name = "fev" },
     { name = "hqq" },
+    { name = "huggingface-hub" },
     { name = "matplotlib" },
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "pandas" },
+    { name = "pip-system-certs" },
     { name = "psutil" },
     { name = "pyarrow" },
     { name = "pyyaml" },
@@ -583,6 +585,9 @@ dev = [
     { name = "pytest" },
     { name = "ruff" },
 ]
+tsfm = [
+    { name = "timesfm", extra = ["torch"] },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -597,24 +602,27 @@ requires-dist = [
     { name = "datasets", specifier = ">=3.6,<4.0" },
     { name = "fev", specifier = ">=0.9.0" },
     { name = "hqq", specifier = ">=0.2.8.post1" },
+    { name = "huggingface-hub", specifier = ">=1.24.0" },
     { name = "ipykernel", marker = "extra == 'dev'" },
     { name = "jupyter", marker = "extra == 'dev'" },
     { name = "matplotlib", specifier = ">=3.8" },
     { name = "numpy", specifier = ">=1.26" },
     { name = "pandas", specifier = ">=2.0" },
+    { name = "pip-system-certs", specifier = ">=5.3" },
     { name = "psutil", specifier = ">=7.2.2" },
     { name = "pyarrow", specifier = ">=15.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "pyyaml", specifier = ">=6.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.6" },
     { name = "scipy", specifier = ">=1.17.1" },
+    { name = "timesfm", extras = ["torch"], marker = "extra == 'tsfm'", specifier = "==2.0.2" },
     { name = "torch", marker = "sys_platform != 'win32'", specifier = ">=2.6" },
     { name = "torch", marker = "sys_platform == 'win32'", specifier = ">=2.6", index = "https://download.pytorch.org/whl/cu128" },
     { name = "torchao", specifier = ">=0.17.0" },
     { name = "tqdm", specifier = ">=4.66" },
     { name = "truststore", specifier = ">=0.10.4" },
 ]
-provides-extras = ["dev"]
+provides-extras = ["dev", "tsfm"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -2662,6 +2670,27 @@ wheels = [
 ]
 
 [[package]]
+name = "pip"
+version = "26.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/db/96/e6f8e9d9d7b9cc4457092712a7e919c3186aa2c2fa9ffed2c5d29cc947e8/pip-26.2.tar.gz", hash = "sha256:2d8542afcc84cdd8e846c2b36b2861fad1da376dd98f8e7113e9108a3c331690", size = 1848845, upload-time = "2026-07-29T21:57:56.407Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/62/36/a3aed958d60531cb442b7ab4596cda7b3621cfb916f8ae1d6769795c7dc1/pip-26.2-py3-none-any.whl", hash = "sha256:931c303696af6fa3417112103b1cad26890e5a07eccb5b99783700e33f2b8aad", size = 1816475, upload-time = "2026-07-29T21:57:54.763Z" },
+]
+
+[[package]]
+name = "pip-system-certs"
+version = "5.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pip" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7d/6a/563b05a4f6c9ddc205c98bb413e74221368efb98b8fb9cca96b578b8930c/pip_system_certs-5.3.tar.gz", hash = "sha256:19c8bf9957bcce7d69c4dbc2d0b2ef13de1984d53f50a59012e6dbbad0af67c6", size = 6395, upload-time = "2025-10-16T06:14:55.217Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9f/57/752b63c609affae8f26ae0f1d1103d6ea7e707ad45943f62f7422936071d/pip_system_certs-5.3-py3-none-any.whl", hash = "sha256:3fbb5de62e374a99b688b1ad06e64ee5c4aeb633ef23e3a677d32e3e84fd863c", size = 6896, upload-time = "2025-10-16T06:14:54.072Z" },
+]
+
+[[package]]
 name = "platformdirs"
 version = "4.11.0"
 source = { registry = "https://pypi.org/simple" }
@@ -3806,6 +3835,27 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/8a/11/965c6fd8e5cc254f1fe142d547387da17a8ebfd75a3455f637c663fb38a0/terminado-0.18.1.tar.gz", hash = "sha256:de09f2c4b85de4765f7714688fff57d3e75bad1f909b589fde880460c753fd2e", size = 32701, upload-time = "2024-03-12T14:34:39.026Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/6a/9e/2064975477fdc887e47ad42157e214526dcad8f317a948dee17e1659a62f/terminado-0.18.1-py3-none-any.whl", hash = "sha256:a4468e1b37bb318f8a86514f65814e1afc977cf29b3992a4500d9dd305dcceb0", size = 14154, upload-time = "2024-03-12T14:34:36.569Z" },
+]
+
+[[package]]
+name = "timesfm"
+version = "2.0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "huggingface-hub" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "safetensors" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/48/16/503864c985a1f213ae6182ece73b6538c468b5cd5c21158ede9db3333732/timesfm-2.0.2.tar.gz", hash = "sha256:b03885d3467b09314a4b461e1f6729375844061dd31fd41e3c35aa503c333da3", size = 44127, upload-time = "2026-07-02T18:55:31.815Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ce/f2/3a7ed286070526a0e48487fdfd3b7ca25f90dd0205fd87f4bb27e15ad4fb/timesfm-2.0.2-py3-none-any.whl", hash = "sha256:c7bde94beb1651e1251cdf1e9d09cf6f015e0218d038a4a836a170dc70b08071", size = 44770, upload-time = "2026-07-02T18:55:30.83Z" },
+]
+
+[package.optional-dependencies]
+torch = [
+    { name = "torch", version = "2.11.0+cu128", source = { registry = "https://download.pytorch.org/whl/cu128" }, marker = "sys_platform == 'win32'" },
+    { name = "torch", version = "2.13.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'win32'" },
 ]
 
 [[package]]
