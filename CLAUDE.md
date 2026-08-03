@@ -47,6 +47,40 @@ anything public: artifacts, HF uploads, repo visibility).
   `python -m chronosquant.quantization.sensitivity analyze|report` (RQ3 diagnostics).
 - Tests: `uv run pytest` (offline) / `-m network` (reference-parity gate).
 
+## Reproducing everything on a fresh machine
+
+The prediction parquets (~6 GB) are untracked, so a clean clone can recompute every
+number but starts without them. Full rebuild, in dependency order (references first —
+retention tables and the reproduction gate need them):
+
+```bash
+uv sync --all-extras                      # add --extra tsfm for TimesFM
+# 1. references + reproduction gate
+uv run python scripts/evaluate.py configs/evaluation/runs/seasonal_naive_full.yaml
+uv run python scripts/aggregate.py validate results/raw/seasonal_naive_full \
+    --reference-csv results/reference/chronos_zeroshot/seasonal_naive.csv   # must be <1e-6
+# 2. fp32 parents (one per model family)
+uv run python scripts/evaluate.py configs/evaluation/runs/chronos2_fp32_full.yaml
+uv run python scripts/evaluate.py configs/evaluation/runs/bolt_small_fp32_full.yaml
+uv run python scripts/evaluate.py configs/evaluation/runs/bolt_base_fp32_full.yaml
+uv run python scripts/evaluate.py configs/evaluation/runs/timesfm25_fp32_full.yaml
+# 3. quantization sweeps (resumable; --tier dev first for a fast smoke signal)
+for s in standard_ptq leading_ptq gptaq_ptq head_interaction bolt_ptq timesfm_ptq; do
+  uv run python scripts/sweep.py configs/evaluation/sweeps/$s.yaml --tier full
+done
+uv run python scripts/sweep.py configs/evaluation/sweeps/sensitivity.yaml --tier dev
+# 4. analyses + tables
+uv run python -m chronosquant.analysis.campaign
+uv run python -m chronosquant.quantization.sensitivity analyze
+uv run python scripts/repair_analysis.py results/raw/*_full --overwrite
+uv run python scripts/profile_model.py --name chronos2-fp32 --devices cuda cpu
+```
+
+Expect the retention *ratios* to reproduce, but not bit-identically across GPU
+architectures (different kernels/reduction orders). Re-run a model's fp32 parent on the
+same machine as its quantized arms; never mix hardware within one results table, and
+re-run the whole efficiency profile if the GPU changed.
+
 ## Conventions & discipline
 
 - **Retention** = geomean WQL(quant)/WQL(fp32-same-model) over tasks, 1000-resample
