@@ -46,16 +46,34 @@ def _completed_runs() -> dict[str, Path]:
     return runs
 
 
+def _reference_for(model_name: str, runs: dict[str, Path]) -> str:
+    """Each variant's retention is computed against its OWN model family's fp32 parent.
+
+    Ratios against a different family's fp32 are meaningless (they conflate model
+    quality with quantization damage), so a Bolt or TimesFM arm must never be divided
+    by Chronos-2's fp32. Longest matching prefix wins.
+    """
+    candidates = [
+        name
+        for name in runs
+        if name.endswith("-fp32") and model_name.startswith(name[: -len("-fp32")])
+    ]
+    if not candidates:
+        raise RuntimeError(f"No fp32 parent found for {model_name!r} among {sorted(runs)}")
+    return max(candidates, key=len)
+
+
 def build_campaign_table() -> pd.DataFrame:
     runs = _completed_runs()
     if REFERENCE not in runs:
         raise RuntimeError(f"Reference run {REFERENCE} not found among {sorted(runs)}")
-    fp32 = pd.read_csv(runs[REFERENCE] / "summaries.csv").set_index("task_name")
 
     rows = []
     for model_name, run_dir in runs.items():
-        if model_name in (REFERENCE, "seasonal_naive"):
+        if model_name.endswith("-fp32") or model_name in (REFERENCE, "seasonal_naive"):
             continue
+        reference = _reference_for(model_name, runs)
+        fp32 = pd.read_csv(runs[reference] / "summaries.csv").set_index("task_name")
         df = pd.read_csv(run_dir / "summaries.csv").set_index("task_name")
         common = fp32.index.intersection(df.index)
         wql = (df.loc[common, "WQL"] / fp32.loc[common, "WQL"]).clip(MIN_REL, MAX_REL).to_numpy()
@@ -73,6 +91,7 @@ def build_campaign_table() -> pd.DataFrame:
         rows.append(
             {
                 "variant": model_name.replace("chronos2-", ""),
+                "reference": reference,
                 "method": col("quant_method"),
                 "weight_bits": bits,
                 "eff_bpw": bpw,
@@ -92,28 +111,34 @@ def build_campaign_table() -> pd.DataFrame:
             }
         )
 
-    table = pd.DataFrame(rows).sort_values(["WQL_ret"]).reset_index(drop=True)
-    # append the fp32 reference row for context
-    ref_row = {
-        "variant": "fp32 (ref)",
-        "method": "none",
-        "weight_bits": 32,
-        "eff_bpw": 32.0,
-        "size_MB": round(fp32["model_total_bytes"].iloc[0] / 1e6, 1)
-        if "model_total_bytes" in fp32.columns
-        else np.nan,
-        "WQL_ret": 1.0,
-        "WQL_lo": 1.0,
-        "WQL_hi": 1.0,
-        "MASE_ret": 1.0,
-        "worst_task_WQL": 1.0,
-        "win_vs_fp32": np.nan,
-        "QCR": round(float(fp32["QCR"].mean()), 4),
-        "cov80": round(float(fp32["coverage[0.8]"].mean()), 4),
-        "MACE": round(float(fp32["MACE"].mean()), 4),
-        "parity_with_fp32": True,
-    }
-    return pd.concat([table, pd.DataFrame([ref_row])], ignore_index=True)
+    table = pd.DataFrame(rows).sort_values(["reference", "WQL_ret"]).reset_index(drop=True)
+    # append one fp32 reference row per model family, for context
+    ref_rows = []
+    for ref_name in sorted({r["reference"] for r in rows}):
+        fp32 = pd.read_csv(runs[ref_name] / "summaries.csv")
+        ref_rows.append(
+            {
+                "variant": f"{ref_name} (ref)",
+                "reference": ref_name,
+                "method": "none",
+                "weight_bits": 32,
+                "eff_bpw": 32.0,
+                "size_MB": round(fp32["model_total_bytes"].iloc[0] / 1e6, 1)
+                if "model_total_bytes" in fp32.columns
+                else np.nan,
+                "WQL_ret": 1.0,
+                "WQL_lo": 1.0,
+                "WQL_hi": 1.0,
+                "MASE_ret": 1.0,
+                "worst_task_WQL": 1.0,
+                "win_vs_fp32": np.nan,
+                "QCR": round(float(fp32["QCR"].mean()), 4),
+                "cov80": round(float(fp32["coverage[0.8]"].mean()), 4),
+                "MACE": round(float(fp32["MACE"].mean()), 4),
+                "parity_with_fp32": True,
+            }
+        )
+    return pd.concat([table, pd.DataFrame(ref_rows)], ignore_index=True)
 
 
 def main() -> None:
