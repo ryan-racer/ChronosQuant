@@ -54,6 +54,13 @@ class RTNQuantizedLinear(nn.Module):
         self.in_features = linear.in_features
         self.out_features = linear.out_features
 
+    @property
+    def weight(self) -> torch.Tensor:
+        # transformers' T5 MLP (Bolt's encoder/decoder blocks) inspects `.weight` in a
+        # dtype-cast guard that special-cases int8 (the bnb LLM.int8 convention).
+        # Exposing the stored int8 tensor makes that guard behave as designed.
+        return self.weight_q
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         weight = (self.weight_q.to(torch.float32) * self.scale).to(x.dtype)
         return nn.functional.linear(x, weight, self.bias)
@@ -395,6 +402,12 @@ def _lazy_gptq(model: nn.Module, **kwargs) -> TransformResult:
     return gptq_quantize_model(model, **kwargs)
 
 
+def _lazy_gptaq(model: nn.Module, **kwargs) -> TransformResult:
+    from chronosquant.quantization.gptq import gptaq_quantize_model
+
+    return gptaq_quantize_model(model, **kwargs)
+
+
 def _lazy_awq_rtn(model: nn.Module, **kwargs) -> TransformResult:
     from chronosquant.quantization.awq import awq_rtn_quantize_model
 
@@ -410,11 +423,12 @@ QUANTIZATION_METHODS: dict[str, Callable[..., TransformResult]] = {
     "bnb_int8": bnb_int8_quantize_model,
     "bnb_nf4": bnb_nf4_quantize_model,
     "gptq": _lazy_gptq,
+    "gptaq": _lazy_gptaq,
     "awq_rtn": _lazy_awq_rtn,
 }
 
 #: methods that run calibration forwards and therefore need the pipeline object
-CALIBRATED_METHODS = {"gptq", "awq_rtn"}
+CALIBRATED_METHODS = {"gptq", "gptaq", "awq_rtn"}
 
 
 def apply_quantization(

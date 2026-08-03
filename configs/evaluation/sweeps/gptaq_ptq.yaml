@@ -1,0 +1,45 @@
+# GPTAQ sweep (Phase B item 1): asymmetric-calibration GPTQ + the missing W2 GPTQ point.
+#
+# GPTAQ / GPTQv2 (arXiv:2504.02692, ICML 2025): sequential two-stream calibration that
+#   minimizes ||W X_fp - What X_q|| per linear (quantized layer on quantized-stream
+#   activations matched to the full-precision model's output on clean activations),
+#   correcting the inter-layer error GPTQ's symmetric objective accumulates. Validated
+#   by the authors on encoder ViTs — the closest architecture to Chronos-2. Same
+#   synthetic calibration protocol, symmetric per-group grids and act_order as our
+#   hand-rolled GPTQ, so gptaq vs gptq isolates the asymmetric-calibration effect.
+# chronos2-w2-gptq fills the never-run W2 point of the GPTQ cliff curve (the W4/W3
+#   points are in leading_ptq; nothing in the implementation blocked bits=2 — the
+#   campaign simply never included it).
+#
+# Run:  uv run python scripts/sweep.py configs/evaluation/sweeps/gptaq_ptq.yaml --tier dev
+name: gptaq_ptq
+benchmark: configs/evaluation/benchmarks/chronos_zeroshot.yaml
+reference_model: chronos2-fp32
+dev_task_names:
+  - monash_cif_2016
+  - monash_m1_quarterly
+  - monash_tourism_quarterly
+  - monash_covid_deaths
+  - exchange_rate
+  - ercot
+  - monash_hospital
+  - monash_nn5_weekly
+base_predictor:
+  type: chronos2
+  model_id: amazon/chronos-2
+  device_map: cuda
+  batch_size: 128
+# alpha=0.25 matches the official GPTAQ reference implementations (both the ViT and
+# LLM codebases default 0.25); alpha=1.0 is the paper-verbatim strength and risks
+# over-correction at low bits. The w3 pair is the alpha ablation.
+variants:
+  - name: chronos2-w4-gptaq-g64
+    quantization: { method: gptaq, bits: 4, group_size: 64, alpha: 0.25 }
+  - name: chronos2-w3-gptaq
+    quantization: { method: gptaq, bits: 3, group_size: 64, alpha: 0.25 }
+  - name: chronos2-w3-gptaq-a100
+    quantization: { method: gptaq, bits: 3, group_size: 64, alpha: 1.0 }
+  - name: chronos2-w2-gptaq
+    quantization: { method: gptaq, bits: 2, group_size: 64, alpha: 0.25 }
+  - name: chronos2-w2-gptq
+    quantization: { method: gptq, bits: 2, group_size: 64 }
