@@ -1,0 +1,270 @@
+W0730 09:16:59.918000 40624 Lib\site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+W0730 09:17:00.735000 40624 Lib\site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+2026-07-30 09:17:02,059 INFO [1/13] running chronos2-sens-w4-all ({'method': 'rtn', 'bits': 4, 'simulate': True})
+2026-07-30 09:17:02,486 INFO [1/8] evaluating chronos2-sens-w4-all on monash_cif_2016
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-07-30 09:17:02,822 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  69%|######8   | 117/170 [00:00<00:00, 1136.53it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 1180.77it/s]
+2026-07-30 09:17:06,580 INFO [1/8] monash_cif_2016 done in 4.1s (test_error=1.2842)
+2026-07-30 09:17:06,580 INFO [2/8] evaluating chronos2-sens-w4-all on monash_m1_quarterly
+2026-07-30 09:17:08,721 INFO [2/8] monash_m1_quarterly done in 2.1s (test_error=2.1100)
+2026-07-30 09:17:08,721 INFO [3/8] evaluating chronos2-sens-w4-all on monash_tourism_quarterly
+2026-07-30 09:17:10,644 INFO [3/8] monash_tourism_quarterly done in 1.9s (test_error=2.2258)
+2026-07-30 09:17:10,644 INFO [4/8] evaluating chronos2-sens-w4-all on monash_covid_deaths
+2026-07-30 09:17:12,523 INFO [4/8] monash_covid_deaths done in 1.9s (test_error=63.9739)
+2026-07-30 09:17:12,523 INFO [5/8] evaluating chronos2-sens-w4-all on exchange_rate
+2026-07-30 09:17:14,829 INFO [5/8] exchange_rate done in 2.3s (test_error=3.2945)
+2026-07-30 09:17:14,829 INFO [6/8] evaluating chronos2-sens-w4-all on ercot
+2026-07-30 09:17:16,782 INFO [6/8] ercot done in 1.9s (test_error=1.9100)
+2026-07-30 09:17:16,782 INFO [7/8] evaluating chronos2-sens-w4-all on monash_hospital
+2026-07-30 09:17:20,146 INFO [7/8] monash_hospital done in 3.4s (test_error=0.7742)
+2026-07-30 09:17:20,146 INFO [8/8] evaluating chronos2-sens-w4-all on monash_nn5_weekly
+2026-07-30 09:17:22,110 INFO [8/8] monash_nn5_weekly done in 2.0s (test_error=0.9152)
+2026-07-30 09:17:22,126 INFO Run 'chronos2_sens_w4_all_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_all_dev
+2026-07-30 09:17:22,126 INFO [2/13] running chronos2-sens-w4-protect-patch-embed ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['input_patch_embedding.*']})
+2026-07-30 09:17:22,321 INFO [1/8] evaluating chronos2-sens-w4-protect-patch-embed on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  40%|####      | 68/170 [00:00<00:00, 678.63it/s]Loading weights:  80%|########  | 136/170 [00:00<00:00, 615.78it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 626.43it/s]
+2026-07-30 09:17:25,302 INFO [1/8] monash_cif_2016 done in 3.0s (test_error=1.2805)
+2026-07-30 09:17:25,302 INFO [2/8] evaluating chronos2-sens-w4-protect-patch-embed on monash_m1_quarterly
+2026-07-30 09:17:27,173 INFO [2/8] monash_m1_quarterly done in 1.9s (test_error=2.0235)
+2026-07-30 09:17:27,173 INFO [3/8] evaluating chronos2-sens-w4-protect-patch-embed on monash_tourism_quarterly
+2026-07-30 09:17:29,410 INFO [3/8] monash_tourism_quarterly done in 2.2s (test_error=2.1785)
+2026-07-30 09:17:29,410 INFO [4/8] evaluating chronos2-sens-w4-protect-patch-embed on monash_covid_deaths
+2026-07-30 09:17:31,217 INFO [4/8] monash_covid_deaths done in 1.8s (test_error=58.3270)
+2026-07-30 09:17:31,217 INFO [5/8] evaluating chronos2-sens-w4-protect-patch-embed on exchange_rate
+2026-07-30 09:17:32,946 INFO [5/8] exchange_rate done in 1.7s (test_error=3.1191)
+2026-07-30 09:17:32,946 INFO [6/8] evaluating chronos2-sens-w4-protect-patch-embed on ercot
+2026-07-30 09:17:35,965 INFO [6/8] ercot done in 3.0s (test_error=2.0475)
+2026-07-30 09:17:35,965 INFO [7/8] evaluating chronos2-sens-w4-protect-patch-embed on monash_hospital
+2026-07-30 09:17:39,122 INFO [7/8] monash_hospital done in 3.2s (test_error=0.7691)
+2026-07-30 09:17:39,123 INFO [8/8] evaluating chronos2-sens-w4-protect-patch-embed on monash_nn5_weekly
+2026-07-30 09:17:40,860 INFO [8/8] monash_nn5_weekly done in 1.7s (test_error=0.9158)
+2026-07-30 09:17:40,872 INFO Run 'chronos2_sens_w4_protect_patch_embed_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_protect_patch_embed_dev
+2026-07-30 09:17:40,873 INFO [3/13] running chronos2-sens-w4-protect-time-attn ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['encoder.block.*.layer.0.self_attention.*']})
+2026-07-30 09:17:41,066 INFO [1/8] evaluating chronos2-sens-w4-protect-time-attn on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  41%|####      | 69/170 [00:00<00:00, 684.47it/s]Loading weights:  81%|########1 | 138/170 [00:00<00:00, 604.34it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 618.75it/s]
+2026-07-30 09:17:44,399 INFO [1/8] monash_cif_2016 done in 3.3s (test_error=1.2763)
+2026-07-30 09:17:44,399 INFO [2/8] evaluating chronos2-sens-w4-protect-time-attn on monash_m1_quarterly
+2026-07-30 09:17:46,770 INFO [2/8] monash_m1_quarterly done in 2.4s (test_error=2.1104)
+2026-07-30 09:17:46,770 INFO [3/8] evaluating chronos2-sens-w4-protect-time-attn on monash_tourism_quarterly
+2026-07-30 09:17:50,006 INFO [3/8] monash_tourism_quarterly done in 3.2s (test_error=2.2003)
+2026-07-30 09:17:50,007 INFO [4/8] evaluating chronos2-sens-w4-protect-time-attn on monash_covid_deaths
+2026-07-30 09:17:54,849 INFO [4/8] monash_covid_deaths done in 4.8s (test_error=63.6846)
+2026-07-30 09:17:54,849 INFO [5/8] evaluating chronos2-sens-w4-protect-time-attn on exchange_rate
+2026-07-30 09:18:01,109 INFO [5/8] exchange_rate done in 6.3s (test_error=3.2404)
+2026-07-30 09:18:01,109 INFO [6/8] evaluating chronos2-sens-w4-protect-time-attn on ercot
+2026-07-30 09:18:03,075 INFO [6/8] ercot done in 2.0s (test_error=1.8640)
+2026-07-30 09:18:03,075 INFO [7/8] evaluating chronos2-sens-w4-protect-time-attn on monash_hospital
+2026-07-30 09:18:05,848 INFO [7/8] monash_hospital done in 2.8s (test_error=0.7731)
+2026-07-30 09:18:05,848 INFO [8/8] evaluating chronos2-sens-w4-protect-time-attn on monash_nn5_weekly
+2026-07-30 09:18:07,731 INFO [8/8] monash_nn5_weekly done in 1.9s (test_error=0.9117)
+2026-07-30 09:18:07,749 INFO Run 'chronos2_sens_w4_protect_time_attn_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_protect_time_attn_dev
+2026-07-30 09:18:07,750 INFO [4/13] running chronos2-sens-w4-protect-group-attn ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['encoder.block.*.layer.1.self_attention.*']})
+2026-07-30 09:18:07,946 INFO [1/8] evaluating chronos2-sens-w4-protect-group-attn on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  38%|###8      | 65/170 [00:00<00:00, 630.64it/s]Loading weights:  76%|#######5  | 129/170 [00:00<00:00, 604.15it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 595.67it/s]
+2026-07-30 09:18:11,908 INFO [1/8] monash_cif_2016 done in 4.0s (test_error=1.2841)
+2026-07-30 09:18:11,908 INFO [2/8] evaluating chronos2-sens-w4-protect-group-attn on monash_m1_quarterly
+2026-07-30 09:18:13,689 INFO [2/8] monash_m1_quarterly done in 1.8s (test_error=2.1132)
+2026-07-30 09:18:13,689 INFO [3/8] evaluating chronos2-sens-w4-protect-group-attn on monash_tourism_quarterly
+2026-07-30 09:18:15,646 INFO [3/8] monash_tourism_quarterly done in 2.0s (test_error=2.2238)
+2026-07-30 09:18:15,646 INFO [4/8] evaluating chronos2-sens-w4-protect-group-attn on monash_covid_deaths
+2026-07-30 09:18:17,735 INFO [4/8] monash_covid_deaths done in 2.1s (test_error=64.0009)
+2026-07-30 09:18:17,735 INFO [5/8] evaluating chronos2-sens-w4-protect-group-attn on exchange_rate
+2026-07-30 09:18:19,613 INFO [5/8] exchange_rate done in 1.9s (test_error=3.3164)
+2026-07-30 09:18:19,613 INFO [6/8] evaluating chronos2-sens-w4-protect-group-attn on ercot
+2026-07-30 09:18:21,680 INFO [6/8] ercot done in 2.1s (test_error=1.9065)
+2026-07-30 09:18:21,681 INFO [7/8] evaluating chronos2-sens-w4-protect-group-attn on monash_hospital
+2026-07-30 09:18:23,964 INFO [7/8] monash_hospital done in 2.3s (test_error=0.7739)
+2026-07-30 09:18:23,965 INFO [8/8] evaluating chronos2-sens-w4-protect-group-attn on monash_nn5_weekly
+2026-07-30 09:18:25,767 INFO [8/8] monash_nn5_weekly done in 1.8s (test_error=0.9139)
+2026-07-30 09:18:25,781 INFO Run 'chronos2_sens_w4_protect_group_attn_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_protect_group_attn_dev
+2026-07-30 09:18:25,782 INFO [5/13] running chronos2-sens-w4-protect-ffn ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['encoder.block.*.layer.2.mlp.*']})
+2026-07-30 09:18:25,980 INFO [1/8] evaluating chronos2-sens-w4-protect-ffn on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  32%|###2      | 55/170 [00:00<00:00, 545.06it/s]Loading weights:  68%|######7   | 115/170 [00:00<00:00, 576.71it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 555.72it/s]
+2026-07-30 09:18:29,538 INFO [1/8] monash_cif_2016 done in 3.5s (test_error=1.2310)
+2026-07-30 09:18:29,538 INFO [2/8] evaluating chronos2-sens-w4-protect-ffn on monash_m1_quarterly
+2026-07-30 09:18:31,478 INFO [2/8] monash_m1_quarterly done in 1.9s (test_error=2.0324)
+2026-07-30 09:18:31,479 INFO [3/8] evaluating chronos2-sens-w4-protect-ffn on monash_tourism_quarterly
+2026-07-30 09:18:33,485 INFO [3/8] monash_tourism_quarterly done in 2.0s (test_error=2.1312)
+2026-07-30 09:18:33,485 INFO [4/8] evaluating chronos2-sens-w4-protect-ffn on monash_covid_deaths
+2026-07-30 09:18:35,856 INFO [4/8] monash_covid_deaths done in 2.4s (test_error=61.1607)
+2026-07-30 09:18:35,856 INFO [5/8] evaluating chronos2-sens-w4-protect-ffn on exchange_rate
+2026-07-30 09:18:37,992 INFO [5/8] exchange_rate done in 2.1s (test_error=3.3214)
+2026-07-30 09:18:37,993 INFO [6/8] evaluating chronos2-sens-w4-protect-ffn on ercot
+2026-07-30 09:18:41,372 INFO [6/8] ercot done in 3.4s (test_error=1.8707)
+2026-07-30 09:18:41,373 INFO [7/8] evaluating chronos2-sens-w4-protect-ffn on monash_hospital
+2026-07-30 09:18:44,497 INFO [7/8] monash_hospital done in 3.1s (test_error=0.7740)
+2026-07-30 09:18:44,497 INFO [8/8] evaluating chronos2-sens-w4-protect-ffn on monash_nn5_weekly
+2026-07-30 09:18:46,035 INFO [8/8] monash_nn5_weekly done in 1.5s (test_error=0.9075)
+2026-07-30 09:18:46,058 INFO Run 'chronos2_sens_w4_protect_ffn_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_protect_ffn_dev
+2026-07-30 09:18:46,060 INFO [6/13] running chronos2-sens-w4-protect-head ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['output_patch_embedding.*']})
+2026-07-30 09:18:46,281 INFO [1/8] evaluating chronos2-sens-w4-protect-head on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  41%|####      | 69/170 [00:00<00:00, 686.34it/s]Loading weights:  82%|########2 | 140/170 [00:00<00:00, 699.82it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 685.54it/s]
+2026-07-30 09:18:49,597 INFO [1/8] monash_cif_2016 done in 3.3s (test_error=0.9521)
+2026-07-30 09:18:49,597 INFO [2/8] evaluating chronos2-sens-w4-protect-head on monash_m1_quarterly
+2026-07-30 09:18:51,683 INFO [2/8] monash_m1_quarterly done in 2.1s (test_error=1.7706)
+2026-07-30 09:18:51,683 INFO [3/8] evaluating chronos2-sens-w4-protect-head on monash_tourism_quarterly
+2026-07-30 09:18:54,259 INFO [3/8] monash_tourism_quarterly done in 2.6s (test_error=1.6450)
+2026-07-30 09:18:54,259 INFO [4/8] evaluating chronos2-sens-w4-protect-head on monash_covid_deaths
+2026-07-30 09:18:57,639 INFO [4/8] monash_covid_deaths done in 3.4s (test_error=44.9134)
+2026-07-30 09:18:57,639 INFO [5/8] evaluating chronos2-sens-w4-protect-head on exchange_rate
+2026-07-30 09:18:59,784 INFO [5/8] exchange_rate done in 2.1s (test_error=2.0444)
+2026-07-30 09:18:59,784 INFO [6/8] evaluating chronos2-sens-w4-protect-head on ercot
+2026-07-30 09:19:02,406 INFO [6/8] ercot done in 2.6s (test_error=0.7482)
+2026-07-30 09:19:02,406 INFO [7/8] evaluating chronos2-sens-w4-protect-head on monash_hospital
+2026-07-30 09:19:04,935 INFO [7/8] monash_hospital done in 2.5s (test_error=0.7718)
+2026-07-30 09:19:04,935 INFO [8/8] evaluating chronos2-sens-w4-protect-head on monash_nn5_weekly
+2026-07-30 09:19:06,773 INFO [8/8] monash_nn5_weekly done in 1.8s (test_error=0.8898)
+2026-07-30 09:19:06,790 INFO Run 'chronos2_sens_w4_protect_head_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_protect_head_dev
+2026-07-30 09:19:06,791 INFO [7/13] running chronos2-sens-w4-only-patch-embed ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['encoder.block.*.layer.0.self_attention.*', 'encoder.block.*.layer.1.self_attention.*', 'encoder.block.*.layer.2.mlp.*', 'output_patch_embedding.*']})
+2026-07-30 09:19:07,006 INFO [1/8] evaluating chronos2-sens-w4-only-patch-embed on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  35%|###5      | 60/170 [00:00<00:00, 595.43it/s]Loading weights:  71%|#######   | 120/170 [00:00<00:00, 536.98it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 517.75it/s]
+2026-07-30 09:19:10,446 INFO [1/8] monash_cif_2016 done in 3.4s (test_error=0.9203)
+2026-07-30 09:19:10,446 INFO [2/8] evaluating chronos2-sens-w4-only-patch-embed on monash_m1_quarterly
+2026-07-30 09:19:12,646 INFO [2/8] monash_m1_quarterly done in 2.2s (test_error=1.7184)
+2026-07-30 09:19:12,646 INFO [3/8] evaluating chronos2-sens-w4-only-patch-embed on monash_tourism_quarterly
+2026-07-30 09:19:14,805 INFO [3/8] monash_tourism_quarterly done in 2.2s (test_error=1.5890)
+2026-07-30 09:19:14,805 INFO [4/8] evaluating chronos2-sens-w4-only-patch-embed on monash_covid_deaths
+2026-07-30 09:19:17,013 INFO [4/8] monash_covid_deaths done in 2.2s (test_error=42.1925)
+2026-07-30 09:19:17,013 INFO [5/8] evaluating chronos2-sens-w4-only-patch-embed on exchange_rate
+2026-07-30 09:19:18,967 INFO [5/8] exchange_rate done in 1.9s (test_error=2.1912)
+2026-07-30 09:19:18,967 INFO [6/8] evaluating chronos2-sens-w4-only-patch-embed on ercot
+2026-07-30 09:19:21,465 INFO [6/8] ercot done in 2.5s (test_error=0.6467)
+2026-07-30 09:19:21,465 INFO [7/8] evaluating chronos2-sens-w4-only-patch-embed on monash_hospital
+2026-07-30 09:19:24,262 INFO [7/8] monash_hospital done in 2.8s (test_error=0.7762)
+2026-07-30 09:19:24,262 INFO [8/8] evaluating chronos2-sens-w4-only-patch-embed on monash_nn5_weekly
+2026-07-30 09:19:25,878 INFO [8/8] monash_nn5_weekly done in 1.6s (test_error=0.8811)
+2026-07-30 09:19:25,897 INFO Run 'chronos2_sens_w4_only_patch_embed_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_only_patch_embed_dev
+2026-07-30 09:19:25,899 INFO [8/13] running chronos2-sens-w4-only-time-attn ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['input_patch_embedding.*', 'encoder.block.*.layer.1.self_attention.*', 'encoder.block.*.layer.2.mlp.*', 'output_patch_embedding.*']})
+2026-07-30 09:19:26,144 INFO [1/8] evaluating chronos2-sens-w4-only-time-attn on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  36%|###6      | 62/170 [00:00<00:00, 616.47it/s]Loading weights:  73%|#######2  | 124/170 [00:00<00:00, 572.92it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 585.93it/s]
+2026-07-30 09:19:29,612 INFO [1/8] monash_cif_2016 done in 3.5s (test_error=0.9364)
+2026-07-30 09:19:29,612 INFO [2/8] evaluating chronos2-sens-w4-only-time-attn on monash_m1_quarterly
+2026-07-30 09:19:31,892 INFO [2/8] monash_m1_quarterly done in 2.3s (test_error=1.6628)
+2026-07-30 09:19:31,892 INFO [3/8] evaluating chronos2-sens-w4-only-time-attn on monash_tourism_quarterly
+2026-07-30 09:19:34,436 INFO [3/8] monash_tourism_quarterly done in 2.5s (test_error=1.5630)
+2026-07-30 09:19:34,436 INFO [4/8] evaluating chronos2-sens-w4-only-time-attn on monash_covid_deaths
+2026-07-30 09:19:36,957 INFO [4/8] monash_covid_deaths done in 2.5s (test_error=35.4373)
+2026-07-30 09:19:36,957 INFO [5/8] evaluating chronos2-sens-w4-only-time-attn on exchange_rate
+2026-07-30 09:19:39,181 INFO [5/8] exchange_rate done in 2.2s (test_error=1.9422)
+2026-07-30 09:19:39,181 INFO [6/8] evaluating chronos2-sens-w4-only-time-attn on ercot
+2026-07-30 09:19:42,576 INFO [6/8] ercot done in 3.4s (test_error=0.8697)
+2026-07-30 09:19:42,576 INFO [7/8] evaluating chronos2-sens-w4-only-time-attn on monash_hospital
+2026-07-30 09:19:45,742 INFO [7/8] monash_hospital done in 3.2s (test_error=0.7722)
+2026-07-30 09:19:45,742 INFO [8/8] evaluating chronos2-sens-w4-only-time-attn on monash_nn5_weekly
+2026-07-30 09:19:47,597 INFO [8/8] monash_nn5_weekly done in 1.9s (test_error=0.8864)
+2026-07-30 09:19:47,611 INFO Run 'chronos2_sens_w4_only_time_attn_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_only_time_attn_dev
+2026-07-30 09:19:47,614 INFO [9/13] running chronos2-sens-w4-only-group-attn ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['input_patch_embedding.*', 'encoder.block.*.layer.0.self_attention.*', 'encoder.block.*.layer.2.mlp.*', 'output_patch_embedding.*']})
+2026-07-30 09:19:47,828 INFO [1/8] evaluating chronos2-sens-w4-only-group-attn on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  31%|###       | 52/170 [00:00<00:00, 518.84it/s]Loading weights:  61%|######1   | 104/170 [00:00<00:00, 492.31it/s]Loading weights:  92%|#########1| 156/170 [00:00<00:00, 503.40it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 513.36it/s]
+2026-07-30 09:19:51,887 INFO [1/8] monash_cif_2016 done in 4.1s (test_error=0.9318)
+2026-07-30 09:19:51,887 INFO [2/8] evaluating chronos2-sens-w4-only-group-attn on monash_m1_quarterly
+2026-07-30 09:19:54,052 INFO [2/8] monash_m1_quarterly done in 2.2s (test_error=1.6593)
+2026-07-30 09:19:54,052 INFO [3/8] evaluating chronos2-sens-w4-only-group-attn on monash_tourism_quarterly
+2026-07-30 09:19:56,570 INFO [3/8] monash_tourism_quarterly done in 2.5s (test_error=1.5699)
+2026-07-30 09:19:56,570 INFO [4/8] evaluating chronos2-sens-w4-only-group-attn on monash_covid_deaths
+2026-07-30 09:19:58,651 INFO [4/8] monash_covid_deaths done in 2.1s (test_error=35.3676)
+2026-07-30 09:19:58,651 INFO [5/8] evaluating chronos2-sens-w4-only-group-attn on exchange_rate
+2026-07-30 09:20:00,427 INFO [5/8] exchange_rate done in 1.8s (test_error=1.8245)
+2026-07-30 09:20:00,427 INFO [6/8] evaluating chronos2-sens-w4-only-group-attn on ercot
+2026-07-30 09:20:04,326 INFO [6/8] ercot done in 3.9s (test_error=0.8342)
+2026-07-30 09:20:04,326 INFO [7/8] evaluating chronos2-sens-w4-only-group-attn on monash_hospital
+2026-07-30 09:20:07,460 INFO [7/8] monash_hospital done in 3.1s (test_error=0.7725)
+2026-07-30 09:20:07,460 INFO [8/8] evaluating chronos2-sens-w4-only-group-attn on monash_nn5_weekly
+2026-07-30 09:20:09,202 INFO [8/8] monash_nn5_weekly done in 1.7s (test_error=0.8846)
+2026-07-30 09:20:09,217 INFO Run 'chronos2_sens_w4_only_group_attn_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_only_group_attn_dev
+2026-07-30 09:20:09,218 INFO [10/13] running chronos2-sens-w4-only-ffn ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['input_patch_embedding.*', 'encoder.block.*.layer.0.self_attention.*', 'encoder.block.*.layer.1.self_attention.*', 'output_patch_embedding.*']})
+2026-07-30 09:20:09,414 INFO [1/8] evaluating chronos2-sens-w4-only-ffn on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  31%|###1      | 53/170 [00:00<00:00, 523.77it/s]Loading weights:  62%|######2   | 106/170 [00:00<00:00, 490.57it/s]Loading weights:  92%|#########1| 156/170 [00:00<00:00, 481.59it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 483.91it/s]
+2026-07-30 09:20:13,281 INFO [1/8] monash_cif_2016 done in 3.9s (test_error=0.9508)
+2026-07-30 09:20:13,281 INFO [2/8] evaluating chronos2-sens-w4-only-ffn on monash_m1_quarterly
+2026-07-30 09:20:15,170 INFO [2/8] monash_m1_quarterly done in 1.9s (test_error=1.6817)
+2026-07-30 09:20:15,170 INFO [3/8] evaluating chronos2-sens-w4-only-ffn on monash_tourism_quarterly
+2026-07-30 09:20:17,308 INFO [3/8] monash_tourism_quarterly done in 2.1s (test_error=1.5947)
+2026-07-30 09:20:17,308 INFO [4/8] evaluating chronos2-sens-w4-only-ffn on monash_covid_deaths
+2026-07-30 09:20:19,754 INFO [4/8] monash_covid_deaths done in 2.4s (test_error=38.0899)
+2026-07-30 09:20:19,754 INFO [5/8] evaluating chronos2-sens-w4-only-ffn on exchange_rate
+2026-07-30 09:20:21,809 INFO [5/8] exchange_rate done in 2.0s (test_error=1.9148)
+2026-07-30 09:20:21,810 INFO [6/8] evaluating chronos2-sens-w4-only-ffn on ercot
+2026-07-30 09:20:24,167 INFO [6/8] ercot done in 2.4s (test_error=0.9023)
+2026-07-30 09:20:24,167 INFO [7/8] evaluating chronos2-sens-w4-only-ffn on monash_hospital
+2026-07-30 09:20:27,272 INFO [7/8] monash_hospital done in 3.1s (test_error=0.7675)
+2026-07-30 09:20:27,272 INFO [8/8] evaluating chronos2-sens-w4-only-ffn on monash_nn5_weekly
+2026-07-30 09:20:29,220 INFO [8/8] monash_nn5_weekly done in 1.9s (test_error=0.8822)
+2026-07-30 09:20:29,243 INFO Run 'chronos2_sens_w4_only_ffn_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_only_ffn_dev
+2026-07-30 09:20:29,245 INFO [11/13] running chronos2-sens-w4-only-head ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['input_patch_embedding.*', 'encoder.block.*.layer.0.self_attention.*', 'encoder.block.*.layer.1.self_attention.*', 'encoder.block.*.layer.2.mlp.*']})
+2026-07-30 09:20:29,472 INFO [1/8] evaluating chronos2-sens-w4-only-head on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  35%|###5      | 60/170 [00:00<00:00, 599.84it/s]Loading weights:  71%|#######   | 120/170 [00:00<00:00, 557.57it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 581.30it/s]
+2026-07-30 09:20:32,729 INFO [1/8] monash_cif_2016 done in 3.3s (test_error=1.2275)
+2026-07-30 09:20:32,729 INFO [2/8] evaluating chronos2-sens-w4-only-head on monash_m1_quarterly
+2026-07-30 09:20:34,793 INFO [2/8] monash_m1_quarterly done in 2.1s (test_error=1.9383)
+2026-07-30 09:20:34,793 INFO [3/8] evaluating chronos2-sens-w4-only-head on monash_tourism_quarterly
+2026-07-30 09:20:37,256 INFO [3/8] monash_tourism_quarterly done in 2.5s (test_error=2.0696)
+2026-07-30 09:20:37,256 INFO [4/8] evaluating chronos2-sens-w4-only-head on monash_covid_deaths
+2026-07-30 09:20:39,297 INFO [4/8] monash_covid_deaths done in 2.0s (test_error=55.6499)
+2026-07-30 09:20:39,297 INFO [5/8] evaluating chronos2-sens-w4-only-head on exchange_rate
+2026-07-30 09:20:40,957 INFO [5/8] exchange_rate done in 1.7s (test_error=2.9893)
+2026-07-30 09:20:40,958 INFO [6/8] evaluating chronos2-sens-w4-only-head on ercot
+2026-07-30 09:20:43,083 INFO [6/8] ercot done in 2.1s (test_error=1.9725)
+2026-07-30 09:20:43,084 INFO [7/8] evaluating chronos2-sens-w4-only-head on monash_hospital
+2026-07-30 09:20:46,240 INFO [7/8] monash_hospital done in 3.1s (test_error=0.7687)
+2026-07-30 09:20:46,240 INFO [8/8] evaluating chronos2-sens-w4-only-head on monash_nn5_weekly
+2026-07-30 09:20:50,897 INFO [8/8] monash_nn5_weekly done in 4.7s (test_error=0.9055)
+2026-07-30 09:20:50,914 INFO Run 'chronos2_sens_w4_only_head_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_only_head_dev
+2026-07-30 09:20:50,916 INFO [12/13] running chronos2-sens-w4-protect-first-block ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['encoder.block.0.layer.*']})
+2026-07-30 09:20:51,144 INFO [1/8] evaluating chronos2-sens-w4-protect-first-block on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  35%|###5      | 60/170 [00:00<00:00, 599.00it/s]Loading weights:  71%|#######   | 120/170 [00:00<00:00, 567.71it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 529.83it/s]
+2026-07-30 09:20:58,669 INFO [1/8] monash_cif_2016 done in 7.5s (test_error=1.2694)
+2026-07-30 09:20:58,669 INFO [2/8] evaluating chronos2-sens-w4-protect-first-block on monash_m1_quarterly
+2026-07-30 09:21:01,125 INFO [2/8] monash_m1_quarterly done in 2.5s (test_error=2.1038)
+2026-07-30 09:21:01,125 INFO [3/8] evaluating chronos2-sens-w4-protect-first-block on monash_tourism_quarterly
+2026-07-30 09:21:05,722 INFO [3/8] monash_tourism_quarterly done in 4.6s (test_error=2.1973)
+2026-07-30 09:21:05,722 INFO [4/8] evaluating chronos2-sens-w4-protect-first-block on monash_covid_deaths
+2026-07-30 09:21:10,220 INFO [4/8] monash_covid_deaths done in 4.5s (test_error=63.4540)
+2026-07-30 09:21:10,221 INFO [5/8] evaluating chronos2-sens-w4-protect-first-block on exchange_rate
+2026-07-30 09:21:12,213 INFO [5/8] exchange_rate done in 2.0s (test_error=3.2950)
+2026-07-30 09:21:12,214 INFO [6/8] evaluating chronos2-sens-w4-protect-first-block on ercot
+2026-07-30 09:21:14,488 INFO [6/8] ercot done in 2.3s (test_error=1.8647)
+2026-07-30 09:21:14,488 INFO [7/8] evaluating chronos2-sens-w4-protect-first-block on monash_hospital
+2026-07-30 09:21:17,231 INFO [7/8] monash_hospital done in 2.7s (test_error=0.7728)
+2026-07-30 09:21:17,231 INFO [8/8] evaluating chronos2-sens-w4-protect-first-block on monash_nn5_weekly
+2026-07-30 09:21:19,350 INFO [8/8] monash_nn5_weekly done in 2.1s (test_error=0.9124)
+2026-07-30 09:21:19,363 INFO Run 'chronos2_sens_w4_protect_first_block_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_protect_first_block_dev
+2026-07-30 09:21:19,365 INFO [13/13] running chronos2-sens-w4-protect-last-block ({'method': 'rtn', 'bits': 4, 'simulate': True, 'skip_modules': ['encoder.block.11.layer.*']})
+2026-07-30 09:21:19,573 INFO [1/8] evaluating chronos2-sens-w4-protect-last-block on monash_cif_2016
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  36%|###6      | 62/170 [00:00<00:00, 615.27it/s]Loading weights:  73%|#######2  | 124/170 [00:00<00:00, 557.98it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 565.39it/s]
+2026-07-30 09:21:23,032 INFO [1/8] monash_cif_2016 done in 3.5s (test_error=1.2556)
+2026-07-30 09:21:23,032 INFO [2/8] evaluating chronos2-sens-w4-protect-last-block on monash_m1_quarterly
+2026-07-30 09:21:24,874 INFO [2/8] monash_m1_quarterly done in 1.8s (test_error=2.0683)
+2026-07-30 09:21:24,874 INFO [3/8] evaluating chronos2-sens-w4-protect-last-block on monash_tourism_quarterly
+2026-07-30 09:21:27,346 INFO [3/8] monash_tourism_quarterly done in 2.5s (test_error=2.1846)
+2026-07-30 09:21:27,346 INFO [4/8] evaluating chronos2-sens-w4-protect-last-block on monash_covid_deaths
+2026-07-30 09:21:29,557 INFO [4/8] monash_covid_deaths done in 2.2s (test_error=62.7050)
+2026-07-30 09:21:29,557 INFO [5/8] evaluating chronos2-sens-w4-protect-last-block on exchange_rate
+2026-07-30 09:21:31,174 INFO [5/8] exchange_rate done in 1.6s (test_error=3.2557)
+2026-07-30 09:21:31,174 INFO [6/8] evaluating chronos2-sens-w4-protect-last-block on ercot
+2026-07-30 09:21:32,989 INFO [6/8] ercot done in 1.8s (test_error=1.8917)
+2026-07-30 09:21:32,989 INFO [7/8] evaluating chronos2-sens-w4-protect-last-block on monash_hospital
+2026-07-30 09:21:36,133 INFO [7/8] monash_hospital done in 3.1s (test_error=0.7737)
+2026-07-30 09:21:36,133 INFO [8/8] evaluating chronos2-sens-w4-protect-last-block on monash_nn5_weekly
+2026-07-30 09:21:38,019 INFO [8/8] monash_nn5_weekly done in 1.9s (test_error=0.9111)
+2026-07-30 09:21:38,042 INFO Run 'chronos2_sens_w4_protect_last_block_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_sens_w4_protect_last_block_dev
+
+                                      WQL_rel  WQL_rel_lower  WQL_rel_upper  WQL_win_rate  MASE_rel  MASE_rel_lower  MASE_rel_upper  MASE_win_rate
+model_name                                                                                                                                        
+chronos2-fp32                          1.0000         1.0000         1.0000           NaN    1.0000          1.0000          1.0000            NaN
+chronos2-sens-w4-only-group-attn       1.0014         0.9961         1.0073         0.500    0.9986          0.9941          1.0013          0.625
+chronos2-sens-w4-only-time-attn        1.0182         0.9940         1.0452         0.250    1.0124          1.0005          1.0291          0.250
+chronos2-sens-w4-only-ffn              1.0858         1.0257         1.1769         0.125    1.0291          1.0092          1.0518          0.250
+chronos2-sens-w4-only-patch-embed      1.0967         0.9261         1.3332         0.500    1.0163          0.9287          1.1031          0.375
+chronos2-sens-w4-protect-head          1.1430         0.9573         1.4197         0.250    1.0474          0.9859          1.1217          0.250
+chronos2-sens-w4-protect-ffn           2.0490         1.3987         3.0889         0.000    1.4115          1.1844          1.6979          0.000
+chronos2-sens-w4-protect-first-block   2.0979         1.4462         3.2003         0.000    1.4338          1.1996          1.7283          0.000
+chronos2-sens-w4-protect-last-block    2.1026         1.4486         3.1855         0.000    1.4260          1.1951          1.7182          0.000
+chronos2-sens-w4-protect-time-attn     2.1068         1.4491         3.2048         0.000    1.4331          1.2005          1.7262          0.000
+chronos2-sens-w4-only-head             2.1150         1.4364         3.1160         0.000    1.3706          1.1528          1.6656          0.125
+chronos2-sens-w4-protect-group-attn    2.1257         1.4542         3.2335         0.000    1.4461          1.2077          1.7488          0.000
+chronos2-sens-w4-all                   2.1302         1.4545         3.2388         0.000    1.4454          1.2087          1.7465          0.000
+chronos2-sens-w4-protect-patch-embed   2.1657         1.4542         3.2042         0.000    1.4185          1.1815          1.7316          0.125
+
+Retention table saved to C:\Users\R120413\Documents\ChronosQuant\results\tables\sweep_sensitivity_dev_retention.csv
