@@ -1,0 +1,501 @@
+W0730 10:20:16.465000 11620 Lib\site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+W0730 10:20:18.700000 11620 Lib\site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+2026-07-30 10:20:22,845 INFO [1/8] evaluating chronos2-kv4-rtn_channel on monash_cif_2016
+2026-07-30 10:20:23,501 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-07-30 10:20:23,501 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-07-30 10:20:23,629 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:23,819 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:24,048 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:24,433 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/revision/eeecad0b82a8c237e212ce6f8d1abecb513e2cec "HTTP/1.1 200 OK"
+2026-07-30 10:20:24,500 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:24,663 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:24,844 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dominick?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:24,907 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:24,983 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:25,190 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/monash_cif_2016?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:25,417 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:25,565 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:25,682 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:20:25,839 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:25,963 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:20:26,124 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  29%|##8       | 49/170 [00:00<00:00, 488.19it/s]Loading weights:  58%|#####8    | 99/170 [00:00<00:00, 492.48it/s]Loading weights:  88%|########8 | 150/170 [00:00<00:00, 498.83it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 499.50it/s]
+2026-07-30 10:20:27,691 INFO [1/8] monash_cif_2016 done in 4.8s (test_error=0.9337)
+2026-07-30 10:20:27,691 INFO [2/8] evaluating chronos2-kv4-rtn_channel on monash_m1_quarterly
+2026-07-30 10:20:27,838 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:27,969 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:28,108 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:28,353 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:28,701 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:28,807 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:28,974 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:29,151 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/monash_m1_quarterly?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:29,837 INFO [2/8] monash_m1_quarterly done in 2.1s (test_error=1.6651)
+2026-07-30 10:20:29,837 INFO [3/8] evaluating chronos2-kv4-rtn_channel on monash_tourism_quarterly
+2026-07-30 10:20:29,898 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:30,011 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:30,161 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:30,362 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:30,983 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:31,087 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:31,248 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:31,408 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/monash_tourism_quarterly?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:33,053 INFO [3/8] monash_tourism_quarterly done in 3.2s (test_error=1.5647)
+2026-07-30 10:20:33,053 INFO [4/8] evaluating chronos2-kv4-rtn_channel on monash_covid_deaths
+2026-07-30 10:20:33,114 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:33,252 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:33,408 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:33,711 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:34,035 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:34,169 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:34,333 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:34,499 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/monash_covid_deaths?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:36,224 INFO [4/8] monash_covid_deaths done in 3.2s (test_error=35.3724)
+2026-07-30 10:20:36,224 INFO [5/8] evaluating chronos2-kv4-rtn_channel on exchange_rate
+2026-07-30 10:20:36,305 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:36,398 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:36,538 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:36,737 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:37,080 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:37,219 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:37,375 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:37,545 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/exchange_rate?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:38,165 INFO [5/8] exchange_rate done in 1.9s (test_error=1.8295)
+2026-07-30 10:20:38,165 INFO [6/8] evaluating chronos2-kv4-rtn_channel on ercot
+2026-07-30 10:20:38,224 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:38,344 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:38,494 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:38,791 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:39,124 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:39,227 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:39,401 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:39,578 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/ercot?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:41,023 INFO [6/8] ercot done in 2.8s (test_error=0.8326)
+2026-07-30 10:20:41,023 INFO [7/8] evaluating chronos2-kv4-rtn_channel on monash_hospital
+2026-07-30 10:20:41,089 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:41,194 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:41,372 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:41,580 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:41,914 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:42,013 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:42,207 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:42,357 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/monash_hospital?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:44,499 INFO [7/8] monash_hospital done in 3.5s (test_error=0.7728)
+2026-07-30 10:20:44,499 INFO [8/8] evaluating chronos2-kv4-rtn_channel on monash_nn5_weekly
+2026-07-30 10:20:44,562 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:44,696 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:44,886 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:45,159 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:45,477 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:45,585 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:45,775 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:45,933 INFO HTTP Request: GET https://huggingface.co/api/datasets/autogluon/chronos_datasets/tree/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/monash_nn5_weekly?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-30 10:20:46,368 INFO [8/8] monash_nn5_weekly done in 1.9s (test_error=0.8831)
+2026-07-30 10:20:46,399 INFO Run 'chronos2_kv4_rtn_channel_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_kv4_rtn_channel_dev
+2026-07-30 10:20:46,831 INFO [1/8] evaluating chronos2-kv3-rtn_channel on monash_cif_2016
+2026-07-30 10:20:46,890 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:46,994 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:47,170 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:47,389 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:47,787 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:47,925 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:48,099 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:48,420 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:48,611 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:48,749 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:20:48,912 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:49,020 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:20:49,197 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[inq_kv] patched 12 TimeSelfAttention modules: method=rtn_channel bits=4
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  31%|###       | 52/170 [00:00<00:00, 519.64it/s]Loading weights:  61%|######1   | 104/170 [00:00<00:00, 495.45it/s]Loading weights:  91%|#########1| 155/170 [00:00<00:00, 497.40it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 506.74it/s]
+2026-07-30 10:20:50,088 INFO [1/8] monash_cif_2016 done in 3.2s (test_error=0.9358)
+2026-07-30 10:20:50,089 INFO [2/8] evaluating chronos2-kv3-rtn_channel on monash_m1_quarterly
+2026-07-30 10:20:50,248 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:50,375 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:50,530 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:50,833 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:51,190 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:51,303 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:51,465 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:52,176 INFO [2/8] monash_m1_quarterly done in 2.1s (test_error=1.6571)
+2026-07-30 10:20:52,177 INFO [3/8] evaluating chronos2-kv3-rtn_channel on monash_tourism_quarterly
+2026-07-30 10:20:52,312 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:52,416 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:52,563 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:52,826 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:53,155 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:53,263 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:53,610 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:54,993 INFO [3/8] monash_tourism_quarterly done in 2.8s (test_error=1.5680)
+2026-07-30 10:20:54,993 INFO [4/8] evaluating chronos2-kv3-rtn_channel on monash_covid_deaths
+2026-07-30 10:20:55,162 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:55,285 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:55,471 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:55,775 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:56,395 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:56,515 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:56,675 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:58,273 INFO [4/8] monash_covid_deaths done in 3.3s (test_error=35.1326)
+2026-07-30 10:20:58,273 INFO [5/8] evaluating chronos2-kv3-rtn_channel on exchange_rate
+2026-07-30 10:20:58,461 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:20:58,586 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:20:58,744 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:58,999 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:59,314 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:20:59,417 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:20:59,600 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:00,190 INFO [5/8] exchange_rate done in 1.9s (test_error=2.0477)
+2026-07-30 10:21:00,190 INFO [6/8] evaluating chronos2-kv3-rtn_channel on ercot
+2026-07-30 10:21:00,336 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:00,472 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:00,667 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:00,867 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:01,182 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:01,288 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:01,450 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:02,922 INFO [6/8] ercot done in 2.7s (test_error=0.8652)
+2026-07-30 10:21:02,922 INFO [7/8] evaluating chronos2-kv3-rtn_channel on monash_hospital
+2026-07-30 10:21:03,100 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:03,212 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:03,359 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:03,660 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:03,984 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:04,160 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:04,349 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:06,817 INFO [7/8] monash_hospital done in 3.9s (test_error=0.7725)
+2026-07-30 10:21:06,817 INFO [8/8] evaluating chronos2-kv3-rtn_channel on monash_nn5_weekly
+2026-07-30 10:21:07,005 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:07,150 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:07,295 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:07,579 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:07,914 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:08,073 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:08,272 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:08,672 INFO [8/8] monash_nn5_weekly done in 1.8s (test_error=0.8838)
+2026-07-30 10:21:08,700 INFO Run 'chronos2_kv3_rtn_channel_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_kv3_rtn_channel_dev
+2026-07-30 10:21:09,187 INFO [1/8] evaluating chronos2-kv2-rtn_channel on monash_cif_2016
+2026-07-30 10:21:09,480 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:09,597 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:09,744 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:09,990 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:10,304 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:10,424 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:10,575 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:10,802 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:10,977 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:11,087 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:21:11,247 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:11,341 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:21:11,506 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[inq_kv] patched 12 TimeSelfAttention modules: method=rtn_channel bits=3
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  44%|####4     | 75/170 [00:00<00:00, 742.93it/s]Loading weights:  88%|########8 | 150/170 [00:00<00:00, 707.65it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 710.39it/s]
+2026-07-30 10:21:12,202 INFO [1/8] monash_cif_2016 done in 3.0s (test_error=0.9370)
+2026-07-30 10:21:12,202 INFO [2/8] evaluating chronos2-kv2-rtn_channel on monash_m1_quarterly
+2026-07-30 10:21:12,337 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:12,482 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:12,644 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:12,833 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:13,160 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:13,261 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:13,431 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:13,994 INFO [2/8] monash_m1_quarterly done in 1.8s (test_error=1.6598)
+2026-07-30 10:21:13,994 INFO [3/8] evaluating chronos2-kv2-rtn_channel on monash_tourism_quarterly
+2026-07-30 10:21:14,146 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:14,308 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:14,485 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:14,693 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:15,006 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:15,107 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:15,280 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:16,660 INFO [3/8] monash_tourism_quarterly done in 2.7s (test_error=1.5839)
+2026-07-30 10:21:16,660 INFO [4/8] evaluating chronos2-kv2-rtn_channel on monash_covid_deaths
+2026-07-30 10:21:16,822 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:16,977 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:17,283 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:17,541 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:17,934 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:18,061 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:18,259 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:20,097 INFO [4/8] monash_covid_deaths done in 3.4s (test_error=34.8687)
+2026-07-30 10:21:20,097 INFO [5/8] evaluating chronos2-kv2-rtn_channel on exchange_rate
+2026-07-30 10:21:20,245 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:20,402 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:20,557 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:20,866 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:21,246 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:21,372 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:21,630 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:22,242 INFO [5/8] exchange_rate done in 2.1s (test_error=1.9862)
+2026-07-30 10:21:22,244 INFO [6/8] evaluating chronos2-kv2-rtn_channel on ercot
+2026-07-30 10:21:22,416 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:22,591 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:22,895 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:23,094 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:23,435 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:23,543 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:23,734 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:25,164 INFO [6/8] ercot done in 2.9s (test_error=0.8726)
+2026-07-30 10:21:25,164 INFO [7/8] evaluating chronos2-kv2-rtn_channel on monash_hospital
+2026-07-30 10:21:25,318 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:25,435 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:25,619 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:25,880 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:26,216 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:26,320 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:26,520 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:28,684 INFO [7/8] monash_hospital done in 3.5s (test_error=0.7715)
+2026-07-30 10:21:28,684 INFO [8/8] evaluating chronos2-kv2-rtn_channel on monash_nn5_weekly
+2026-07-30 10:21:28,839 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:28,970 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:29,137 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:29,392 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:29,698 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:29,835 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:30,006 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:30,445 INFO [8/8] monash_nn5_weekly done in 1.8s (test_error=0.8871)
+2026-07-30 10:21:30,473 INFO Run 'chronos2_kv2_rtn_channel_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_kv2_rtn_channel_dev
+2026-07-30 10:21:31,009 INFO [1/8] evaluating chronos2-kv4-inq on monash_cif_2016
+2026-07-30 10:21:31,191 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:31,306 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:31,469 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:31,705 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:32,184 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:32,302 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:32,499 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:32,744 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:32,917 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:33,032 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:21:33,236 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:33,346 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:21:34,584 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[inq_kv] patched 12 TimeSelfAttention modules: method=rtn_channel bits=2
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  36%|###5      | 61/170 [00:00<00:00, 606.16it/s]Loading weights:  72%|#######1  | 122/170 [00:00<00:00, 564.52it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 577.78it/s]
+2026-07-30 10:21:35,439 INFO [1/8] monash_cif_2016 done in 4.4s (test_error=0.9338)
+2026-07-30 10:21:35,439 INFO [2/8] evaluating chronos2-kv4-inq on monash_m1_quarterly
+2026-07-30 10:21:35,599 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:35,744 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:35,908 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:36,332 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:36,696 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:36,804 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:37,009 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:38,085 INFO [2/8] monash_m1_quarterly done in 2.6s (test_error=1.6530)
+2026-07-30 10:21:38,085 INFO [3/8] evaluating chronos2-kv4-inq on monash_tourism_quarterly
+2026-07-30 10:21:38,240 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:38,362 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:38,502 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:38,711 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:39,122 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:39,269 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:39,429 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:41,485 INFO [3/8] monash_tourism_quarterly done in 3.4s (test_error=1.5684)
+2026-07-30 10:21:41,485 INFO [4/8] evaluating chronos2-kv4-inq on monash_covid_deaths
+2026-07-30 10:21:41,662 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:41,948 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:42,109 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:42,464 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:42,796 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:42,903 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:43,106 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:44,696 INFO [4/8] monash_covid_deaths done in 3.2s (test_error=35.3150)
+2026-07-30 10:21:44,696 INFO [5/8] evaluating chronos2-kv4-inq on exchange_rate
+2026-07-30 10:21:44,866 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:44,997 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:45,160 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:45,383 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:46,031 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:46,162 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:46,436 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:51,909 INFO [5/8] exchange_rate done in 7.2s (test_error=1.8951)
+2026-07-30 10:21:51,909 INFO [6/8] evaluating chronos2-kv4-inq on ercot
+2026-07-30 10:21:52,081 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:21:52,197 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:21:52,397 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:52,775 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:53,027 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:21:53,380 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:21:53,547 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:00,041 INFO [6/8] ercot done in 8.1s (test_error=0.8474)
+2026-07-30 10:22:00,041 INFO [7/8] evaluating chronos2-kv4-inq on monash_hospital
+2026-07-30 10:22:00,246 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:00,441 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:00,696 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:01,076 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:01,421 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:01,631 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:01,955 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:04,633 INFO [7/8] monash_hospital done in 4.6s (test_error=0.7696)
+2026-07-30 10:22:04,633 INFO [8/8] evaluating chronos2-kv4-inq on monash_nn5_weekly
+2026-07-30 10:22:04,816 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:04,912 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:05,104 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:05,308 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:05,663 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:05,798 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:05,967 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:06,537 INFO [8/8] monash_nn5_weekly done in 1.9s (test_error=0.8814)
+2026-07-30 10:22:06,567 INFO Run 'chronos2_kv4_inq_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_kv4_inq_dev
+2026-07-30 10:22:07,163 INFO [1/8] evaluating chronos2-kv3-inq on monash_cif_2016
+2026-07-30 10:22:07,299 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:07,462 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:07,625 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:07,843 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:08,181 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:08,316 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:08,496 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:08,847 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:09,369 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:09,580 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:22:09,805 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:09,959 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:22:10,133 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[inq_kv] patched 12 TimeSelfAttention modules: method=inq bits=4
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  31%|###       | 52/170 [00:00<00:00, 497.89it/s]Loading weights:  61%|######    | 103/170 [00:00<00:00, 494.91it/s]Loading weights:  90%|######### | 153/170 [00:00<00:00, 484.01it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 488.54it/s]
+2026-07-30 10:22:11,111 INFO [1/8] monash_cif_2016 done in 3.9s (test_error=0.9245)
+2026-07-30 10:22:11,112 INFO [2/8] evaluating chronos2-kv3-inq on monash_m1_quarterly
+2026-07-30 10:22:11,346 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:11,462 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:11,637 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:11,987 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:12,313 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:12,420 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:12,635 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:13,733 INFO [2/8] monash_m1_quarterly done in 2.6s (test_error=1.6816)
+2026-07-30 10:22:13,733 INFO [3/8] evaluating chronos2-kv3-inq on monash_tourism_quarterly
+2026-07-30 10:22:13,871 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:14,001 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:14,196 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:14,393 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:14,724 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:14,846 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:15,020 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:16,785 INFO [3/8] monash_tourism_quarterly done in 3.0s (test_error=1.5857)
+2026-07-30 10:22:16,785 INFO [4/8] evaluating chronos2-kv3-inq on monash_covid_deaths
+2026-07-30 10:22:16,978 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:17,104 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:17,269 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:17,563 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:17,954 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:18,072 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:18,249 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:19,740 INFO [4/8] monash_covid_deaths done in 2.9s (test_error=35.5231)
+2026-07-30 10:22:19,740 INFO [5/8] evaluating chronos2-kv3-inq on exchange_rate
+2026-07-30 10:22:19,945 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:20,074 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:20,264 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:20,526 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:20,875 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:20,998 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:21,168 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:26,623 INFO [5/8] exchange_rate done in 6.9s (test_error=1.9106)
+2026-07-30 10:22:26,623 INFO [6/8] evaluating chronos2-kv3-inq on ercot
+2026-07-30 10:22:26,812 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:26,915 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:27,072 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:27,313 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:27,949 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:28,185 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:28,394 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:34,603 INFO [6/8] ercot done in 8.0s (test_error=0.8365)
+2026-07-30 10:22:34,603 INFO [7/8] evaluating chronos2-kv3-inq on monash_hospital
+2026-07-30 10:22:34,812 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:35,002 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:35,168 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:35,466 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:35,837 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:36,061 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:36,218 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:38,730 INFO [7/8] monash_hospital done in 4.1s (test_error=0.7769)
+2026-07-30 10:22:38,730 INFO [8/8] evaluating chronos2-kv3-inq on monash_nn5_weekly
+2026-07-30 10:22:38,922 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:39,018 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:39,159 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:39,408 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:39,725 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:39,841 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:40,053 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:40,742 INFO [8/8] monash_nn5_weekly done in 2.0s (test_error=0.8865)
+2026-07-30 10:22:40,772 INFO Run 'chronos2_kv3_inq_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_kv3_inq_dev
+2026-07-30 10:22:41,232 INFO [1/8] evaluating chronos2-kv2-inq on monash_cif_2016
+2026-07-30 10:22:41,373 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:41,471 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:41,630 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:41,856 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:42,206 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:42,502 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:42,712 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:42,976 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:43,126 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:43,245 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:22:43,410 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:43,547 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/amazon/chronos-2/29ec3766d36d6f73f0696f85560a422f50e8498c/config.json "HTTP/1.1 200 OK"
+2026-07-30 10:22:43,770 INFO HTTP Request: HEAD https://huggingface.co/amazon/chronos-2/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[inq_kv] patched 12 TimeSelfAttention modules: method=inq bits=3
+Loading weights:   0%|          | 0/170 [00:00<?, ?it/s]Loading weights:  32%|###2      | 55/170 [00:00<00:00, 549.04it/s]Loading weights:  68%|######8   | 116/170 [00:00<00:00, 573.99it/s]Loading weights: 100%|##########| 170/170 [00:00<00:00, 571.36it/s]
+2026-07-30 10:22:44,788 INFO [1/8] monash_cif_2016 done in 3.5s (test_error=0.9296)
+2026-07-30 10:22:44,788 INFO [2/8] evaluating chronos2-kv2-inq on monash_m1_quarterly
+2026-07-30 10:22:44,943 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:45,063 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:45,209 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:45,481 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:45,839 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:45,950 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:46,139 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:47,117 INFO [2/8] monash_m1_quarterly done in 2.3s (test_error=1.6953)
+2026-07-30 10:22:47,117 INFO [3/8] evaluating chronos2-kv2-inq on monash_tourism_quarterly
+2026-07-30 10:22:47,252 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:47,369 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:47,538 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:47,744 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:48,098 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:48,208 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:48,379 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:50,349 INFO [3/8] monash_tourism_quarterly done in 3.2s (test_error=1.5875)
+2026-07-30 10:22:50,349 INFO [4/8] evaluating chronos2-kv2-inq on monash_covid_deaths
+2026-07-30 10:22:50,542 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:50,633 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:50,799 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:51,093 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:51,460 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:51,589 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:51,757 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:53,390 INFO [4/8] monash_covid_deaths done in 3.0s (test_error=35.4992)
+2026-07-30 10:22:53,390 INFO [5/8] evaluating chronos2-kv2-inq on exchange_rate
+2026-07-30 10:22:53,561 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:22:53,662 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:22:53,829 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:54,076 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:54,415 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:22:54,517 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:22:54,670 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:00,222 INFO [5/8] exchange_rate done in 6.8s (test_error=2.1367)
+2026-07-30 10:23:00,222 INFO [6/8] evaluating chronos2-kv2-inq on ercot
+2026-07-30 10:23:00,399 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:23:00,571 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:23:00,820 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:01,116 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:01,524 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:01,783 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:23:01,996 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:08,494 INFO [6/8] ercot done in 8.3s (test_error=0.9338)
+2026-07-30 10:23:08,494 INFO [7/8] evaluating chronos2-kv2-inq on monash_hospital
+2026-07-30 10:23:08,665 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:23:08,814 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:23:08,964 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:09,236 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:09,878 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:10,081 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:23:10,244 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:12,807 INFO [7/8] monash_hospital done in 4.3s (test_error=0.7759)
+2026-07-30 10:23:12,807 INFO [8/8] evaluating chronos2-kv2-inq on monash_nn5_weekly
+2026-07-30 10:23:13,047 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-07-30 10:23:13,179 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/datasets/autogluon/chronos_datasets/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/README.md "HTTP/1.1 200 OK"
+2026-07-30 10:23:13,340 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:13,715 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/autogluon/chronos_datasets/autogluon/chronos_datasets.py "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:14,049 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:14,155 INFO HTTP Request: GET https://datasets-server.huggingface.co/info?dataset=autogluon/chronos_datasets "HTTP/1.1 200 OK"
+2026-07-30 10:23:14,347 INFO HTTP Request: HEAD https://huggingface.co/datasets/autogluon/chronos_datasets/resolve/eeecad0b82a8c237e212ce6f8d1abecb513e2cec/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-30 10:23:14,869 INFO [8/8] monash_nn5_weekly done in 2.1s (test_error=0.8859)
+2026-07-30 10:23:14,899 INFO Run 'chronos2_kv2_inq_dev' complete: 8/8 tasks succeeded -> C:\Users\R120413\Documents\ChronosQuant\results\raw\chronos2_kv2_inq_dev
+[inq_kv] patched 12 TimeSelfAttention modules: method=inq bits=2

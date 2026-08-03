@@ -1,0 +1,11 @@
+dataset,frame,bits,rel_mse
+ercot,k_pre_rope,3,0.015820024573865037
+ercot,k_post_rope,3,0.017958278612544138
+exchange_rate,k_pre_rope,3,0.01431406537691752
+exchange_rate,k_post_rope,3,0.016119128714005154
+monash_covid_deaths,k_pre_rope,3,0.010287549579516053
+monash_covid_deaths,k_post_rope,3,0.011656846463059386
+monash_hospital,k_pre_rope,3,0.007168103164682786
+monash_hospital,k_post_rope,3,0.007957168544332186
+monash_m1_quarterly,k_pre_rope,3,0.00624486474165072
+monash_m1_quarterly,k_post_rope,3,0.006555243007217844
